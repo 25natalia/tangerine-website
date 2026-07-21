@@ -20,3 +20,4 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Card`, `Skeleton` (dependencia de `Card`) | 2026-07-21 | `9c99437` | — |
 | `Reveal` / `RevealGroup` (`components/templates/reveal.tsx`) | 2026-07-21 | `9c99437` | Capa de "template motion infrastructure", no `components/ui` — documentado como reutilizable entre templates en el propio DS |
 | `PatternImage` + `lib/patterns.ts` + los 5 SVG de `public/patterns/` | 2026-07-21 | `9c99437` | Solo se usó Mosaico en Home; los otros 4 quedan disponibles para fases siguientes |
+| `Badge` | 2026-07-21 | `9c99437` | — |
