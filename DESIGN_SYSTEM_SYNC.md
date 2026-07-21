@@ -29,6 +29,7 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | Contact Template completo (`contact-template.tsx`, `contact-form.tsx`, `contact-hero.tsx`, `contact-sidebar.tsx`, `social-proof.tsx`, `contact-page.tsx`, `lib/templates/contact-data.ts`) | 2026-07-21 | `db83fdd` | `contact-page.tsx` y `social-proof.tsx` se portaron por fidelidad del barrel export, pero no se usan — ver nota abajo |
 | `Field`, `Textarea`, `Checkbox`, `RadioGroup`, `Select`, `Tooltip` | 2026-07-21 | `db83fdd` | Dependencias del formulario |
 | Not Found Template completo (`not-found-template.tsx`, `not-found-scene.tsx`, `not-found-page.tsx`, `index.ts`) | 2026-07-21 | `9c99437` | `not-found-page.tsx` se portó por fidelidad del barrel export, pero no se usa — `app/not-found.tsx` compone `SiteNavbar` + `NotFoundTemplate` + `SiteFooter` directamente, con CTAs propios (`/`, `/work`, `/studio`) |
+| `MascotStage` + `CursorTrail` (`components/marketing/`) + keyframe `cursor-particle-drift` (`globals.css`) | 2026-07-21 | `3cc8465` | Nunca se habían portado — existían en el DS desde antes pero solo el propio Home del DS los consumía. `MascotStage` se usa acá con el prop `sparkle` (agregado en este mismo commit del DS) para el efecto de partículas cerca del mascot del Hero; ver nota abajo |
 
 ### Nota sobre Contact Template — dos mejoras hechas primero en el DS
 
@@ -82,6 +83,19 @@ propio DS) y replicado acá en `components/home-hero.tsx` y `app/(marketing)/pag
 de navegación ahora son `<Link className={buttonVariants({...})}>` en vez de `Button render`.
 `components/ui/button.tsx` no cambió — `buttonVariants` ya estaba exportado para exactamente este
 caso.
+
+### Nota sobre el rediseño del Home Hero
+
+`components/home-hero.tsx` se reescribió por completo (layout editorial de dos columnas, sin
+`PatternImage` de fondo, CTAs nuevos, mascota como protagonista) siguiendo de cerca el propio
+`components/marketing/home-hero.tsx` del DS — mismo grid `[fr_fr]` con texto a la izquierda y
+`MascotStage` a la derecha, mismo patrón de `PrimaryCTA`/`SecondaryCTA` (`buttonVariants` +
+`motion.div` con lift en hover, nunca `Button render={<Link/>}`), misma recesión de scroll. No es
+un porteo 1:1 — el copy, las stats y el eyebrow son de Tangerine Studio, no del Design System —
+pero la estructura y las decisiones de motion/accesibilidad replican el precedente ya validado
+del DS en vez de inventar un patrón nuevo. `MascotStage sparkle` reemplaza al mosaico de fondo
+que pedía eliminarse: el "brillo" ya no viene de un patrón repetitivo sino del propio stage glow +
+sombra de aterrizaje que `MascotStage` ya traía, más las partículas de proximidad del `sparkle`.
 
 También se agregó `suppressHydrationWarning` a `<body>` en `app/layout.tsx` (ya estaba en
 `<html>`, pero no cae en cascada a descendientes). Causa raíz confirmada: una extensión de

@@ -1,57 +1,109 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
-import { Mascot } from "@/components/ui/mascot";
-import { PatternImage } from "@/components/patterns/pattern-image";
-import { getPattern } from "@/lib/patterns";
+import { MascotStage } from "@/components/marketing/mascot-stage";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
-// Mosaico está documentado en el propio Design System como el patrón para
-// "portada o momento de apertura" — no se reutiliza en ningún otro lugar de
-// esta página (su propia ficha pide que no se repita en la misma pieza).
-const mosaico = getPattern("mosaico");
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+// Un poco más grandes que el size="lg" habitual (h-11) — este hero es el
+// único lugar de la web donde el CTA necesita "más presencia, más aire"
+// que el resto del sitio; el mismo ajuste puntual que el propio DS aplica
+// en su Home Hero (ver components/marketing/home-hero.tsx allá).
+const heroCtaSize = "h-12 px-6 text-base sm:h-14 sm:px-8 sm:text-lg";
+
+function PrimaryCTA({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <motion.div className="inline-block" whileHover={{ y: -2 }} whileTap={{ y: 0, scale: 0.97 }}>
+      <Link
+        href={href}
+        className={cn(
+          buttonVariants({ size: "lg" }),
+          heroCtaSize,
+          "group/cta gap-2 shadow-(--shadow-elevation-2) transition-shadow duration-(--duration-base) hover:shadow-(--shadow-elevation-4)"
+        )}
+      >
+        {children}
+        <ArrowRight
+          className="size-4 transition-transform duration-(--duration-base) ease-(--ease-standard) group-hover/cta:translate-x-1"
+          aria-hidden="true"
+        />
+      </Link>
+    </motion.div>
+  );
+}
+
+function SecondaryCTA({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <motion.div className="inline-block" whileHover={{ y: -2 }} whileTap={{ y: 0, scale: 0.97 }}>
+      <Link href={href} className={cn(buttonVariants({ variant: "outline", size: "lg" }), heroCtaSize)}>
+        {children}
+      </Link>
+    </motion.div>
+  );
+}
 
 export function HomeHero() {
   const reduceMotion = usePrefersReducedMotion();
 
   return (
     <section className="relative overflow-hidden">
-      <PatternImage
-        pattern={mosaico}
-        className="pointer-events-none absolute inset-0 opacity-[0.06] dark:opacity-[0.1]"
-        imgClassName="object-cover"
-      />
-      <Container size="hero" className="relative flex flex-col items-center gap-10 text-center">
+      <Container
+        size="hero"
+        className="relative grid items-center gap-y-14 md:grid-cols-[1.1fr_0.9fr] md:gap-x-10 lg:gap-x-16"
+      >
         <motion.div
-          animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
-          transition={reduceMotion ? undefined : { duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-40 sm:w-48"
+          initial={reduceMotion ? false : "hidden"}
+          animate="show"
+          transition={{ staggerChildren: 0.1, delayChildren: 0.05 }}
+          className="flex flex-col items-start text-left"
         >
-          <Mascot alt="" />
+          <motion.div variants={fadeUp}>
+            <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
+              Tangerine Studio
+            </p>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="mt-6">
+            <h1 className="font-display text-4xl leading-[1.08] font-bold text-balance sm:text-5xl lg:text-6xl">
+              Ayudamos a que las cosas, y las personas, recuerden cómo ser exactamente lo que son.
+            </h1>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="mt-6">
+            <p className="text-body-lg max-w-xl text-pretty text-(--text-secondary)">
+              Tangerine existe porque el mundo tiene, cada vez más, marcas y personas que
+              funcionan perfecto y dicen cada vez menos. No vendemos diseño. Construimos identidad.
+            </p>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="mt-10">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <PrimaryCTA href="/work">Ver nuestro trabajo</PrimaryCTA>
+              <SecondaryCTA href="/contact">Construyamos algo juntos</SecondaryCTA>
+            </div>
+          </motion.div>
         </motion.div>
 
-        <div className="flex max-w-3xl flex-col gap-6">
-          <h1 className="font-display text-4xl font-bold text-balance sm:text-5xl lg:text-6xl">
-            Ayudamos a que las cosas, y las personas, recuerden cómo ser exactamente lo que son.
-          </h1>
-          <p className="text-body-lg mx-auto max-w-xl text-pretty text-(--text-secondary)">
-            Tangerine existe porque el mundo tiene, cada vez más, marcas y personas que
-            funcionan perfecto y dicen cada vez menos. No vendemos diseño. Construimos identidad.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
-            Ver el trabajo
-          </Link>
-          <Link href="/contact" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
-            Conversemos
-          </Link>
-        </div>
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+          className="relative flex justify-center md:justify-end"
+        >
+          <MascotStage sparkle />
+        </motion.div>
       </Container>
     </section>
   );

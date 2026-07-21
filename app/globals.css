@@ -1183,3 +1183,20 @@
     opacity: 0;
   }
 }
+
+/* MascotStage's sparkle mode (opt-in `sparkle` prop) — same spawn/cleanup
+   mechanism as cursor-particle-fade above, but each particle drifts along
+   its own randomized path instead of a fixed translateY. The path itself
+   comes from --drift-x/--drift-y custom properties set inline per particle
+   by CursorTrail, so this single keyframe covers every trajectory without
+   generating one keyframe per particle. */
+@keyframes cursor-particle-drift {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: var(--particle-opacity, 0.6);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--drift-x, 0px), var(--drift-y, -30px)) scale(0.3);
+    opacity: 0;
+  }
+}
