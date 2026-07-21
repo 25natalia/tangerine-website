@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Reveal } from "@/components/templates/reveal";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { cn } from "@/lib/utils";
 
 // Preguntas reales de un cliente evaluando contratar una agencia de diseño
 // digital, no genéricas de plantilla. Respuestas ancladas en contenido ya
@@ -41,38 +42,67 @@ const faqs = [
   },
 ];
 
-/**
- * Scroll-linked, not autoplaying: each piece's horizontal position is a
- * direct function of how far the section has scrolled through the
- * viewport (`scrollYProgress`), not a time-based loop like FloatingElement
- * — the brief specifically asked for parallax tied to scroll, not another
- * ambient animation. Positioned in the gutter outside the `size="content"`
- * column (only from `lg`, where that gutter actually exists), so they can
- * never overlap the accordion regardless of scroll position.
- */
-function FaqDecoration({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const reduceMotion = usePrefersReducedMotion();
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+interface DecoSpec {
+  src: string;
+  className: string;
+  /** [rest, peak] — how far in px it sits from its resting position at the edges (t=0/1) vs. mid-scroll. */
+  x: [number, number];
+  y: [number, number];
+  width: number;
+  height: number;
+}
 
-  const leftUpperX = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 22]);
-  const leftLowerX = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 15]);
-  const rightUpperX = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -22]);
-  const rightLowerX = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -15]);
+// 2 a la izquierda, 1 grande a la derecha, 2 acentos chicos de geometry —
+// deliberadamente no espejadas: distinta altura, distinto offset, distinta
+// magnitud de movimiento por pieza, para que la composición se sienta
+// orgánica en vez de un mirror izquierda/derecha.
+const decorations: DecoSpec[] = [
+  { src: "/illustrations/geometry/hoja-lime.svg", className: "top-8 left-2 w-11", x: [90, 16], y: [26, 0], width: 130, height: 123 },
+  { src: "/illustrations/deco/star-yellow.svg", className: "bottom-20 left-16 w-8", x: [64, 8], y: [-18, 0], width: 130, height: 130 },
+  { src: "/illustrations/deco/window-tangerine-violet.svg", className: "top-1/4 -right-2 w-36 lg:w-44", x: [-120, -18], y: [22, 0], width: 500, height: 500 },
+  { src: "/illustrations/geometry/destello-lime.svg", className: "bottom-8 left-32 w-6", x: [46, 4], y: [-12, 0], width: 180, height: 180 },
+  { src: "/illustrations/geometry/semillas-yellow.svg", className: "top-1/2 right-24 w-6", x: [-56, -8], y: [14, 0], width: 174, height: 174 },
+];
+
+const STOPS = [0, 0.28, 0.72, 1];
+
+/**
+ * The transform for each piece is a direct, continuously-updating function
+ * of `scrollYProgress` — not a `whileInView`/one-shot animation. The curve
+ * has a shape, though, not a flat 0→1 ramp: it moves/grows in as the
+ * section enters (t 0→0.28), holds while the section is comfortably in
+ * view (0.28→0.72), and eases back out as it leaves (0.72→1) — matching
+ * "aumenten al entrar, se mantengan mientras está visible, vuelvan al
+ * salir" instead of a single linear drift across the whole scroll range.
+ */
+function DecoPiece({ spec, scrollYProgress }: { spec: DecoSpec; scrollYProgress: MotionValue<number> }) {
+  const reduceMotion = usePrefersReducedMotion();
+  const [restX, peakX] = spec.x;
+  const [restY, peakY] = spec.y;
+
+  const x = useTransform(scrollYProgress, STOPS, reduceMotion ? [0, 0, 0, 0] : [restX, peakX, peakX, restX]);
+  const y = useTransform(scrollYProgress, STOPS, reduceMotion ? [0, 0, 0, 0] : [restY, peakY, peakY, restY]);
+  const scale = useTransform(scrollYProgress, STOPS, reduceMotion ? [1, 1, 1, 1] : [1, 1.12, 1.12, 1]);
+  const opacity = useTransform(scrollYProgress, STOPS, reduceMotion ? [1, 1, 1, 1] : [0.45, 1, 1, 0.45]);
 
   return (
+    <motion.div
+      aria-hidden="true"
+      className={cn("absolute z-0 hidden lg:block", spec.className)}
+      style={{ x, y, scale, opacity }}
+    >
+      <Image src={spec.src} alt="" width={spec.width} height={spec.height} className="h-auto w-full" />
+    </motion.div>
+  );
+}
+
+function FaqDecoration({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  return (
     <>
-      <motion.div aria-hidden="true" className="absolute top-6 left-4 z-0 hidden w-10 lg:block" style={{ x: leftUpperX }}>
-        <Image src="/illustrations/geometry/hoja-lime.svg" alt="" width={130} height={123} className="h-auto w-full" />
-      </motion.div>
-      <motion.div aria-hidden="true" className="absolute bottom-10 left-10 z-0 hidden w-8 lg:block" style={{ x: leftLowerX }}>
-        <Image src="/illustrations/deco/star-yellow.svg" alt="" width={130} height={130} className="h-auto w-full" />
-      </motion.div>
-      <motion.div aria-hidden="true" className="absolute top-10 right-8 z-0 hidden w-8 lg:block" style={{ x: rightUpperX }}>
-        <Image src="/illustrations/deco/star-green.svg" alt="" width={130} height={130} className="h-auto w-full" />
-      </motion.div>
-      <motion.div aria-hidden="true" className="absolute bottom-4 right-4 z-0 hidden w-10 lg:block" style={{ x: rightLowerX }}>
-        <Image src="/illustrations/geometry/destello-lime.svg" alt="" width={180} height={180} className="h-auto w-full" />
-      </motion.div>
+      {decorations.map((spec) => (
+        <DecoPiece key={spec.src} spec={spec} scrollYProgress={scrollYProgress} />
+      ))}
     </>
   );
 }

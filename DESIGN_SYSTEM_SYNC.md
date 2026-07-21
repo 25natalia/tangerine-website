@@ -35,6 +35,7 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | Isotipo como favicon: `app/icon.svg`, `app/apple-icon.png`, `public/brand/icon-mark-square.svg` | 2026-07-21 | `2418db1` | `apple-icon.png` y el SVG full-bleed son nuevos también en el propio DS (no tenía apple-touch-icon hasta este commit) |
 | `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Ya no se usa en "Cómo trabajamos" (volvió a `leadingIcon`), pero el prop queda disponible |
 | `Accordion` — hover-lift en `variant="card"` | 2026-07-21 | `e3bf07b` | No es un prop nuevo, es un ajuste de estilo compartido: `-translate-y-0.5`, `scale-[1.015]`, sombra a elevation-3 en hover |
+| `Accordion` — fix de clipping en `variant="card"` | 2026-07-21 | `3d22a57` | `AccordionItem` ahora renderiza dos elementos para "card" (outer con el hover, inner con `overflow-hidden`) en vez de uno solo — ver nota abajo |
 | `Footer` — se quitó `border-t` del root | 2026-07-21 | `e3bf07b` | Afecta a las 5 variantes por igual, en todo el sitio (confirmado con el usuario) — la transición hacia el footer es solo whitespace ahora |
 | `MascotStage` — prop nuevo `size` | 2026-07-21 | `46bae03` | `"default" \| "lg"`, default sin cambios. Escala mascota+glow+sombra juntos |
 | `FloatingElement` — resorte de retorno más suave | 2026-07-21 | `46bae03` | `stiffness`/`damping` ajustados, no es un prop nuevo — mismo comportamiento externo, distinta sensación |
@@ -321,3 +322,31 @@ Sin cambios en el DS esta ronda — todo reutiliza primitivos ya portados (`Cont
   motion ambiental + repulsión al hover, un modelo distinto al de este efecto (ligado 1:1 al
   scroll, sin interacción de mouse). Bajo `prefers-reduced-motion` el rango de la transformación
   colapsa a 0 — las piezas quedan fijas en vez de seguir el scroll.
+
+### Nota sobre la sexta ronda — dos correcciones de causa raíz, no parches
+
+**FAQ casi no se movía**: la magnitud real (15-22px totales, repartidos en todo el recorrido de
+scroll de la sección) era, en la práctica, imperceptible — no era un bug de mecanismo, era una
+cuestión de escala. Se rehizo `home-faq.tsx` con 5 piezas (2 izquierda, 1 grande a la derecha
+—`deco/window-tangerine-violet`, sin usar antes en el sitio—, 2 acentos chicos de `geometry`),
+posiciones y magnitudes de movimiento distintas por pieza (nada espejado), y una curva de 4 tramos
+sobre `scrollYProgress` (`[0, 0.28, 0.72, 1]`) que anima `x`/`y`/`scale`/`opacity` juntos: entra
+mientras la sección aparece, se sostiene mientras está visible, vuelve a su posición al salir —
+en vez del recorrido lineal de un solo tramo que se usó la primera vez. Verificado leyendo el
+`style` inline real que devuelve el HTML servido (`transform:translateX(90px) translateY(26px)`
+en reposo), no asumiendo que el cálculo estaba bien.
+
+**Hover de "Cómo trabajamos" se cortaba**: causa raíz encontrada revisando la jerarquía completa
+del `Accordion`, no ajustando valores a ciegas — `itemVariants.card` tenía `overflow-hidden` y
+`hover:shadow-(--shadow-elevation-3)` en el mismo elemento. `box-shadow` se pinta fuera del
+border-box del elemento, y `overflow-hidden` recorta exactamente eso — el propio contenedor le
+cortaba la sombra (y el lift entero se veía roto) a su propio hover. Fix en el DS (ver tabla
+arriba): `AccordionItem` ahora arma dos elementos para `variant="card"` en vez de uno — el de
+afuera (que es real el `Item` de Base UI, donde vive `data-open`) lleva el transform/sombra sin
+ninguna restricción de overflow; un `div` interno lleva `overflow-hidden` + el borde/fondo
+redondeado. Escalar el de afuera escala todo el subárbol igual que antes — el único cambio visible
+es que la sombra ya no se corta. De paso, `hover:z-10` para que la card levantada pinte por
+encima de sus vecinas, y `flex flex-col`/`flex-1` en Root/Item para que la altura siga
+igualándose entre cards cuando el Root se estira (como en la grilla de "Cómo trabajamos").
+Verificado inspeccionando el HTML renderizado: el elemento con el hover de sombra ya no tiene
+`overflow-hidden` en su propia lista de clases.

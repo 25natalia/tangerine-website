@@ -39,7 +39,7 @@ const rootVariants = cva("w-full", {
       filled: "divide-y divide-(--purple-100) rounded-(--radius-container) bg-(--purple-50) overflow-hidden dark:divide-(--purple-800) dark:bg-(--purple-950)",
       bordered: "divide-y divide-(--border-subtle) rounded-(--radius-container) border border-(--border-default)",
       ghost: "space-y-1",
-      card: "space-y-3",
+      card: "flex flex-col space-y-3",
       faq: "space-y-4",
     } satisfies Record<AccordionVariant, string>,
   },
@@ -53,7 +53,13 @@ const itemVariants = cva("", {
       filled: "",
       bordered: "",
       ghost: "rounded-(--radius-container)",
-      card: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-[transform,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-0.5 hover:scale-[1.015] hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
+      // No overflow-hidden/border/bg here on purpose — those live on the
+      // inner clip wrapper AccordionItem renders for this variant (see
+      // below). box-shadow paints outside an element's border box, so an
+      // element that both hides overflow and grows a shadow on hover clips
+      // its own shadow; splitting the two responsibilities across two
+      // elements is the actual fix, not a smaller/inset shadow.
+      card: "rounded-(--radius-container) transition-[transform,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-0.5 hover:scale-[1.015] hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
       faq: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card",
     } satisfies Record<AccordionVariant, string>,
   },
@@ -174,6 +180,30 @@ function Accordion({
 
 function AccordionItem({ value, disabled, className, children }: AccordionItemProps) {
   const { variant } = useAccordionConfig();
+
+  // "card" needs two elements, not one: the outer one (Base UI's Item,
+  // which is where `data-open` actually lands) owns the hover transform +
+  // shadow, and a plain inner div owns overflow-hidden for the rounded
+  // corners around AccordionContent's height animation. `flex-1` on the
+  // outer + `flex flex-col` on the Root (rootVariants) is what makes every
+  // card in a row match height when the consumer stretches the Root itself
+  // (e.g. a CSS Grid cell) — `hover:z-10` keeps a lifted card painting
+  // above its neighbors instead of whichever sibling happens to come later
+  // in DOM order.
+  if (variant === "card") {
+    return (
+      <AccordionPrimitive.Item
+        value={value}
+        disabled={disabled}
+        className={cn("group/item relative flex-1 hover:z-10", itemVariants({ variant }), className)}
+      >
+        <div className="h-full overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card">
+          {children}
+        </div>
+      </AccordionPrimitive.Item>
+    );
+  }
+
   return (
     <AccordionPrimitive.Item
       value={value}
