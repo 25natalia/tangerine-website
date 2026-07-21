@@ -59,7 +59,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${baloo2.variable} ${roboto.variable} ${geistMono.variable} ${cocogooseRegular.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <OrganizationJsonLd />
         <ThemeProvider
           attribute="class"

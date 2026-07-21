@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Mascot } from "@/components/ui/mascot";
 import { PatternImage } from "@/components/patterns/pattern-image";
 import { getPattern } from "@/lib/patterns";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { cn } from "@/lib/utils";
 
 // Mosaico está documentado en el propio Design System como el patrón para
 // "portada o momento de apertura" — no se reutiliza en ningún otro lugar de
@@ -44,12 +45,12 @@ export function HomeHero() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button size="lg" render={<Link href="/work" />}>
+          <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
             Ver el trabajo
-          </Button>
-          <Button size="lg" variant="outline" render={<Link href="/contact" />}>
+          </Link>
+          <Link href="/contact" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
             Conversemos
-          </Button>
+          </Link>
         </div>
       </Container>
     </section>

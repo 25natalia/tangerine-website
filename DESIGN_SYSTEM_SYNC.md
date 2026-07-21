@@ -69,3 +69,25 @@ existe, porque la home real es `app/(marketing)/page.tsx`) y dejó `/`, `/studio
 el build compile o que la ruta aparezca como estática. Fix: un `opengraph-image.tsx` por segmento
 (`/`, `/studio`, `/capabilities`, `/work`, `/contact`, más el ya existente `/work/[slug]`), cada
 uno reusando `OgCard` de `lib/og.tsx` con el título/eyebrow real de esa página.
+
+### Nota post-Fase 7 — `Button render={<Link />}` nunca fue el patrón correcto
+
+Base UI documenta explícitamente que `Button` fuerza semántica de `<button>` nativo
+(`nativeButton` es `true` por defecto) y que los links tienen su propia semántica: no deben
+pasarse por `render`. El patrón correcto — estilizar `<Link>` directo con `buttonVariants` — ya
+existía en el propio DS (`not-found-template.tsx`, `featured-project.tsx`); el error se originó
+en la página de docs del Button del DS, que enseñaba `<Button render={<Link />}>` como ejemplo.
+Corregido en el DS (commit `acc6251`, incluye también `suppressHydrationWarning` en `<body>` del
+propio DS) y replicado acá en `components/home-hero.tsx` y `app/(marketing)/page.tsx`: los 5 CTAs
+de navegación ahora son `<Link className={buttonVariants({...})}>` en vez de `Button render`.
+`components/ui/button.tsx` no cambió — `buttonVariants` ya estaba exportado para exactamente este
+caso.
+
+También se agregó `suppressHydrationWarning` a `<body>` en `app/layout.tsx` (ya estaba en
+`<html>`, pero no cae en cascada a descendientes). Causa raíz confirmada: una extensión de
+navegador ("Heurio") inyecta elementos/atributos (`id="heurio-app"`, `version="..."`) en el DOM
+antes de la hidratación — no hay ninguna referencia a eso en el código de ninguno de los dos
+repos. Ese mismatch forzaba a React a re-crear del lado del cliente el subárbol donde
+`next-themes` monta su script inline de anti-FOUC, que es lo que disparaba el warning secundario
+de "script tag" (no era un bug de `ThemeProvider`, que sigue siendo el patrón oficial de
+next-themes para App Router).

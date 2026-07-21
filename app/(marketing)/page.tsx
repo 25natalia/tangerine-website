@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardBody, CardDescription } from "@/components/ui/card";
 import { Reveal, RevealGroup } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
 import { capabilities } from "@/lib/capabilities";
 import { buildMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "Tangerine Studio",
@@ -111,9 +112,9 @@ export default function HomePage() {
             ))}
           </RevealGroup>
           <div className="mt-10">
-            <Button variant="outline" render={<Link href="/capabilities" />}>
+            <Link href="/capabilities" className={cn(buttonVariants({ variant: "outline" }))}>
               Ver todas las capacidades
-            </Button>
+            </Link>
           </div>
         </Container>
       </section>
@@ -127,12 +128,12 @@ export default function HomePage() {
               forma exacta.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button size="lg" render={<Link href="/work" />}>
+              <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
                 Ver el trabajo
-              </Button>
-              <Button size="lg" variant="outline" render={<Link href="/contact" />}>
+              </Link>
+              <Link href="/contact" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
                 Contacto
-              </Button>
+              </Link>
             </div>
           </Reveal>
         </Container>
