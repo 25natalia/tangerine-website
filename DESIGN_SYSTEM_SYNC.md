@@ -37,6 +37,8 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Accordion` — hover-lift en `variant="card"` | 2026-07-21 | `e3bf07b` | No es un prop nuevo, es un ajuste de estilo compartido: `-translate-y-0.5`, `scale-[1.015]`, sombra a elevation-3 en hover |
 | `Accordion` — fix de clipping en `variant="card"` | 2026-07-21 | `3d22a57` | `AccordionItem` ahora renderiza dos elementos para "card" (outer con el hover, inner con `overflow-hidden`) en vez de uno solo — ver nota abajo |
 | `Accordion` — sin scale/translate en el hover de `variant="card"` | 2026-07-21 | `801b2fe` | El usuario pidió eliminar el crecimiento por completo — queda solo sombra + `group-hover/item:border-(--border-strong)` en el div interno |
+| `Accordion` — se quitó el `hover:z-10` vestigial | 2026-07-21 | `9066386` | Colisionaba con `--z-sticky` (10) de la Navbar; ya no cumplía ninguna función real tras quitar el scale — ver nota abajo |
+| `MascotStage` — prop nuevo `glow` | 2026-07-21 | `9066386` | `boolean`, default `true` (sin cambios). En `false` quita el degradado morado radial, la sombra de aterrizaje se mantiene igual |
 | `Footer` — se quitó `border-t` del root | 2026-07-21 | `e3bf07b` | Afecta a las 5 variantes por igual, en todo el sitio (confirmado con el usuario) — la transición hacia el footer es solo whitespace ahora |
 | `MascotStage` — prop nuevo `size` | 2026-07-21 | `46bae03` | `"default" \| "lg"`, default sin cambios. Escala mascota+glow+sombra juntos |
 | `FloatingElement` — resorte de retorno más suave | 2026-07-21 | `46bae03` | `stiffness`/`damping` ajustados, no es un prop nuevo — mismo comportamiento externo, distinta sensación |
@@ -371,3 +373,35 @@ Verificado inspeccionando el HTML renderizado: el elemento con el hover de sombr
   flotación ambiental adicional anidado adentro del transform de scroll (motion.div dentro de
   motion.div, cada uno con su propia responsabilidad). Verificado leyendo el `style` inline real
   del HTML servido (`translateX(140px) translateY(50px)` en reposo para la pieza más extrema).
+
+### Nota sobre la octava ronda — bug real de stacking, no un ajuste cosmético
+
+**Causa raíz del bug de la Navbar**: `globals.css` reserva `--z-sticky: 10` para la Navbar
+(`z-(--z-sticky)` en `navbar.tsx`, variantes `sticky` y `floating`). La escala numérica de
+Tailwind (`z-10`, `z-20`, `z-30`...) coincide, valor por valor, con la escala reservada del DS
+(`--z-sticky:10`, `--z-dropdown:20`, `--z-overlay:30`...) — así que cualquier `z-10` puesto sin
+pensarlo en contenido normal de página empata exactamente con la Navbar, y por estar más abajo en
+el DOM (`<main>` va después de `<SiteNavbar />` en `app/(marketing)/layout.tsx`), gana el empate y
+pinta por encima durante el scroll. Encontrado revisando cada uso de z-index en los componentes de
+Home (`home-faq.tsx`, `home-closing.tsx`, `home-philosophy.tsx`) y en el Accordion del DS, no
+subiendo el z-index de la Navbar como parche.
+
+Fix aplicado en cada lugar: quitar el `z-10` y dejar solo `position:relative` (o directamente
+quitar `relative` donde no cumplía otra función). Un elemento `position:relative` sin z-index
+explícito (`z-index:auto`) sigue pintando después de sus hermanos `position:absolute z-0`
+anteriores en el DOM — mismo resultado visual, sin sostener nunca un valor numérico que pueda
+colisionar con el chrome de la página. Verificado con un grep del HTML renderizado confirmando que
+no queda ningún `z-10` fuera de la propia Navbar. En el Accordion (ver tabla arriba), el
+`hover:z-10` ya ni siquiera cumplía una función real después de haber quitado el scale/lift en la
+ronda anterior — se eliminó directamente.
+
+**Hero — glow reemplazado por ilustraciones**: el degradado morado radial de `MascotStage` se
+desactivó acá vía el prop nuevo `glow={false}` (ver tabla arriba); la sombra de aterrizaje se
+mantiene (es peso/anclaje, no el degradado). En su lugar, 4 `FloatingElement` chicos (`geometry/
+flor-lime`, `deco/star-violet`, `geometry/hoja-orange`, `geometry/destello-violet`) a los
+laterales de la mascota, solo desde `xl` — "pocas, bien ubicadas, con bastante aire" no admite
+apretarlas en columnas angostas.
+
+**Espaciado "Por qué existe" → Filosofía**: se recortó solo el padding inferior de "Por qué
+existe" (`pt-24 pb-16 sm:pt-32 sm:pb-20`, antes `py-24 sm:py-32` simétrico) — el superior queda
+igual, relativo al Ticker de arriba. Filosofía no se tocó.

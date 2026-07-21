@@ -5,10 +5,12 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { MascotStage } from "@/components/marketing/mascot-stage";
 import { CursorTrail } from "@/components/marketing/cursor-trail";
+import { FloatingElement } from "@/components/marketing/floating-element";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -120,7 +122,25 @@ export function HomeHero() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
           className="relative flex justify-center md:justify-end"
         >
-          <MascotStage size="lg" />
+          {/* Reemplaza el degradado morado que traía MascotStage por
+             default (glow=false) — unas pocas piezas chicas a los lados de
+             la mascota en vez de debajo. Solo desktop grande: "pocas, bien
+             ubicadas, con bastante aire" no admite apretarlas en una
+             columna angosta. */}
+          <FloatingElement className="absolute top-[8%] left-[4%] z-0 hidden w-8 xl:block" floatY={9} floatDuration={5.5} floatRotate={5} repelStrength={1}>
+            <Image src="/illustrations/geometry/flor-lime.svg" alt="" width={153} height={160} className="h-auto w-full" />
+          </FloatingElement>
+          <FloatingElement className="absolute bottom-[16%] left-0 z-0 hidden w-6 xl:block" floatY={11} floatDuration={4.5} floatRotate={-8} repelStrength={1.2}>
+            <Image src="/illustrations/deco/star-violet.svg" alt="" width={130} height={130} className="h-auto w-full" />
+          </FloatingElement>
+          <FloatingElement className="absolute top-[10%] right-0 z-0 hidden w-7 xl:block" floatY={10} floatDuration={5} floatRotate={7} repelStrength={1}>
+            <Image src="/illustrations/geometry/hoja-orange.svg" alt="" width={130} height={123} className="h-auto w-full" />
+          </FloatingElement>
+          <FloatingElement className="absolute bottom-[10%] right-[6%] z-0 hidden w-6 xl:block" floatY={8} floatDuration={6} floatRotate={-6} repelStrength={1.1}>
+            <Image src="/illustrations/geometry/destello-violet.svg" alt="" width={180} height={180} className="h-auto w-full" />
+          </FloatingElement>
+
+          <MascotStage size="lg" glow={false} />
         </motion.div>
       </Container>
     </section>

@@ -26,6 +26,13 @@ function BeliefCard({ belief, index }: { belief: (typeof beliefs)[number]; index
   return (
     <div
       className={cn(
+        // `isolate` scopes the geometry image's absolute positioning to this
+        // card only. The title/text below it don't need their own z-index —
+        // they just come after the image in DOM order, which alone puts
+        // them on top; an explicit z-10 there would be redundant, and
+        // Tailwind's z-10 happens to be the exact value the Navbar reserves
+        // for its own sticky z-index, so it's worth not reaching for it
+        // out of habit.
         "relative isolate flex h-64 w-full flex-col justify-between overflow-visible rounded-(--radius-container) p-6 shadow-(--shadow-elevation-2) transition-shadow duration-(--duration-base) ease-(--ease-standard) hover:shadow-(--shadow-elevation-4) sm:h-72 sm:p-8",
         belief.bg,
         belief.fg
@@ -39,11 +46,11 @@ function BeliefCard({ belief, index }: { belief: (typeof beliefs)[number]; index
         className="pointer-events-none absolute -top-5 right-4 w-24 select-none sm:w-28 lg:-top-6 lg:w-32"
       />
 
-      <span className="relative z-10 font-display text-sm font-semibold tracking-wide uppercase opacity-70">
+      <span className="font-display text-sm font-semibold tracking-wide uppercase opacity-70">
         Creencia {String(index + 1).padStart(2, "0")} / {String(beliefs.length).padStart(2, "0")}
       </span>
 
-      <p className="relative z-10 max-w-[80%] text-pretty font-display text-xl leading-snug font-bold sm:text-2xl">
+      <p className="max-w-[80%] text-pretty font-display text-xl leading-snug font-bold sm:text-2xl">
         {belief.text}
       </p>
     </div>

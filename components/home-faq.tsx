@@ -136,7 +136,17 @@ export function HomeFaq() {
     <section ref={sectionRef} className="relative overflow-hidden">
       <FaqDecoration sectionRef={sectionRef} />
 
-      <Container size="content" className="relative z-10 py-24 sm:py-32">
+      {/* No z-index here — the Navbar's own z-index is the DS's reserved
+         `--z-sticky` (10), and Tailwind's numeric scale (z-10, z-20…) mirrors
+         those exact reserved values, so a bare `z-10` here would tie with
+         the Navbar and — being later in the DOM — win, painting over a
+         sticky header during scroll. `relative` alone is enough: a
+         `position:relative` element with no explicit z-index still paints
+         after its earlier `position:absolute z-0` siblings (this section's
+         decorations) in DOM order, at the same default stacking tier —
+         same visual result, without ever holding a z-index value that could
+         collide with page-level chrome. */}
+      <Container size="content" className="relative py-24 sm:py-32">
         <Reveal className="mb-12 max-w-xl sm:mb-16">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
             Preguntas frecuentes

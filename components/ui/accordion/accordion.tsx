@@ -194,15 +194,18 @@ function AccordionItem({ value, disabled, className, children }: AccordionItemPr
   // from the one the pointer is actually over. `flex-1` on the outer +
   // `flex flex-col` on the Root (rootVariants) is what makes every card in
   // a row match height when the consumer stretches the Root itself (e.g. a
-  // CSS Grid cell) — `hover:z-10` keeps a lifted card's shadow painting
-  // above its neighbors instead of whichever sibling happens to come later
-  // in DOM order.
+  // CSS Grid cell). No z-index anywhere here: without a scale/lift transform
+  // (removed — see the hover comment on itemVariants.card), neighboring
+  // cards never visually overlap, so there's nothing for a z-index to
+  // referee — and Tailwind's numeric scale (z-10, z-20…) mirrors this DS's
+  // reserved --z-sticky/--z-dropdown/etc. tokens closely enough that reaching
+  // for it out of habit risks a real collision with page-level chrome.
   if (variant === "card") {
     return (
       <AccordionPrimitive.Item
         value={value}
         disabled={disabled}
-        className={cn("group/item relative flex-1 hover:z-10", itemVariants({ variant }), className)}
+        className={cn("group/item relative flex-1", itemVariants({ variant }), className)}
       >
         <div className="h-full overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-colors duration-(--duration-base) ease-(--ease-standard) group-hover/item:border-(--border-strong)">
           {children}

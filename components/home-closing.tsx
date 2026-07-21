@@ -12,7 +12,8 @@ import { cn } from "@/lib/utils";
  * The Home's closing moment — same phrase and CTAs as always (Misión,
  * Volumen I, citada literalmente, sin tocar), staged as a deliberate pause.
  * Every illustration here is decorative (empty alt, aria-hidden) and sits
- * behind the phrase (z-0 vs. the content's z-10).
+ * behind the phrase — via DOM order, not z-index (see the phrase wrapper
+ * below for why no `z-10` lives here).
  *
  * Eight pieces, one per compass position around the `max-w-2xl` text
  * wrapper (NW/NE/N/E/SE/S/SW/W) — never two sharing the same corner, which
@@ -171,8 +172,14 @@ export function HomeClosing() {
             />
           </FloatingElement>
 
-          {/* Cierre — Misión, Volumen I, citado literalmente. */}
-          <div className="relative z-10 text-center">
+          {/* Cierre — Misión, Volumen I, citado literalmente. No z-index:
+             the Navbar's own is the DS's reserved `--z-sticky` (10), and
+             Tailwind's z-10 is that same numeric value — tying with it and,
+             being later in the DOM, winning during scroll. `relative` with
+             no explicit z paints after the earlier absolute z-0 FloatingElements
+             above in normal DOM order, at the same default stacking tier —
+             same visual result, no reserved value at risk. */}
+          <div className="relative text-center">
             <Reveal>
               <p className="font-display text-3xl font-bold text-balance sm:text-4xl lg:text-5xl">
                 La posibilidad de construir algo que nadie más podría haber construido de esa

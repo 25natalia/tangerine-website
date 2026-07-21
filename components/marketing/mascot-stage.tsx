@@ -50,9 +50,11 @@ export interface MascotStageProps {
   sparkle?: boolean;
   /** Bumps the mascot (and its glow/shadow, proportionally) up a size — for compositions where it needs to read as the clear protagonist. @default "default" */
   size?: "default" | "lg";
+  /** The radial purple gradient behind the mascot. Off when a consumer stages the mascot against its own decoration instead (small illustrations around it, say) — the grounding shadow stays either way, since that's about weight/anchoring, not the glow. @default true */
+  glow?: boolean;
 }
 
-export function MascotStage({ sparkle = false, size = "default" }: MascotStageProps) {
+export function MascotStage({ sparkle = false, size = "default", glow = true }: MascotStageProps) {
   const reduceMotion = usePrefersReducedMotion();
   const stageRef = React.useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -98,25 +100,29 @@ export function MascotStage({ sparkle = false, size = "default" }: MascotStagePr
         />
       ) : null}
 
-      {/* Stage glow — the mascot's only background element. A true radial
-         gradient (not Tailwind's linear from/via/to) so it fades evenly in
-         every direction instead of leaving a hard circular edge. Smaller
-         and quieter than before so it reads as a soft anchor, not a second
-         focal point competing with the mascot itself. */}
-      <div
-        aria-hidden="true"
-        className={cn("absolute rounded-full opacity-50 blur-3xl dark:hidden", glowSize[size])}
-        style={{
-          background: "radial-gradient(circle at center, var(--purple-100), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className={cn("absolute hidden rounded-full opacity-30 blur-3xl dark:block", glowSize[size])}
-        style={{
-          background: "radial-gradient(circle at center, var(--purple-900), transparent 70%)",
-        }}
-      />
+      {/* Stage glow — the mascot's only background element, when present. A
+         true radial gradient (not Tailwind's linear from/via/to) so it
+         fades evenly in every direction instead of leaving a hard circular
+         edge. Smaller and quieter than before so it reads as a soft anchor,
+         not a second focal point competing with the mascot itself. */}
+      {glow ? (
+        <>
+          <div
+            aria-hidden="true"
+            className={cn("absolute rounded-full opacity-50 blur-3xl dark:hidden", glowSize[size])}
+            style={{
+              background: "radial-gradient(circle at center, var(--purple-100), transparent 70%)",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className={cn("absolute hidden rounded-full opacity-30 blur-3xl dark:block", glowSize[size])}
+            style={{
+              background: "radial-gradient(circle at center, var(--purple-900), transparent 70%)",
+            }}
+          />
+        </>
+      ) : null}
 
       {/* Grounding shadow — breathes opposite the mascot's float so it always
          reads as "resting", not detached from the stage */}

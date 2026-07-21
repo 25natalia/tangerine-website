@@ -23,9 +23,13 @@ export default function HomePage() {
       <HomeHero />
       <HomeTicker />
 
-      {/* Por qué existe Tangerine — Volumen I, §03, citado literalmente. */}
+      {/* Por qué existe Tangerine — Volumen I, §03, citado literalmente.
+         Padding inferior recortado a propósito (py-24/32 simétrico daba
+         ~192-256px de separación real hasta Filosofía, que también arranca
+         con su propio padding superior) — el superior queda igual, relativo
+         al Ticker de arriba. */}
       <section>
-        <Container size="content" className="py-24 sm:py-32">
+        <Container size="content" className="pt-24 pb-16 sm:pt-32 sm:pb-20">
           <Reveal>
             <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
               Por qué existe
