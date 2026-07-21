@@ -45,59 +45,81 @@ const faqs = [
 interface DecoSpec {
   src: string;
   className: string;
-  /** [rest, peak] — how far in px it sits from its resting position at the edges (t=0/1) vs. mid-scroll. */
+  /** Resting (far) → arrived (near) offsets in px, applied 1:1 with scroll progress across the section's entrance. */
   x: [number, number];
   y: [number, number];
+  /** Resting → arrived rotation in degrees. */
+  rotate: [number, number];
+  /** Adds a small infinite ambient float on top of the scroll transform, for "se sienten vivas". */
+  float?: boolean;
   width: number;
   height: number;
 }
 
-// 2 a la izquierda, 1 grande a la derecha, 2 acentos chicos de geometry —
-// deliberadamente no espejadas: distinta altura, distinto offset, distinta
-// magnitud de movimiento por pieza, para que la composición se sienta
-// orgánica en vez de un mirror izquierda/derecha.
+// 2 a la izquierda, 3 a la derecha, mezclando deco/ y geometry/ sin repetir
+// ninguna — a propósito nada espejado: cada pieza tiene su propia altura,
+// magnitud y signo de rotación.
 const decorations: DecoSpec[] = [
-  { src: "/illustrations/geometry/hoja-lime.svg", className: "top-8 left-2 w-11", x: [90, 16], y: [26, 0], width: 130, height: 123 },
-  { src: "/illustrations/deco/star-yellow.svg", className: "bottom-20 left-16 w-8", x: [64, 8], y: [-18, 0], width: 130, height: 130 },
-  { src: "/illustrations/deco/window-tangerine-violet.svg", className: "top-1/4 -right-2 w-36 lg:w-44", x: [-120, -18], y: [22, 0], width: 500, height: 500 },
-  { src: "/illustrations/geometry/destello-lime.svg", className: "bottom-8 left-32 w-6", x: [46, 4], y: [-12, 0], width: 180, height: 180 },
-  { src: "/illustrations/geometry/semillas-yellow.svg", className: "top-1/2 right-24 w-6", x: [-56, -8], y: [14, 0], width: 174, height: 174 },
+  { src: "/illustrations/geometry/spring-orange.svg", className: "top-6 left-6 w-9", x: [140, 20], y: [50, 0], rotate: [0, -8], width: 90, height: 90 },
+  { src: "/illustrations/deco/star-green.svg", className: "bottom-16 left-16 w-6", x: [100, 10], y: [-30, 0], rotate: [0, 10], float: true, width: 130, height: 130 },
+  { src: "/illustrations/geometry/leaf-orange.svg", className: "top-10 right-4 w-7", x: [-150, -20], y: [40, 0], rotate: [0, 9], width: 80, height: 80 },
+  { src: "/illustrations/geometry/destello-yellow.svg", className: "top-1/2 right-14 w-6", x: [-110, -15], y: [-35, 0], rotate: [0, -10], width: 180, height: 180 },
+  { src: "/illustrations/geometry/semillas-violet.svg", className: "bottom-8 right-24 w-6", x: [-90, -8], y: [25, 0], rotate: [0, 7], float: true, width: 174, height: 174 },
 ];
 
-const STOPS = [0, 0.28, 0.72, 1];
-
 /**
- * The transform for each piece is a direct, continuously-updating function
- * of `scrollYProgress` — not a `whileInView`/one-shot animation. The curve
- * has a shape, though, not a flat 0→1 ramp: it moves/grows in as the
- * section enters (t 0→0.28), holds while the section is comfortably in
- * view (0.28→0.72), and eases back out as it leaves (0.72→1) — matching
- * "aumenten al entrar, se mantengan mientras está visible, vuelvan al
- * salir" instead of a single linear drift across the whole scroll range.
+ * The transform is a direct, continuously-updating function of
+ * `scrollYProgress` — not a `whileInView`/one-shot animation. Unlike the
+ * previous pass, the scroll range itself (`useScroll`'s `offset` on
+ * `FaqDecoration`) is bounded to one viewport-height's worth of scroll —
+ * from the section's top touching the viewport's bottom edge, to the
+ * section's top reaching 15% down the viewport — instead of the section's
+ * entire time on screen. A shorter, section-relative range is what actually
+ * makes the motion read as tied to "scrolling into the FAQ" rather than a
+ * barely-perceptible drift spread across a much longer distance.
+ *
+ * `float` pieces get a second, independent motion layer — a small ambient
+ * loop nested inside the scroll-driven one, so the two transforms don't
+ * fight (each owns its own wrapping element). Both layers collapse under
+ * prefers-reduced-motion: the scroll transform holds its resting value, the
+ * float loop simply doesn't run.
  */
 function DecoPiece({ spec, scrollYProgress }: { spec: DecoSpec; scrollYProgress: MotionValue<number> }) {
   const reduceMotion = usePrefersReducedMotion();
-  const [restX, peakX] = spec.x;
-  const [restY, peakY] = spec.y;
+  const [restX, nearX] = spec.x;
+  const [restY, nearY] = spec.y;
+  const [restRotate, nearRotate] = spec.rotate;
 
-  const x = useTransform(scrollYProgress, STOPS, reduceMotion ? [0, 0, 0, 0] : [restX, peakX, peakX, restX]);
-  const y = useTransform(scrollYProgress, STOPS, reduceMotion ? [0, 0, 0, 0] : [restY, peakY, peakY, restY]);
-  const scale = useTransform(scrollYProgress, STOPS, reduceMotion ? [1, 1, 1, 1] : [1, 1.12, 1.12, 1]);
-  const opacity = useTransform(scrollYProgress, STOPS, reduceMotion ? [1, 1, 1, 1] : [0.45, 1, 1, 0.45]);
+  const x = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [restX, nearX]);
+  const y = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [restY, nearY]);
+  const scale = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [1, 1.2]);
+  const rotate = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [restRotate, nearRotate]);
+  const opacity = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [0.35, 1]);
+
+  const image = <Image src={spec.src} alt="" width={spec.width} height={spec.height} className="h-auto w-full" />;
 
   return (
     <motion.div
       aria-hidden="true"
       className={cn("absolute z-0 hidden lg:block", spec.className)}
-      style={{ x, y, scale, opacity }}
+      style={{ x, y, scale, rotate, opacity }}
     >
-      <Image src={spec.src} alt="" width={spec.width} height={spec.height} className="h-auto w-full" />
+      {spec.float ? (
+        <motion.div
+          animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
+          transition={reduceMotion ? undefined : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          {image}
+        </motion.div>
+      ) : (
+        image
+      )}
     </motion.div>
   );
 }
 
 function FaqDecoration({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "start 0.15"] });
   return (
     <>
       {decorations.map((spec) => (

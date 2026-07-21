@@ -59,7 +59,12 @@ const itemVariants = cva("", {
       // element that both hides overflow and grows a shadow on hover clips
       // its own shadow; splitting the two responsibilities across two
       // elements is the actual fix, not a smaller/inset shadow.
-      card: "rounded-(--radius-container) transition-[transform,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-0.5 hover:scale-[1.015] hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
+      //
+      // No scale/translate on hover, deliberately: a card that changes size
+      // on hover reads as a layout glitch more than a lift, and it's what
+      // caused the clipping this fixed in the first place. Feedback is
+      // shadow + border color only — geometry never moves.
+      card: "rounded-(--radius-container) transition-shadow duration-(--duration-base) ease-(--ease-standard) hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
       faq: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card",
     } satisfies Record<AccordionVariant, string>,
   },
@@ -182,12 +187,14 @@ function AccordionItem({ value, disabled, className, children }: AccordionItemPr
   const { variant } = useAccordionConfig();
 
   // "card" needs two elements, not one: the outer one (Base UI's Item,
-  // which is where `data-open` actually lands) owns the hover transform +
-  // shadow, and a plain inner div owns overflow-hidden for the rounded
-  // corners around AccordionContent's height animation. `flex-1` on the
-  // outer + `flex flex-col` on the Root (rootVariants) is what makes every
-  // card in a row match height when the consumer stretches the Root itself
-  // (e.g. a CSS Grid cell) — `hover:z-10` keeps a lifted card painting
+  // which is where `data-open` actually lands) owns the hover shadow, and a
+  // plain inner div owns overflow-hidden for the rounded corners around
+  // AccordionContent's height animation, plus the border — whose hover
+  // color needs `group-hover/item` since the color lives one element in
+  // from the one the pointer is actually over. `flex-1` on the outer +
+  // `flex flex-col` on the Root (rootVariants) is what makes every card in
+  // a row match height when the consumer stretches the Root itself (e.g. a
+  // CSS Grid cell) — `hover:z-10` keeps a lifted card's shadow painting
   // above its neighbors instead of whichever sibling happens to come later
   // in DOM order.
   if (variant === "card") {
@@ -197,7 +204,7 @@ function AccordionItem({ value, disabled, className, children }: AccordionItemPr
         disabled={disabled}
         className={cn("group/item relative flex-1 hover:z-10", itemVariants({ variant }), className)}
       >
-        <div className="h-full overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card">
+        <div className="h-full overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-colors duration-(--duration-base) ease-(--ease-standard) group-hover/item:border-(--border-strong)">
           {children}
         </div>
       </AccordionPrimitive.Item>

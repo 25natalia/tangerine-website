@@ -36,6 +36,7 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Ya no se usa en "Cómo trabajamos" (volvió a `leadingIcon`), pero el prop queda disponible |
 | `Accordion` — hover-lift en `variant="card"` | 2026-07-21 | `e3bf07b` | No es un prop nuevo, es un ajuste de estilo compartido: `-translate-y-0.5`, `scale-[1.015]`, sombra a elevation-3 en hover |
 | `Accordion` — fix de clipping en `variant="card"` | 2026-07-21 | `3d22a57` | `AccordionItem` ahora renderiza dos elementos para "card" (outer con el hover, inner con `overflow-hidden`) en vez de uno solo — ver nota abajo |
+| `Accordion` — sin scale/translate en el hover de `variant="card"` | 2026-07-21 | `801b2fe` | El usuario pidió eliminar el crecimiento por completo — queda solo sombra + `group-hover/item:border-(--border-strong)` en el div interno |
 | `Footer` — se quitó `border-t` del root | 2026-07-21 | `e3bf07b` | Afecta a las 5 variantes por igual, en todo el sitio (confirmado con el usuario) — la transición hacia el footer es solo whitespace ahora |
 | `MascotStage` — prop nuevo `size` | 2026-07-21 | `46bae03` | `"default" \| "lg"`, default sin cambios. Escala mascota+glow+sombra juntos |
 | `FloatingElement` — resorte de retorno más suave | 2026-07-21 | `46bae03` | `stiffness`/`damping` ajustados, no es un prop nuevo — mismo comportamiento externo, distinta sensación |
@@ -350,3 +351,23 @@ encima de sus vecinas, y `flex flex-col`/`flex-1` en Root/Item para que la altur
 igualándose entre cards cuando el Root se estira (como en la grilla de "Cómo trabajamos").
 Verificado inspeccionando el HTML renderizado: el elemento con el hover de sombra ya no tiene
 `overflow-hidden` en su propia lista de clases.
+
+### Nota sobre la séptima ronda
+
+- **Hover sin crecimiento**: el usuario pidió eliminar el `scale`/`translate` por completo, no
+  ajustarlo — se quitó de `Accordion variant="card"` (DS, ver tabla arriba) y de `BeliefCard`
+  (Filosofía, local). Queda solo sombra (ambos) + color de borde vía `group-hover/item` (solo el
+  Accordion, porque `BeliefCard` no tiene borde propio — ya es una superficie de color sólido).
+  Verificado que las clases `hover:scale`/`hover:-translate-y` ya no aparecen en el HTML servido
+  para ninguna de las dos cards (las dos coincidencias de `hover:-translate-y` que sí quedan son
+  de las flechas del `ScrollCarousel`, un componente distinto, no las cards).
+- **FAQ, segundo intento**: el primer rango de scroll (`["start end", "end start"]`, todo el
+  tiempo que la sección está en el viewport) técnicamente funcionaba pero el movimiento quedaba
+  diluido en una distancia de scroll demasiado larga. Se acotó a
+  `["start end", "start 0.15"]` — un barrido de más o menos un viewport de alto, ligado
+  específicamente a la entrada de la sección — y se subieron las magnitudes bastante (hasta
+  ~150px de `x`, escala hasta 1.2, más rotación por pieza). 5 piezas más chicas (2 izquierda, 3
+  derecha, mezclando `deco/` y `geometry/`, sin repetir ninguna), dos de ellas con un loop de
+  flotación ambiental adicional anidado adentro del transform de scroll (motion.div dentro de
+  motion.div, cada uno con su propia responsabilidad). Verificado leyendo el `style` inline real
+  del HTML servido (`translateX(140px) translateY(50px)` en reposo para la pieza más extrema).
