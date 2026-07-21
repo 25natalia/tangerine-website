@@ -24,6 +24,15 @@ export interface AccordionProps {
   /** Uncontrolled initial open item value(s). */
   defaultValue?: string[];
   onValueChange?: (value: string[]) => void;
+  /**
+   * Keeps every panel's content in the DOM (native `hidden="until-found"`)
+   * even while collapsed, instead of unmounting it — so closed panels stay
+   * indexable by search engines and reachable with the browser's own
+   * Ctrl+F / Cmd+F. Worth it for content that should be findable even
+   * closed (FAQ answers); leave off elsewhere, since it's real DOM weight
+   * for every item, not just the open one. @default false
+   */
+  hiddenUntilFound?: boolean;
   disabled?: boolean;
   className?: string;
   children?: ReactNode;

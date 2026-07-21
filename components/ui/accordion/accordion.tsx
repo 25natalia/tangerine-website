@@ -136,6 +136,7 @@ function Accordion({
   value,
   defaultValue,
   onValueChange,
+  hiddenUntilFound = false,
   disabled,
   className,
   children,
@@ -162,6 +163,7 @@ function Accordion({
         onValueChange={handleValueChange}
         multiple={multiple}
         disabled={disabled}
+        hiddenUntilFound={hiddenUntilFound}
         className={cn(rootVariants({ variant }), className)}
       >
         {children}

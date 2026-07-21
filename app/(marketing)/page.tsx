@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardBody, CardDescription } from "@/components/ui/card";
-import { Reveal, RevealGroup } from "@/components/templates/reveal";
+import { Reveal } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
-import { capabilities } from "@/lib/capabilities";
+import { HomePhilosophy } from "@/components/home-philosophy";
+import { HomeProcess } from "@/components/home-process";
+import { HomeFaq } from "@/components/home-faq";
 import { buildMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -16,17 +17,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
   titleAbsolute: true,
 });
-
-// Seis creencias reales de Tangerine Studio (Brand OS, Volumen II —
-// "Creencias"), citadas literalmente. No es contenido de placeholder.
-const beliefs = [
-  "La creatividad se aprende.",
-  "La identidad vale más que la tendencia.",
-  "La curiosidad precede a la innovación.",
-  "El proceso importa tanto como el resultado.",
-  "El miedo a equivocarse cuesta más que el error mismo.",
-  "Nadie recuerda lo perfecto; recuerda lo verdadero.",
-];
 
 export default function HomePage() {
   return (
@@ -55,69 +45,9 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Filosofía — banda inversa, mismo patrón de énfasis que el Case
-         Study Template usa para Challenge/Impact (fixed dark, independiente
-         del tema activo de la página). */}
-      <section className="bg-(--background-inverse) text-(--text-inverse)">
-        <Container size="wide" className="py-24 sm:py-32">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-            <Reveal className="flex flex-col gap-6">
-              <p className="font-display text-sm font-semibold tracking-wide text-(--tangerine-400) uppercase">
-                Filosofía
-              </p>
-              <p className="font-display text-3xl font-bold text-balance sm:text-4xl">
-                Las restricciones no limitan, revelan.
-              </p>
-              <p className="text-body-lg text-pretty text-(--neutral-300)">
-                Un límite real, mirado de frente en vez de evitado, casi siempre esconde la
-                mejor respuesta posible.
-              </p>
-            </Reveal>
-            <RevealGroup className="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {beliefs.map((belief, i) => (
-                <div key={belief} className="flex gap-4">
-                  <span className="font-display text-2xl font-bold text-(--tangerine-400)">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="font-display text-lg leading-snug font-medium text-balance">{belief}</p>
-                </div>
-              ))}
-            </RevealGroup>
-          </div>
-        </Container>
-      </section>
-
-      {/* Capabilities — preview de las 7, cada una linkea a su ancla real
-         en /capabilities (Fase 4). */}
-      <section className="border-t border-(--border-subtle)">
-        <Container size="wide" className="py-24 sm:py-32">
-          <Reveal className="mb-12 max-w-xl">
-            <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-              Cómo trabajamos
-            </p>
-            <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">
-              Siete formas distintas de aplicar la misma manera de pensar.
-            </h2>
-          </Reveal>
-          <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((cap) => (
-              <Card key={cap.slug} variant="outlined" interaction="clickable" href={`/capabilities#${cap.slug}`}>
-                <CardHeader>
-                  <CardTitle>{cap.name}</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <CardDescription>{cap.resolves}</CardDescription>
-                </CardBody>
-              </Card>
-            ))}
-          </RevealGroup>
-          <div className="mt-10">
-            <Link href="/capabilities" className={cn(buttonVariants({ variant: "outline" }))}>
-              Ver todas las capacidades
-            </Link>
-          </div>
-        </Container>
-      </section>
+      <HomePhilosophy />
+      <HomeProcess />
+      <HomeFaq />
 
       {/* Cierre — Misión, Volumen I, citado literalmente. */}
       <section className="border-t border-(--border-subtle)">

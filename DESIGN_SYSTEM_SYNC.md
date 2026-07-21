@@ -30,6 +30,9 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Field`, `Textarea`, `Checkbox`, `RadioGroup`, `Select`, `Tooltip` | 2026-07-21 | `db83fdd` | Dependencias del formulario |
 | Not Found Template completo (`not-found-template.tsx`, `not-found-scene.tsx`, `not-found-page.tsx`, `index.ts`) | 2026-07-21 | `9c99437` | `not-found-page.tsx` se portó por fidelidad del barrel export, pero no se usa — `app/not-found.tsx` compone `SiteNavbar` + `NotFoundTemplate` + `SiteFooter` directamente, con CTAs propios (`/`, `/work`, `/studio`) |
 | `MascotStage` + `CursorTrail` (`components/marketing/`) + keyframe `cursor-particle-drift` (`globals.css`) | 2026-07-21 | `3cc8465` | Nunca se habían portado — existían en el DS desde antes pero solo el propio Home del DS los consumía. `MascotStage` se usa acá con el prop `sparkle` (agregado en este mismo commit del DS) para el efecto de partículas cerca del mascot del Hero; ver nota abajo |
+| `Carousel` (`components/ui/carousel/`) | 2026-07-21 | `2418db1` | Componente nuevo en el DS — no existía nada equivalente. Ver nota abajo |
+| `Accordion` — prop nuevo `hiddenUntilFound` | 2026-07-21 | `93734c2` | El componente ya estaba portado (Fase 5); este commit solo trae el prop nuevo. Se usa en las secciones "Cómo trabajamos" y FAQ de la Home |
+| Isotipo como favicon: `app/icon.svg`, `app/apple-icon.png`, `public/brand/icon-mark-square.svg` | 2026-07-21 | `2418db1` | `apple-icon.png` y el SVG full-bleed son nuevos también en el propio DS (no tenía apple-touch-icon hasta este commit) |
 
 ### Nota sobre Contact Template — dos mejoras hechas primero en el DS
 
@@ -105,3 +108,34 @@ repos. Ese mismatch forzaba a React a re-crear del lado del cliente el subárbol
 `next-themes` monta su script inline de anti-FOUC, que es lo que disparaba el warning secundario
 de "script tag" (no era un bug de `ThemeProvider`, que sigue siendo el patrón oficial de
 next-themes para App Router).
+
+### Nota sobre la segunda iteración de la Home
+
+Tres secciones nuevas/rediseñadas — Filosofía (carrusel), Cómo trabajamos (accordion), FAQ —
+reemplazan el grid estático anterior. Antes de escribir código se hizo el chequeo que pide
+`ARCHITECTURE.md`: no había Carousel en el DS (de ahí el componente nuevo, ver tabla arriba);
+Accordion sí existía y ya soportaba todo lo necesario (`variant="faq"`, `leadingIcon`) sin
+modificarlo, salvo el `hiddenUntilFound` agregado para que el contenido colapsado no desaparezca
+del HTML servido.
+
+- **Filosofía**: las 6 creencias son las mismas de siempre (Volumen II, citadas literalmente) —
+  solo cambia la presentación a carrusel. Fondo/patrón por tarjeta usan colores y los 4 patrones
+  satélite reales del DS (`lib/patterns.ts`), nunca un tono inventado. La ilustración de hoja por
+  tarjeta viene de `public/illustrations/hojas/` (6 PNG que estaban sueltos en
+  `public/ilustrations/New folder/`, sin trackear, agregados por el usuario para este pedido —
+  confirmado con él antes de usarlos; se reorganizaron a una ruta prolija).
+- **Cómo trabajamos**: sigue siendo las 7 Capabilities reales (Volumen IV) — no se inventó una
+  taxonomía de "proceso" nueva (confirmado con el usuario; su ejemplo de
+  Descubrimiento→Evolución era solo referencia de formato). El accordion muestra `resolves` como
+  descripción visible y `existsBecause`/`generatesValue` como contenido expandible — es el mismo
+  contenido que ya vive en `/capabilities`, con otra presentación.
+- **FAQ**: las 8 preguntas son las que pidió el usuario; las respuestas se escribieron ancladas a
+  contenido ya real del sitio (capabilities.ts, la copy del propio Contact) evitando a propósito
+  inventar políticas de negocio específicas — plazos exactos, alcance internacional — que no
+  están confirmadas en el Brand OS todavía. Vale la pena que el usuario las revise y las ajuste
+  con datos reales antes de tratarlas como definitivas, en particular "¿Cuánto dura un proyecto?",
+  "¿Trabajan con empresas internacionales?" y "¿Pueden integrarse con equipos internos?".
+
+El `Carousel` del DS no tiene todavía página de docs propia (`app/(docs)/components/carousel/`)
+ni entrada en `nav-config.ts`/`components-roadmap.ts` — quedó pendiente, el resto de los
+componentes del DS sí la tienen.
