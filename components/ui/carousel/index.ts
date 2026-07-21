@@ -1,2 +1,3 @@
 export { Carousel } from "./carousel";
-export type { CarouselProps } from "./types";
+export { ScrollCarousel } from "./scroll-carousel";
+export type { CarouselProps, ScrollCarouselProps } from "./types";

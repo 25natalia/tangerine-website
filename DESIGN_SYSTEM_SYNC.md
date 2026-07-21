@@ -160,3 +160,31 @@ en vez de las ilustraciones de hoja que ya usa Filosofía, para que ninguna de l
 repita exactamente los mismos assets; el detalle gráfico de fondo reutiliza los mismos 4 patrones
 satélite, con una paleta de colores DS distinta a la de Home (incluye `--info-*`, que Home no usa
 para tarjetas).
+
+| `ScrollCarousel` (`components/ui/carousel/scroll-carousel.tsx`) | 2026-07-21 | `73c9e5e` | Componente nuevo en el DS — el `Carousel` existente es de un solo slide con crossfade, no soporta mostrar 2 a la vez sin cambiar su contrato de interacción |
+
+### Nota sobre la segunda iteración de Filosofía (Home)
+
+Solo se ajustó diseño, no contenido: las mismas 6 creencias, sin reescribir ninguna. Cambios:
+
+- Cards más compactas (`h-64 sm:h-72`, antes `h-[26rem] sm:h-[28rem]`) y ahora anchas en vez de
+  casi cuadradas, para mostrar ~2 por vista en desktop.
+- El carrusel pasó de `Carousel` (un slide con crossfade) a `ScrollCarousel` (scroll nativo con
+  snap, varios slides visibles) — ver el componente nuevo arriba. `Carousel` no se tocó; Studio
+  sigue usándolo tal cual para Valores.
+- Las ilustraciones de hoja (`public/illustrations/hojas/`) se reemplazaron por completo por los
+  SVG de `public/illustrations/geometry/` que el usuario agregó — 4 motivos (destello/flor/hoja/
+  semillas, los mismos de siempre) × 5 colores, un solo shape grande por tarjeta en vez de un
+  ícono chico, posicionado para sangrar levemente el borde superior de la tarjeta
+  (`overflow-visible` + posición absoluta) en vez de recortarse. Ningún motivo se repite en la
+  posición inmediatamente siguiente. `public/illustrations/hojas/` se borró del repo — ya no lo
+  usa nada (Studio/Valores usa `Mascot`, no esas hojas). Los SVG de `geometry/` viven solo en el
+  repositorio de la web, igual que `hojas/` antes — no se portaron al DS.
+- El fondo `bg-(--background-inverse)` de toda la sección se eliminó — ahora es blanco/default,
+  igual que el resto de las secciones de Home, con el mismo padding (`py-24 sm:py-32`) y el mismo
+  `border-t` que ya usan Cómo trabajamos/FAQ/Cierre. El color ahora lo aportan únicamente las
+  tarjetas.
+- Las flechas de `ScrollCarousel` son un estilo nuevo (circular, `bg-(--surface-default)`, borde
+  sutil, sombra `--shadow-elevation-1` → `-3` en hover, estado disabled real en los extremos del
+  scroll) — específico de este componente nuevo, no se tocó el estilo de flechas de `Carousel`
+  (Studio/Valores no cambia).
