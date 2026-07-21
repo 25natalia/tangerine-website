@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { buttonVariants } from "@/components/ui/button";
 import { Reveal } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
 import { HomePhilosophy } from "@/components/home-philosophy";
 import { HomeProcess } from "@/components/home-process";
 import { HomeFaq } from "@/components/home-faq";
+import { HomeClosing } from "@/components/home-closing";
 import { buildMetadata } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "Tangerine Studio",
@@ -48,26 +46,7 @@ export default function HomePage() {
       <HomePhilosophy />
       <HomeProcess />
       <HomeFaq />
-
-      {/* Cierre — Misión, Volumen I, citado literalmente. */}
-      <section className="border-t border-(--border-subtle)">
-        <Container size="content" className="py-24 text-center sm:py-32">
-          <Reveal>
-            <p className="font-display text-2xl font-bold text-balance sm:text-3xl">
-              La posibilidad de construir algo que nadie más podría haber construido de esa
-              forma exacta.
-            </p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
-                Ver el trabajo
-              </Link>
-              <Link href="/contact" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
-                Contacto
-              </Link>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <HomeClosing />
     </>
   );
 }
