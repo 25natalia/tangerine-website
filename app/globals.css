@@ -1,26 +1,1185 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   COCOGOOSE — brand display face.
+   This is a paid/licensed font (Yellow Design Studio), not distributed on
+   Google Fonts, so it can't be self-hosted via next/font the way Roboto and
+   the Baloo 2 fallback are. Drop the licensed files here to activate it —
+   nothing else in this file needs to change, --font-display already lists
+   "Cocogoose Display" first in its stack (see @theme below):
+     public/fonts/cocogoose/Cocogoose.woff2
+     public/fonts/cocogoose/Cocogoose.woff
+   Until then this @font-face simply fails to load (404) and the stack
+   falls through to Baloo 2 with no visible error — AS LONG AS the
+   font-family name here never collides with a font of the same name that
+   might already be installed locally on a machine's OS (a demo/trial copy,
+   a different license, anything). The internal name is deliberately
+   "Cocogoose Display", not the bare public font name "Cocogoose": if this
+   were named plain "Cocogoose" and any machine viewing the site happened to
+   have a same-named font installed system-wide, the browser can resolve
+   that local match instead of ever reaching Baloo 2 — even though this
+   @font-face's own src 404s. Verified on this exact repo: a locally
+   installed trial "Cocogoose" font on one test machine silently replaced
+   every digit with a "PERSONAL USE ONLY / ZETAFONTS.COM" watermark glyph in
+   every Display heading, with zero errors in the console — the exact
+   "números no respetan la identidad de Tangerine" bug this file exists to
+   prevent. A font-family name only this project's own @font-face can match
+   closes that hole for good, on every machine, not just this one.
+   ========================================================================== */
+@font-face {
+  font-family: "Cocogoose Display";
+  src:
+    url("/fonts/cocogoose/Cocogoose.woff2") format("woff2"),
+    url("/fonts/cocogoose/Cocogoose.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   TANGERINE DESIGN SYSTEM — TOKENS
+   Four tiers: Primitives -> Semantic (Design Tokens) -> Legacy aliases -> Brand.
+   Machine-readable mirror of these values: /tokens/*.json (Style Dictionary /
+   DTCG format). Rationale: /foundations/color and /tokens.
+   ========================================================================== */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --------------------------------------------------------------------
+     TIER 1 — PRIMITIVES
+     Raw OKLCH ramps. The 7 hue-bearing ramps (purple, tangerine, green,
+     gold, red, info, neutral) are independent — each anchored at a real
+     value (brand hex, or a derived hex when the brief had no equivalent).
+     The remaining 9 named color groups the system needs (surface,
+     background, border, text, icon, interactive, disabled, selection)
+     are ALIASES of those 7 — same values, exposed under their own name so
+     each can evolve independently later without 6 copies of "neutral" to
+     keep in sync by hand. Overlay is the one exception: it's a genuine
+     alpha ramp, because scrims are transparency, not a flat color.
+     -------------------------------------------------------------------- */
+
+  /* purple — Primary. Anchored at 600 = brand #5434E2. 50 is hand-tuned
+     (not on the geometric curve the rest of the ramp follows) — halfway
+     between the old 50 and 100 in both lightness and chroma, so it reads
+     as clearly purple instead of near-white/near-blue, while still working
+     as a soft background fill. */
+  --purple-50: oklch(0.9436 0.0536 280.91);
+  --purple-100: oklch(0.9022 0.0708 280.91);
+  --purple-200: oklch(0.8194 0.1052 280.91);
+  --purple-300: oklch(0.7366 0.1396 280.91);
+  --purple-400: oklch(0.6537 0.174 280.91);
+  --purple-500: oklch(0.5709 0.2084 280.91);
+  --purple-600: oklch(0.4881 0.2428 280.91); /* #5434E2 */
+  --purple-700: oklch(0.4061 0.2084 280.91);
+  --purple-800: oklch(0.3241 0.174 280.91);
+  --purple-900: oklch(0.242 0.1396 280.91);
+  --purple-950: oklch(0.16 0.1052 280.91);
+
+  /* tangerine — Secondary. Anchored at 500 = brand #FF7401 */
+  --tangerine-50: oklch(0.985 0.0291 48.2);
+  --tangerine-100: oklch(0.9309 0.062 48.2);
+  --tangerine-200: oklch(0.8768 0.0949 48.2);
+  --tangerine-300: oklch(0.8227 0.1278 48.2);
+  --tangerine-400: oklch(0.7686 0.1608 48.2);
+  --tangerine-500: oklch(0.7145 0.1937 48.2); /* #FF7401 */
+  --tangerine-600: oklch(0.6036 0.1608 48.2);
+  --tangerine-700: oklch(0.4927 0.1278 48.2);
+  --tangerine-800: oklch(0.3818 0.0949 48.2);
+  --tangerine-900: oklch(0.2709 0.062 48.2);
+  --tangerine-950: oklch(0.16 0.0291 48.2);
+
+  /* green — Success. Anchored at 500 = brand #00A254 */
+  --green-50: oklch(0.985 0.0244 152.51);
+  --green-100: oklch(0.9128 0.052 152.51);
+  --green-200: oklch(0.8406 0.0796 152.51);
+  --green-300: oklch(0.7685 0.1072 152.51);
+  --green-400: oklch(0.6963 0.1348 152.51);
+  --green-500: oklch(0.6241 0.1624 152.51); /* #00A254 */
+  --green-600: oklch(0.5313 0.1348 152.51);
+  --green-700: oklch(0.4385 0.1072 152.51);
+  --green-800: oklch(0.3456 0.0796 152.51);
+  --green-900: oklch(0.2528 0.052 152.51);
+  --green-950: oklch(0.16 0.0244 152.51);
+
+  /* lime — decorative complemento (dataviz / illustration only, not one of
+     the 16 semantic color groups). Anchored at 400 = brand #CDDC39 */
+  --lime-50: oklch(0.985 0.0765 114.85);
+  --lime-100: oklch(0.9526 0.1015 114.85);
+  --lime-200: oklch(0.9203 0.1266 114.85);
+  --lime-300: oklch(0.8879 0.1516 114.85);
+  --lime-400: oklch(0.8555 0.1766 114.85); /* #CDDC39 */
+  --lime-500: oklch(0.7396 0.1516 114.85);
+  --lime-600: oklch(0.6237 0.1266 114.85);
+  --lime-700: oklch(0.5078 0.1015 114.85);
+  --lime-800: oklch(0.3918 0.0765 114.85);
+  --lime-900: oklch(0.2759 0.0515 114.85);
+  --lime-950: oklch(0.16 0.0265 114.85);
+
+  /* gold — Warning. Anchored at 400 = brand #FFCA00 */
+  --gold-50: oklch(0.985 0.0763 89.44);
+  --gold-100: oklch(0.9541 0.1012 89.44);
+  --gold-200: oklch(0.9231 0.1261 89.44);
+  --gold-300: oklch(0.8922 0.1511 89.44);
+  --gold-400: oklch(0.8613 0.176 89.44); /* #FFCA00 */
+  --gold-500: oklch(0.7444 0.1511 89.44);
+  --gold-600: oklch(0.6275 0.1261 89.44);
+  --gold-700: oklch(0.5107 0.1012 89.44);
+  --gold-800: oklch(0.3938 0.0763 89.44);
+  --gold-900: oklch(0.2769 0.0513 89.44);
+  --gold-950: oklch(0.16 0.0264 89.44);
+
+  /* red — Error. NOT a supplied brand color — derived to harmonize with
+     the warm palette (hue sits between tangerine and neutral) because the
+     brief had no color for destructive/error states. Anchored at 500. */
+  --red-50: oklch(0.985 0.0285 27.83);
+  --red-100: oklch(0.911 0.0609 27.83);
+  --red-200: oklch(0.8371 0.0932 27.83);
+  --red-300: oklch(0.7631 0.1255 27.83);
+  --red-400: oklch(0.6892 0.1579 27.83);
+  --red-500: oklch(0.6152 0.1902 27.83); /* #E0483E */
+  --red-600: oklch(0.5242 0.1579 27.83);
+  --red-700: oklch(0.4331 0.1255 27.83);
+  --red-800: oklch(0.3421 0.0932 27.83);
+  --red-900: oklch(0.251 0.0609 27.83);
+  --red-950: oklch(0.16 0.0285 27.83);
+
+  /* info — Info. Also NOT a supplied brand color — the brief had nothing
+     in the blue family and reusing Primary would make "info" and "brand
+     action" visually identical. Derived at a hue (256°) clearly separate
+     from Primary's (281°). Anchored at 500. */
+  --info-50: oklch(0.985 0.0255 256.44);
+  --info-100: oklch(0.907 0.0544 256.44);
+  --info-200: oklch(0.8289 0.0833 256.44);
+  --info-300: oklch(0.7509 0.1121 256.44);
+  --info-400: oklch(0.6728 0.141 256.44);
+  --info-500: oklch(0.5948 0.1699 256.44); /* #2F7DE1 */
+  --info-600: oklch(0.5078 0.141 256.44);
+  --info-700: oklch(0.4209 0.1121 256.44);
+  --info-800: oklch(0.3339 0.0833 256.44);
+  --info-900: oklch(0.247 0.0544 256.44);
+  --info-950: oklch(0.16 0.0255 256.44);
+
+  /* neutral — interpolated between the two literal brand neutrals.
+     Endpoints are exact; a whisper of the brand's violet hue (292) is
+     retained through the whole ramp instead of flattening to true gray. */
+  --neutral-0: oklch(0.99 0.0054 297.73); /* #FCFBFF */
+  --neutral-50: oklch(0.9271 0.0056 292);
+  --neutral-100: oklch(0.8642 0.0057 292);
+  --neutral-200: oklch(0.8013 0.0058 292);
+  --neutral-300: oklch(0.7383 0.0059 292);
+  --neutral-400: oklch(0.6754 0.006 292);
+  --neutral-500: oklch(0.6125 0.006 292);
+  --neutral-600: oklch(0.5496 0.006 292);
+  --neutral-700: oklch(0.4867 0.0059 292);
+  --neutral-800: oklch(0.4237 0.0058 292);
+  --neutral-900: oklch(0.3608 0.0057 292);
+  --neutral-950: oklch(0.2979 0.0056 292);
+  --neutral-1000: oklch(0.235 0 89.88); /* #1E1E1E */
+
+  /* surface / background / border / text / icon / disabled — aliases of
+     Neutral. Identical values today, independent tokens so a future
+     change to (say) border color never has to touch text color. */
+  --surface-50: var(--neutral-50);
+  --surface-100: var(--neutral-100);
+  --surface-200: var(--neutral-200);
+  --surface-300: var(--neutral-300);
+  --surface-400: var(--neutral-400);
+  --surface-500: var(--neutral-500);
+  --surface-600: var(--neutral-600);
+  --surface-700: var(--neutral-700);
+  --surface-800: var(--neutral-800);
+  --surface-900: var(--neutral-900);
+  --surface-950: var(--neutral-950);
+
+  --background-50: var(--neutral-50);
+  --background-100: var(--neutral-100);
+  --background-200: var(--neutral-200);
+  --background-300: var(--neutral-300);
+  --background-400: var(--neutral-400);
+  --background-500: var(--neutral-500);
+  --background-600: var(--neutral-600);
+  --background-700: var(--neutral-700);
+  --background-800: var(--neutral-800);
+  --background-900: var(--neutral-900);
+  --background-950: var(--neutral-950);
+
+  --border-50: var(--neutral-50);
+  --border-100: var(--neutral-100);
+  --border-200: var(--neutral-200);
+  --border-300: var(--neutral-300);
+  --border-400: var(--neutral-400);
+  --border-500: var(--neutral-500);
+  --border-600: var(--neutral-600);
+  --border-700: var(--neutral-700);
+  --border-800: var(--neutral-800);
+  --border-900: var(--neutral-900);
+  --border-950: var(--neutral-950);
+
+  --text-50: var(--neutral-50);
+  --text-100: var(--neutral-100);
+  --text-200: var(--neutral-200);
+  --text-300: var(--neutral-300);
+  --text-400: var(--neutral-400);
+  --text-500: var(--neutral-500);
+  --text-600: var(--neutral-600);
+  --text-700: var(--neutral-700);
+  --text-800: var(--neutral-800);
+  --text-900: var(--neutral-900);
+  --text-950: var(--neutral-950);
+
+  --icon-50: var(--neutral-50);
+  --icon-100: var(--neutral-100);
+  --icon-200: var(--neutral-200);
+  --icon-300: var(--neutral-300);
+  --icon-400: var(--neutral-400);
+  --icon-500: var(--neutral-500);
+  --icon-600: var(--neutral-600);
+  --icon-700: var(--neutral-700);
+  --icon-800: var(--neutral-800);
+  --icon-900: var(--neutral-900);
+  --icon-950: var(--neutral-950);
+
+  --disabled-50: var(--neutral-50);
+  --disabled-100: var(--neutral-100);
+  --disabled-200: var(--neutral-200);
+  --disabled-300: var(--neutral-300);
+  --disabled-400: var(--neutral-400);
+  --disabled-500: var(--neutral-500);
+  --disabled-600: var(--neutral-600);
+  --disabled-700: var(--neutral-700);
+  --disabled-800: var(--neutral-800);
+  --disabled-900: var(--neutral-900);
+  --disabled-950: var(--neutral-950);
+
+  /* interactive / selection — aliases of Primary (purple). "Interactive"
+     is, definitionally, the brand action color; "selection" is a tint of
+     the same color, not an unrelated hue. */
+  --interactive-50: var(--purple-50);
+  --interactive-100: var(--purple-100);
+  --interactive-200: var(--purple-200);
+  --interactive-300: var(--purple-300);
+  --interactive-400: var(--purple-400);
+  --interactive-500: var(--purple-500);
+  --interactive-600: var(--purple-600);
+  --interactive-700: var(--purple-700);
+  --interactive-800: var(--purple-800);
+  --interactive-900: var(--purple-900);
+  --interactive-950: var(--purple-950);
+
+  --selection-50: var(--purple-50);
+  --selection-100: var(--purple-100);
+  --selection-200: var(--purple-200);
+  --selection-300: var(--purple-300);
+  --selection-400: var(--purple-400);
+  --selection-500: var(--purple-500);
+  --selection-600: var(--purple-600);
+  --selection-700: var(--purple-700);
+  --selection-800: var(--purple-800);
+  --selection-900: var(--purple-900);
+  --selection-950: var(--purple-950);
+
+  /* overlay — the one group that is NOT an opaque alias: scrims are
+     transparency layered over arbitrary content, so this is Neutral-1000
+     (brand dark) at 11 increasing alpha steps, not 11 flat colors. */
+  --overlay-50: oklch(0.235 0 89.88 / 4%);
+  --overlay-100: oklch(0.235 0 89.88 / 8%);
+  --overlay-200: oklch(0.235 0 89.88 / 12%);
+  --overlay-300: oklch(0.235 0 89.88 / 18%);
+  --overlay-400: oklch(0.235 0 89.88 / 24%);
+  --overlay-500: oklch(0.235 0 89.88 / 32%);
+  --overlay-600: oklch(0.235 0 89.88 / 40%);
+  --overlay-700: oklch(0.235 0 89.88 / 52%);
+  --overlay-800: oklch(0.235 0 89.88 / 64%);
+  --overlay-900: oklch(0.235 0 89.88 / 76%);
+  --overlay-950: oklch(0.235 0 89.88 / 88%);
+
+  /* --------------------------------------------------------------------
+     TIER 4 — BRAND (marketing/editorial use only, never dense UI chrome)
+     -------------------------------------------------------------------- */
+  --brand-purple: var(--purple-600);
+  --brand-tangerine: var(--tangerine-500);
+  --brand-leaf: #00a254;
+  --brand-leaf-dark: #00723b;
+  --brand-gradient-hero: linear-gradient(
+    135deg,
+    var(--purple-600) 0%,
+    var(--purple-500) 45%,
+    var(--tangerine-500) 100%
+  );
+  --brand-radar-line: var(--purple-100);
+
+  /* Typography, Container and Blur primitive scales live directly in the
+     @theme block below (not here) — they don't vary between light/dark,
+     and Tailwind's text, container and blur namespaces need the literal
+     value at that exact key, not a var() indirection to itself. */
+
+  /* --------------------------------------------------------------------
+     Spacing — semantic layer over Tailwind's native --spacing multiplier.
+     Not a Tailwind theme namespace (spacing intentionally has none, so
+     any numeric utility works) — used via arbitrary values, e.g.
+     gap-(--spacing-layout-md). See /foundations/spacing.
+     -------------------------------------------------------------------- */
+  --spacing-component-xs: calc(var(--spacing) * 1); /* 4px */
+  --spacing-component-sm: calc(var(--spacing) * 2); /* 8px */
+  --spacing-component-md: calc(var(--spacing) * 3); /* 12px */
+  --spacing-component-lg: calc(var(--spacing) * 4); /* 16px */
+  --spacing-component-xl: calc(var(--spacing) * 6); /* 24px */
+  --spacing-layout-sm: calc(var(--spacing) * 8); /* 32px */
+  --spacing-layout-md: calc(var(--spacing) * 12); /* 48px */
+  --spacing-layout-lg: calc(var(--spacing) * 16); /* 64px */
+  --spacing-section-sm: calc(var(--spacing) * 24); /* 96px */
+  --spacing-section-md: calc(var(--spacing) * 32); /* 128px */
+  --spacing-section-lg: calc(var(--spacing) * 40); /* 160px */
+
+  /* --------------------------------------------------------------------
+     Radius — brand is built from rings, pills and a blob mascot, so the
+     scale is pushed rounder than a typical neutral UI base.
+     -------------------------------------------------------------------- */
+  --radius: 0.75rem;
+
+  /* --------------------------------------------------------------------
+     Shadows — warm-tinted (neutral-1000 mixed toward purple), never pure
+     black, across 6 elevation levels. See /foundations/shadows.
+     -------------------------------------------------------------------- */
+  --elevation-shadow-0: none;
+  --elevation-shadow-1:
+    0 1px 2px oklch(0.235 0.03 285 / 0.06), 0 1px 1px oklch(0.235 0.03 285 / 0.04);
+  --elevation-shadow-2:
+    0 2px 4px oklch(0.235 0.03 285 / 0.08), 0 1px 2px oklch(0.235 0.03 285 / 0.05);
+  --elevation-shadow-3:
+    0 6px 12px oklch(0.235 0.03 285 / 0.1), 0 2px 4px oklch(0.235 0.03 285 / 0.06);
+  --elevation-shadow-4:
+    0 12px 24px oklch(0.235 0.03 285 / 0.12), 0 4px 8px oklch(0.235 0.03 285 / 0.07);
+  --elevation-shadow-5:
+    0 24px 48px oklch(0.235 0.03 285 / 0.16), 0 8px 16px oklch(0.235 0.03 285 / 0.08);
+
+  /* --------------------------------------------------------------------
+     Motion — durations, easing, and combined semantic presets.
+     -------------------------------------------------------------------- */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 320ms;
+  --duration-slower: 480ms;
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-micro: var(--duration-instant) var(--motion-ease-standard);
+  --motion-default: var(--duration-base) var(--motion-ease-standard);
+  --motion-entrance: var(--duration-slow) var(--motion-ease-decelerate);
+  --motion-exit: var(--duration-fast) var(--motion-ease-accelerate);
+
+  /* Ambient/brand motion — a deliberately separate scale from the interface
+     durations above. --duration-* is tuned for UI feedback (must feel
+     instant); decorative pattern loops (Foundations → Patterns) operate on a
+     completely different timescale and would look broken at 320ms. */
+  --pattern-duration-slow: 24s;
+  --pattern-duration-slower: 48s;
+  --pattern-ease: linear;
+
+  /* --------------------------------------------------------------------
+     Opacity — named states on top of Tailwind's native 0–100 scale.
+     -------------------------------------------------------------------- */
+  --opacity-hover: 0.08;
+  --opacity-pressed: 0.16;
+  --opacity-disabled: 0.4;
+  --opacity-subtle: 0.6;
+
+  /* Blur and Container primitive scales live directly in the @theme block
+     below, same reasoning as Typography above. */
+
+  /* --------------------------------------------------------------------
+     Grid — 12 columns, responsive gutter. See /foundations/grid.
+     -------------------------------------------------------------------- */
+  --grid-columns: 12;
+  --grid-gutter-sm: calc(var(--spacing) * 4); /* 16px */
+  --grid-gutter-lg: calc(var(--spacing) * 6); /* 24px */
+
+  /* --------------------------------------------------------------------
+     Z-index — plain custom properties (Tailwind v4 has no named z-index
+     theme namespace); consume via arbitrary values, e.g. z-(--z-modal).
+     See /foundations/elevation.
+     -------------------------------------------------------------------- */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-dropdown: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+
+  /* --------------------------------------------------------------------
+     TIER 2 — SEMANTIC DESIGN TOKENS (light mode)
+     The purpose-driven layer: color.background.default, color.text.link,
+     etc. Everything here composes Tier 1 — never a raw hex.
+     -------------------------------------------------------------------- */
+  --background-default: var(--neutral-0);
+  --background-subtle: var(--background-50);
+  --background-strong: var(--background-200);
+  --background-brand: var(--purple-600);
+  --background-brand-subtle: var(--purple-50);
+  --background-inverse: var(--neutral-1000);
+  --background-disabled: var(--background-100);
+
+  --text-primary: var(--neutral-1000);
+  --text-secondary: var(--text-600);
+  --text-tertiary: var(--text-500);
+  --text-disabled: var(--text-300);
+  --text-inverse: var(--neutral-0);
+  --text-brand: var(--purple-600);
+  --text-success: var(--green-700);
+  --text-warning: var(--gold-800);
+  --text-error: var(--red-700);
+  --text-info: var(--info-700);
+  --text-link: var(--purple-600);
+
+  --icon-default: var(--icon-800);
+  --icon-subtle: var(--icon-500);
+  --icon-brand: var(--purple-600);
+  --icon-disabled: var(--icon-300);
+  --icon-inverse: var(--neutral-0);
+  --icon-success: var(--green-600);
+  --icon-warning: var(--gold-600);
+  --icon-error: var(--red-600);
+  --icon-info: var(--info-600);
+
+  --border-default: var(--border-200);
+  --border-subtle: var(--border-100);
+  --border-strong: var(--border-400);
+  --border-focus: var(--purple-500);
+  --border-brand: var(--purple-600);
+  --border-disabled: var(--border-100);
+  --border-error: var(--red-500);
+  --border-success: var(--green-500);
+
+  --surface-default: var(--neutral-0);
+  --surface-raised: var(--surface-50);
+  --surface-sunken: var(--surface-100);
+  --surface-inverse: var(--neutral-1000);
+
+  --interactive-default: var(--interactive-600);
+  --interactive-hover: var(--interactive-700);
+  --interactive-active: var(--interactive-800);
+  --interactive-disabled: var(--interactive-200);
+
+  --overlay-scrim: var(--overlay-600);
+  --overlay-subtle: var(--overlay-300);
+  --overlay-strong: var(--overlay-900);
+
+  --selection-background: var(--selection-100);
+  --selection-text: var(--neutral-1000);
+
+  /* --------------------------------------------------------------------
+     TIER 3 — LEGACY / shadcn-compatible aliases
+     Kept so bg-background, text-foreground, the existing button.tsx, etc.
+     keep working untouched — now sourced from Tier 2 instead of Tier 1
+     directly, so the two layers can never drift apart.
+     -------------------------------------------------------------------- */
+  --background: var(--background-default);
+  --foreground: var(--text-primary);
+  --card: var(--background-default);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-raised);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--purple-600);
+  --primary-foreground: var(--neutral-0);
+  --secondary: var(--background-subtle);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--background-subtle);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--background-brand-subtle);
+  --accent-foreground: var(--text-brand);
+  --destructive: var(--red-600);
+  --destructive-foreground: var(--neutral-0);
+  --success: var(--green-600);
+  --success-foreground: var(--neutral-0);
+  --warning: var(--gold-600);
+  --warning-foreground: var(--neutral-1000);
+  --info: var(--info-600);
+  --info-foreground: var(--neutral-0);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--border-focus);
+  --chart-1: var(--purple-500);
+  --chart-2: var(--tangerine-500);
+  --chart-3: var(--green-500);
+  --chart-4: var(--lime-500);
+  --chart-5: var(--gold-500);
+  --chart-6: var(--info-500);
+  --sidebar: var(--neutral-50);
+  --sidebar-foreground: var(--neutral-900);
+  --sidebar-primary: var(--purple-600);
+  --sidebar-primary-foreground: var(--neutral-0);
+  --sidebar-accent: var(--purple-50);
+  --sidebar-accent-foreground: var(--purple-800);
+  --sidebar-border: var(--neutral-200);
+  --sidebar-ring: var(--purple-500);
 }
+
+.dark {
+  /* Tier 2 — Semantic Design Tokens (dark mode) */
+  --background-default: var(--neutral-1000);
+  --background-subtle: var(--background-900);
+  --background-strong: var(--background-800);
+  --background-brand: var(--purple-500);
+  --background-brand-subtle: var(--purple-950);
+  --background-inverse: var(--neutral-0);
+  --background-disabled: var(--background-800);
+
+  --text-primary: var(--neutral-0);
+  --text-secondary: var(--text-400);
+  --text-tertiary: var(--text-600);
+  --text-disabled: var(--text-700);
+  /* text-inverse intentionally NOT redefined here — it pairs with
+     surface-inverse (also not redefined below) to stay a fixed dark-surface
+     + light-text combo for Tooltip/CodeBlock regardless of page theme.
+     Flipping both per-theme made them invert to a white-on-white(ish)
+     tooltip/code block in dark mode — the exact opposite of "always a dark
+     bubble", which is the only thing either token is actually used for. */
+  --text-brand: var(--purple-400);
+  --text-success: var(--green-400);
+  --text-warning: var(--gold-400);
+  --text-error: var(--red-400);
+  --text-info: var(--info-400);
+  --text-link: var(--purple-400);
+
+  --icon-default: var(--icon-200);
+  --icon-subtle: var(--icon-500);
+  --icon-brand: var(--purple-400);
+  --icon-disabled: var(--icon-700);
+  --icon-inverse: var(--neutral-1000);
+  --icon-success: var(--green-400);
+  --icon-warning: var(--gold-400);
+  --icon-error: var(--red-400);
+  --icon-info: var(--info-400);
+
+  --border-default: oklch(1 0 0 / 12%);
+  --border-subtle: oklch(1 0 0 / 8%);
+  --border-strong: oklch(1 0 0 / 20%);
+  --border-focus: var(--purple-400);
+  --border-brand: var(--purple-400);
+  --border-disabled: oklch(1 0 0 / 8%);
+  --border-error: var(--red-400);
+  --border-success: var(--green-400);
+
+  --surface-default: var(--neutral-1000);
+  --surface-raised: var(--surface-950);
+  --surface-sunken: oklch(0.19 0 89.88);
+  /* surface-inverse intentionally NOT redefined here — see text-inverse's
+     comment above. */
+
+  --interactive-default: var(--interactive-400);
+  --interactive-hover: var(--interactive-300);
+  --interactive-active: var(--interactive-200);
+  --interactive-disabled: var(--interactive-800);
+
+  --selection-background: var(--selection-800);
+  --selection-text: var(--neutral-0);
+
+  /* overlay.* is intentionally unchanged — a scrim darkens whatever's
+     behind it regardless of theme, so it doesn't get a dark override. */
+
+  /* Tier 3 — legacy aliases (dark mode) */
+  --card: var(--surface-raised);
+  --primary: var(--purple-400);
+  --primary-foreground: var(--neutral-1000);
+  --destructive: var(--red-400);
+  --destructive-foreground: var(--neutral-1000);
+  --success: var(--green-400);
+  --success-foreground: var(--neutral-1000);
+  --warning: var(--gold-400);
+  --warning-foreground: var(--neutral-1000);
+  --info: var(--info-400);
+  --info-foreground: var(--neutral-1000);
+  --chart-1: var(--purple-400);
+  --chart-2: var(--tangerine-400);
+  --chart-3: var(--green-400);
+  --chart-4: var(--lime-400);
+  --chart-5: var(--gold-400);
+  --chart-6: var(--info-400);
+  --sidebar: var(--neutral-950);
+  --sidebar-foreground: var(--neutral-0);
+  --sidebar-primary: var(--purple-400);
+  --sidebar-primary-foreground: var(--neutral-1000);
+  --sidebar-accent: var(--purple-950);
+  --sidebar-accent-foreground: var(--purple-300);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: var(--purple-400);
+  --brand-radar-line: var(--purple-900);
+}
+
+/* ==========================================================================
+   THEME REGISTRATION
+   Exposes every token above as a Tailwind utility (bg-purple-600,
+   text-foreground, shadow-elevation-3, ease-standard, rounded-xl, ...).
+   ========================================================================== */
 
 @theme inline {
+  /* fonts — Display: Cocogoose (brand), falls back to Baloo 2 until the
+     licensed font files are added (see @font-face below and Resources).
+     Body: Roboto. Internal name is "Cocogoose Display", not bare
+     "Cocogoose" — see the @font-face comment above for why. */
+  --font-sans: var(--font-roboto);
+  --font-display: "Cocogoose Display", var(--font-baloo-2);
+  --font-mono: var(--font-geist-mono);
+
+  /* Second Cocogoose cut — Regular weight, opt-in only. Generates the
+     `font-cocogoose-regular` utility (see app/layout.tsx for the next/font
+     loader). Never used by --font-display/--font-sans/--font-mono above —
+     invoke it explicitly on numbers, labels, chips, badges, stats: small,
+     personality-driven text, never headings or body copy. */
+  --font-cocogoose-regular: var(--font-cocogoose-regular-src), var(--font-baloo-2);
+
+  /* legacy / shadcn-compatible semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* semantic Design Tokens — color.background.*, color.text.*, etc. */
+  --color-background-default: var(--background-default);
+  --color-background-subtle: var(--background-subtle);
+  --color-background-strong: var(--background-strong);
+  --color-background-brand: var(--background-brand);
+  --color-background-brand-subtle: var(--background-brand-subtle);
+  --color-background-inverse: var(--background-inverse);
+  --color-background-disabled: var(--background-disabled);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-disabled: var(--text-disabled);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-brand: var(--text-brand);
+  --color-text-success: var(--text-success);
+  --color-text-warning: var(--text-warning);
+  --color-text-error: var(--text-error);
+  --color-text-info: var(--text-info);
+  --color-text-link: var(--text-link);
+
+  --color-icon-default: var(--icon-default);
+  --color-icon-subtle: var(--icon-subtle);
+  --color-icon-brand: var(--icon-brand);
+  --color-icon-disabled: var(--icon-disabled);
+  --color-icon-inverse: var(--icon-inverse);
+  --color-icon-success: var(--icon-success);
+  --color-icon-warning: var(--icon-warning);
+  --color-icon-error: var(--icon-error);
+  --color-icon-info: var(--icon-info);
+
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+  --color-border-brand: var(--border-brand);
+  --color-border-disabled: var(--border-disabled);
+  --color-border-error: var(--border-error);
+  --color-border-success: var(--border-success);
+
+  --color-surface-default: var(--surface-default);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inverse: var(--surface-inverse);
+
+  --color-interactive-default: var(--interactive-default);
+  --color-interactive-hover: var(--interactive-hover);
+  --color-interactive-active: var(--interactive-active);
+  --color-interactive-disabled: var(--interactive-disabled);
+
+  --color-overlay-scrim: var(--overlay-scrim);
+  --color-overlay-subtle: var(--overlay-subtle);
+  --color-overlay-strong: var(--overlay-strong);
+
+  --color-selection-background: var(--selection-background);
+  --color-selection-text: var(--selection-text);
+
+  /* primitive ramps — the 16 named color groups, 50–950 each */
+  --color-purple-50: var(--purple-50);
+  --color-purple-100: var(--purple-100);
+  --color-purple-200: var(--purple-200);
+  --color-purple-300: var(--purple-300);
+  --color-purple-400: var(--purple-400);
+  --color-purple-500: var(--purple-500);
+  --color-purple-600: var(--purple-600);
+  --color-purple-700: var(--purple-700);
+  --color-purple-800: var(--purple-800);
+  --color-purple-900: var(--purple-900);
+  --color-purple-950: var(--purple-950);
+
+  --color-tangerine-50: var(--tangerine-50);
+  --color-tangerine-100: var(--tangerine-100);
+  --color-tangerine-200: var(--tangerine-200);
+  --color-tangerine-300: var(--tangerine-300);
+  --color-tangerine-400: var(--tangerine-400);
+  --color-tangerine-500: var(--tangerine-500);
+  --color-tangerine-600: var(--tangerine-600);
+  --color-tangerine-700: var(--tangerine-700);
+  --color-tangerine-800: var(--tangerine-800);
+  --color-tangerine-900: var(--tangerine-900);
+  --color-tangerine-950: var(--tangerine-950);
+
+  --color-green-50: var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
+  --color-green-400: var(--green-400);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-green-800: var(--green-800);
+  --color-green-900: var(--green-900);
+  --color-green-950: var(--green-950);
+
+  --color-lime-50: var(--lime-50);
+  --color-lime-100: var(--lime-100);
+  --color-lime-200: var(--lime-200);
+  --color-lime-300: var(--lime-300);
+  --color-lime-400: var(--lime-400);
+  --color-lime-500: var(--lime-500);
+  --color-lime-600: var(--lime-600);
+  --color-lime-700: var(--lime-700);
+  --color-lime-800: var(--lime-800);
+  --color-lime-900: var(--lime-900);
+  --color-lime-950: var(--lime-950);
+
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-800: var(--gold-800);
+  --color-gold-900: var(--gold-900);
+  --color-gold-950: var(--gold-950);
+
+  --color-red-50: var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-400: var(--red-400);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-red-800: var(--red-800);
+  --color-red-900: var(--red-900);
+  --color-red-950: var(--red-950);
+
+  --color-info-50: var(--info-50);
+  --color-info-100: var(--info-100);
+  --color-info-200: var(--info-200);
+  --color-info-300: var(--info-300);
+  --color-info-400: var(--info-400);
+  --color-info-500: var(--info-500);
+  --color-info-600: var(--info-600);
+  --color-info-700: var(--info-700);
+  --color-info-800: var(--info-800);
+  --color-info-900: var(--info-900);
+  --color-info-950: var(--info-950);
+
+  --color-neutral-0: var(--neutral-0);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+  --color-neutral-1000: var(--neutral-1000);
+
+  --color-surface-50: var(--surface-50);
+  --color-surface-100: var(--surface-100);
+  --color-surface-200: var(--surface-200);
+  --color-surface-300: var(--surface-300);
+  --color-surface-400: var(--surface-400);
+  --color-surface-500: var(--surface-500);
+  --color-surface-600: var(--surface-600);
+  --color-surface-700: var(--surface-700);
+  --color-surface-800: var(--surface-800);
+  --color-surface-900: var(--surface-900);
+  --color-surface-950: var(--surface-950);
+
+  --color-bg-50: var(--background-50);
+  --color-bg-100: var(--background-100);
+  --color-bg-200: var(--background-200);
+  --color-bg-300: var(--background-300);
+  --color-bg-400: var(--background-400);
+  --color-bg-500: var(--background-500);
+  --color-bg-600: var(--background-600);
+  --color-bg-700: var(--background-700);
+  --color-bg-800: var(--background-800);
+  --color-bg-900: var(--background-900);
+  --color-bg-950: var(--background-950);
+
+  --color-border-scale-50: var(--border-50);
+  --color-border-scale-100: var(--border-100);
+  --color-border-scale-200: var(--border-200);
+  --color-border-scale-300: var(--border-300);
+  --color-border-scale-400: var(--border-400);
+  --color-border-scale-500: var(--border-500);
+  --color-border-scale-600: var(--border-600);
+  --color-border-scale-700: var(--border-700);
+  --color-border-scale-800: var(--border-800);
+  --color-border-scale-900: var(--border-900);
+  --color-border-scale-950: var(--border-950);
+
+  --color-text-scale-50: var(--text-50);
+  --color-text-scale-100: var(--text-100);
+  --color-text-scale-200: var(--text-200);
+  --color-text-scale-300: var(--text-300);
+  --color-text-scale-400: var(--text-400);
+  --color-text-scale-500: var(--text-500);
+  --color-text-scale-600: var(--text-600);
+  --color-text-scale-700: var(--text-700);
+  --color-text-scale-800: var(--text-800);
+  --color-text-scale-900: var(--text-900);
+  --color-text-scale-950: var(--text-950);
+
+  --color-icon-scale-50: var(--icon-50);
+  --color-icon-scale-100: var(--icon-100);
+  --color-icon-scale-200: var(--icon-200);
+  --color-icon-scale-300: var(--icon-300);
+  --color-icon-scale-400: var(--icon-400);
+  --color-icon-scale-500: var(--icon-500);
+  --color-icon-scale-600: var(--icon-600);
+  --color-icon-scale-700: var(--icon-700);
+  --color-icon-scale-800: var(--icon-800);
+  --color-icon-scale-900: var(--icon-900);
+  --color-icon-scale-950: var(--icon-950);
+
+  --color-interactive-50: var(--interactive-50);
+  --color-interactive-100: var(--interactive-100);
+  --color-interactive-200: var(--interactive-200);
+  --color-interactive-300: var(--interactive-300);
+  --color-interactive-400: var(--interactive-400);
+  --color-interactive-500: var(--interactive-500);
+  --color-interactive-600: var(--interactive-600);
+  --color-interactive-700: var(--interactive-700);
+  --color-interactive-800: var(--interactive-800);
+  --color-interactive-900: var(--interactive-900);
+  --color-interactive-950: var(--interactive-950);
+
+  --color-disabled-50: var(--disabled-50);
+  --color-disabled-100: var(--disabled-100);
+  --color-disabled-200: var(--disabled-200);
+  --color-disabled-300: var(--disabled-300);
+  --color-disabled-400: var(--disabled-400);
+  --color-disabled-500: var(--disabled-500);
+  --color-disabled-600: var(--disabled-600);
+  --color-disabled-700: var(--disabled-700);
+  --color-disabled-800: var(--disabled-800);
+  --color-disabled-900: var(--disabled-900);
+  --color-disabled-950: var(--disabled-950);
+
+  --color-overlay-50: var(--overlay-50);
+  --color-overlay-100: var(--overlay-100);
+  --color-overlay-200: var(--overlay-200);
+  --color-overlay-300: var(--overlay-300);
+  --color-overlay-400: var(--overlay-400);
+  --color-overlay-500: var(--overlay-500);
+  --color-overlay-600: var(--overlay-600);
+  --color-overlay-700: var(--overlay-700);
+  --color-overlay-800: var(--overlay-800);
+  --color-overlay-900: var(--overlay-900);
+  --color-overlay-950: var(--overlay-950);
+
+  --color-selection-50: var(--selection-50);
+  --color-selection-100: var(--selection-100);
+  --color-selection-200: var(--selection-200);
+  --color-selection-300: var(--selection-300);
+  --color-selection-400: var(--selection-400);
+  --color-selection-500: var(--selection-500);
+  --color-selection-600: var(--selection-600);
+  --color-selection-700: var(--selection-700);
+  --color-selection-800: var(--selection-800);
+  --color-selection-900: var(--selection-900);
+  --color-selection-950: var(--selection-950);
+
+  /* brand tier */
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-tangerine: var(--brand-tangerine);
+  --color-brand-leaf: var(--brand-leaf);
+  --color-brand-leaf-dark: var(--brand-leaf-dark);
+  --color-brand-radar-line: var(--brand-radar-line);
+
+  /* typography — 20-role scale. Literal values (mode-independent, no
+     :root indirection). Each text-{role} utility carries size, line-height,
+     letter-spacing AND font-weight in one class — Tailwind v4 pairs all
+     four via the --text-{name}--{property} sub-key convention.
+     See /foundations/typography. */
+  --text-display-xl: clamp(2.75rem, 2rem + 3.5vw, 4.5rem);
+  --text-display-xl--line-height: 1.02;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display-l: clamp(2.25rem, 1.65rem + 2.8vw, 3.75rem);
+  --text-display-l--line-height: 1.04;
+  --text-display-l--letter-spacing: -0.02em;
+  --text-display-l--font-weight: 700;
+
+  --text-display-m: clamp(2rem, 1.5rem + 2.3vw, 3rem);
+  --text-display-m--line-height: 1.08;
+  --text-display-m--letter-spacing: -0.015em;
+  --text-display-m--font-weight: 700;
+
+  --text-h1: clamp(1.875rem, 1.5rem + 1.7vw, 2.5rem);
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.625rem, 1.35rem + 1.3vw, 2rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.5rem, 1.3rem + 0.9vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.5rem;
+  --text-h4--line-height: 1.3;
+  --text-h4--letter-spacing: -0.01em;
+  --text-h4--font-weight: 600;
+
+  --text-h5: 1.25rem;
+  --text-h5--line-height: 1.35;
+  --text-h5--letter-spacing: 0em;
+  --text-h5--font-weight: 500;
+
+  --text-h6: 1.125rem;
+  --text-h6--line-height: 1.4;
+  --text-h6--letter-spacing: 0em;
+  --text-h6--font-weight: 500;
+
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.3;
+  --text-title--letter-spacing: 0em;
+  --text-title--font-weight: 600;
+
+  --text-subtitle: 1.125rem;
+  --text-subtitle--line-height: 1.45;
+  --text-subtitle--letter-spacing: 0em;
+  --text-subtitle--font-weight: 500;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: 0em;
+  --text-body-lg--font-weight: 400;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: 0em;
+  --text-body--font-weight: 400;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.55;
+  --text-body-sm--letter-spacing: 0em;
+  --text-body-sm--font-weight: 400;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.005em;
+  --text-caption--font-weight: 400;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.01em;
+  --text-label--font-weight: 500;
+
+  --text-button: 0.875rem;
+  --text-button--line-height: 1;
+  --text-button--letter-spacing: 0.01em;
+  --text-button--font-weight: 600;
+
+  --text-code: 0.875rem;
+  --text-code--line-height: 1.5;
+  --text-code--letter-spacing: 0em;
+  --text-code--font-weight: 400;
+
+  --text-overline: 0.75rem;
+  --text-overline--line-height: 1.3;
+  --text-overline--letter-spacing: 0.08em;
+  --text-overline--font-weight: 600;
+
+  --text-helper: 0.75rem;
+  --text-helper--line-height: 1.4;
+  --text-helper--letter-spacing: 0em;
+  --text-helper--font-weight: 400;
+
+  /* radius */
+  --radius-xs: calc(var(--radius) * 0.4);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-full: 9999px;
+  --radius-interactive: var(--radius-md);
+  --radius-container: var(--radius-lg);
+  --radius-overlay: var(--radius-xl);
+  --radius-pill: var(--radius-full);
+
+  /* shadows / elevation */
+  --shadow-elevation-0: var(--elevation-shadow-0);
+  --shadow-elevation-1: var(--elevation-shadow-1);
+  --shadow-elevation-2: var(--elevation-shadow-2);
+  --shadow-elevation-3: var(--elevation-shadow-3);
+  --shadow-elevation-4: var(--elevation-shadow-4);
+  --shadow-elevation-5: var(--elevation-shadow-5);
+  --shadow-resting: var(--elevation-shadow-1);
+  --shadow-hover: var(--elevation-shadow-2);
+  --shadow-dropdown: var(--elevation-shadow-3);
+  --shadow-modal: var(--elevation-shadow-5);
+
+  /* motion */
+  --ease-standard: var(--motion-ease-standard);
+  --ease-decelerate: var(--motion-ease-decelerate);
+  --ease-accelerate: var(--motion-ease-accelerate);
+  --ease-spring: var(--motion-ease-spring);
+
+  /* blur — literal values, added to Tailwind's existing --blur-* scale */
+  --blur-surface: 12px;
+  --blur-overlay: 24px;
+
+  /* container — literal values, added to Tailwind's existing --container-* scale */
+  --container-narrow: 30rem; /* 480px */
+  --container-reading: 42rem; /* 672px */
+  --container-content: 48rem; /* 768px */
+  --container-default: 64rem; /* 1024px */
+  --container-wide: 80rem; /* 1280px */
+  --container-dashboard: 90rem; /* 1440px */
+
+  /* breakpoint — additive to Tailwind's built-in sm/md/lg/xl/2xl scale.
+     Added for the Container component's "xs" breakpoint documentation —
+     real, usable as xs: in any utility, not just a documented number. */
+  --breakpoint-xs: 30rem; /* 480px */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  ::selection {
+    background-color: var(--selection-background);
+    color: var(--selection-text);
+  }
+
+  /* Foundations/Motion documents that decorative animation must respect
+     prefers-reduced-motion, but until now nothing enforced that globally —
+     tw-animate-css's animate-in/fade-in/etc. utilities (used by Tabs, Hero,
+     and others) have no built-in reduced-motion awareness of their own. This
+     is the actual enforcement: CSS-only, so it can't cause the SSR/client
+     hydration mismatches a JS-driven check would. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Ambient pattern motion — a single, shared, very subtle loop (rotation +
+   the faintest drift) reused by every Patterns family that opts into
+   animate. The global reduced-motion rule above already neutralizes this
+   for users who need it; this is the only keyframe the Patterns system
+   defines, on purpose — ten different ambient loops would stop feeling
+   like one system. */
+@keyframes pattern-drift {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(1.5deg) scale(1.015);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Footer's ticker — the track renders its content twice back to back and
+   scrolls exactly -50%, so the loop point is invisible (the second copy is
+   already sitting where the first one started). Pure CSS: no JS measures
+   width or manages the reset, and the global prefers-reduced-motion rule
+   above already neutralizes it (collapses to a 0.01ms "animation") for
+   users who need that, with no separate opt-out to remember here. */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Home hero's cursor trail — a single CSS animation per particle (no JS
+   rAF loop driving it), so the only per-frame cost is compositing a
+   transform+opacity change the GPU already handles. The global
+   prefers-reduced-motion rule collapses this too, but CursorTrail also
+   skips spawning particles entirely under reduced motion / coarse
+   pointers, so reduced-motion users never pay even the DOM-node cost. */
+@keyframes cursor-particle-fade {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-14px) scale(0.4);
+    opacity: 0;
+  }
 }
