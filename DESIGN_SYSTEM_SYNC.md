@@ -139,3 +139,24 @@ del HTML servido.
 El `Carousel` del DS no tiene todavía página de docs propia (`app/(docs)/components/carousel/`)
 ni entrada en `nav-config.ts`/`components-roadmap.ts` — quedó pendiente, el resto de los
 componentes del DS sí la tienen.
+
+### Nota sobre la segunda iteración de Studio
+
+Se eliminó por completo la sección "Personalidad de marca" (los tres arquetipos, Volumen II) —
+sin mover ni resumir, como pidió el usuario. Origen perdió su tercer párrafo porque era una
+cita idéntica, palabra por palabra, a la que ya usa la Home en Filosofía ("un límite real,
+mirado de frente en vez de evitado, casi siempre esconde la mejor respuesta posible") — contenido
+repetido entre páginas, no una cita distinta. El Manifiesto pasó de 13 bloques a 4: se conservan
+la apertura y las dos líneas que el propio texto ya destacaba tipográficamente (pull quotes), más
+un párrafo de tesis — cada frase que quedó es una cita literal sin reescribir; lo que se cortó
+fueron bloques enteros, no palabras dentro de ellos.
+
+Valores se rediseñó como el mismo `Carousel` que ya se portó para la Home (`components/ui/carousel`,
+sin cambios) — tarjetas horizontales anchas en vez del carrusel casi-cuadrado de Filosofía, para
+que ambas secciones no se sientan como el mismo componente reskineado. `notMeaning` (antes "Qué NO
+significa") se redujo a una etiqueta corta "No es" en vez de desaparecer — es contenido real, solo
+con menos ceremonia tipográfica. La ilustración por tarjeta usa `Mascot` (variants 1-4 + default)
+en vez de las ilustraciones de hoja que ya usa Filosofía, para que ninguna de las dos secciones
+repita exactamente los mismos assets; el detalle gráfico de fondo reutiliza los mismos 4 patrones
+satélite, con una paleta de colores DS distinta a la de Home (incluye `--info-*`, que Home no usa
+para tarjetas).
