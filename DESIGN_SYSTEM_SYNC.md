@@ -21,3 +21,16 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Reveal` / `RevealGroup` (`components/templates/reveal.tsx`) | 2026-07-21 | `9c99437` | Capa de "template motion infrastructure", no `components/ui` — documentado como reutilizable entre templates en el propio DS |
 | `PatternImage` + `lib/patterns.ts` + los 5 SVG de `public/patterns/` | 2026-07-21 | `9c99437` | Solo se usó Mosaico en Home; los otros 4 quedan disponibles para fases siguientes |
 | `Badge` | 2026-07-21 | `9c99437` | — |
+| Case Study Template completo (`case-study-template.tsx`, `sections.tsx`, `lib/templates/case-study.ts`) | 2026-07-21 | `d24a131` | — |
+| Portfolio Template completo (`portfolio-template.tsx` + 6 sub-componentes, `lib/templates/portfolio.ts`) | 2026-07-21 | `d24a131` | — |
+| `VisualBlock`, `MockupFrame` (`pattern-mockup.tsx`) | 2026-07-21 | `d24a131` | Estándar in de "sin fotografía real todavía" ya documentado en el propio DS |
+| `Accordion`, `Avatar`, `Switch`, `Input`, `Breadcrumb`, `Popover`, `Chip`, `SearchBar`, `Tabs`, `EmptyState` (+ `lib/empty-states.ts`) | 2026-07-21 | `d24a131` | Dependencias transitivas de los dos templates — se portaron completos aunque no todas sus variantes se usan hoy |
+
+### Nota sobre la Fase 5
+
+Se detectó un error de documentación en el propio Brand OS: las secciones 01–04 del Volumen VIII
+(SIMER) contienen texto copiado del Volumen X (Margarita Burgos) — hablan de una "asesora de
+seguros" en vez del semillero de medicina de emergencias. No se usó ese texto como fuente;
+`content/case-studies/simer.ts` documenta esto y construye el contenido solo a partir de las
+secciones del Volumen VIII que sí son genuinamente sobre SIMER. Vale la pena corregir el Brand OS
+original en Notion para que esto no se repita en una futura sincronización.

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui/container";
+import { PortfolioTemplate } from "@/components/templates/portfolio";
+import { portfolio } from "@/content/portfolio";
 
-export const metadata: Metadata = { title: "Work" };
+export const metadata: Metadata = {
+  title: "Work",
+  description: portfolio.subtitle,
+};
 
 export default function WorkPage() {
-  return (
-    <Container size="content" className="py-24">
-      <h1 className="font-display text-3xl font-bold">Work</h1>
-      <p className="mt-4 text-(--text-secondary)">Contenido real pendiente — Fase 5 (Case Study + Portfolio Template).</p>
-    </Container>
-  );
+  return <PortfolioTemplate data={portfolio} />;
 }
