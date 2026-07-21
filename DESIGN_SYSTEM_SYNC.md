@@ -34,6 +34,8 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Accordion` — prop nuevo `hiddenUntilFound` | 2026-07-21 | `93734c2` | El componente ya estaba portado (Fase 5); este commit solo trae el prop nuevo. Se usa en las secciones "Cómo trabajamos" y FAQ de la Home |
 | Isotipo como favicon: `app/icon.svg`, `app/apple-icon.png`, `public/brand/icon-mark-square.svg` | 2026-07-21 | `2418db1` | `apple-icon.png` y el SVG full-bleed son nuevos también en el propio DS (no tenía apple-touch-icon hasta este commit) |
 | `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Ya no se usa en "Cómo trabajamos" (volvió a `leadingIcon`), pero el prop queda disponible |
+| `Accordion` — hover-lift en `variant="card"` | 2026-07-21 | `e3bf07b` | No es un prop nuevo, es un ajuste de estilo compartido: `-translate-y-0.5`, `scale-[1.015]`, sombra a elevation-3 en hover |
+| `Footer` — se quitó `border-t` del root | 2026-07-21 | `e3bf07b` | Afecta a las 5 variantes por igual, en todo el sitio (confirmado con el usuario) — la transición hacia el footer es solo whitespace ahora |
 | `MascotStage` — prop nuevo `size` | 2026-07-21 | `46bae03` | `"default" \| "lg"`, default sin cambios. Escala mascota+glow+sombra juntos |
 | `FloatingElement` — resorte de retorno más suave | 2026-07-21 | `46bae03` | `stiffness`/`damping` ajustados, no es un prop nuevo — mismo comportamiento externo, distinta sensación |
 
@@ -299,3 +301,23 @@ Sin cambios en el DS esta ronda — todo reutiliza primitivos ya portados (`Cont
   `geometry/leaf-yellow` y `geometry/spring-lime` (primera vez que se usan acá), sumado a
   `geometry/flor-violet` ya existente — entre las 4 familias (`deco`, `geometry/flor`,
   `geometry/leaf`, `geometry/spring`) no se repite ningún archivo.
+
+### Nota sobre la quinta ronda de refinamiento del Home
+
+- **Footer sin divider**: se confirmó con el usuario antes de tocarlo, porque el `border-t` que
+  se veía "antes del footer" en Home en realidad vive en el componente `Footer` del DS y se
+  aplica en las 5 variantes por igual — quitarlo significa que las páginas de Studio, Capabilities,
+  Work y Contact también pierden esa línea, no solo Home. Se optó por el cambio sitewide (ver
+  tabla arriba) en vez de un override puntual, para que el Footer se vea igual en todas las
+  páginas.
+- **Hover-lift**: en las cards del `Accordion variant="card"` (Cómo trabajamos) se ajustó el
+  estilo compartido en el DS (ver tabla arriba). En `BeliefCard` (Filosofía, `home-philosophy.tsx`)
+  el mismo tratamiento se agregó localmente porque no es un componente del DS — mismo scale
+  (`1.015`), misma duración/easing, sombra un paso más arriba en hover.
+- **FAQ con parallax de scroll**: nuevo, en `home-faq.tsx` — 4 ilustraciones (2 por lado, en el
+  gutter fuera de la columna `size="content"`, solo desde `lg`) que se desplazan horizontalmente
+  hacia el centro en función de `scrollYProgress` (`useScroll`/`useTransform` de framer-motion),
+  no de un loop automático. No se usó `FloatingElement` porque ese componente está pensado para
+  motion ambiental + repulsión al hover, un modelo distinto al de este efecto (ligado 1:1 al
+  scroll, sin interacción de mouse). Bajo `prefers-reduced-motion` el rango de la transformación
+  colapsa a 0 — las piezas quedan fijas en vez de seguir el scroll.

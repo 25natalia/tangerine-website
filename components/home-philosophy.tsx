@@ -26,7 +26,7 @@ function BeliefCard({ belief, index }: { belief: (typeof beliefs)[number]; index
   return (
     <div
       className={cn(
-        "relative isolate flex h-64 w-full flex-col justify-between overflow-visible rounded-(--radius-container) p-6 shadow-(--shadow-elevation-2) sm:h-72 sm:p-8",
+        "relative isolate flex h-64 w-full flex-col justify-between overflow-visible rounded-(--radius-container) p-6 shadow-(--shadow-elevation-2) transition-[transform,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-1 hover:scale-[1.015] hover:shadow-(--shadow-elevation-4) sm:h-72 sm:p-8",
         belief.bg,
         belief.fg
       )}

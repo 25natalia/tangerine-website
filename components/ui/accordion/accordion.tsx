@@ -53,7 +53,7 @@ const itemVariants = cva("", {
       filled: "",
       bordered: "",
       ghost: "rounded-(--radius-container)",
-      card: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-shadow duration-(--duration-base) ease-(--ease-standard) data-open:shadow-(--shadow-elevation-2)",
+      card: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-[transform,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-0.5 hover:scale-[1.015] hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
       faq: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card",
     } satisfies Record<AccordionVariant, string>,
   },
