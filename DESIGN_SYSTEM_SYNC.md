@@ -26,6 +26,28 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `VisualBlock`, `MockupFrame` (`pattern-mockup.tsx`) | 2026-07-21 | `d24a131` | Estándar in de "sin fotografía real todavía" ya documentado en el propio DS |
 | `Accordion`, `Avatar`, `Switch`, `Input`, `Breadcrumb`, `Popover`, `Chip`, `SearchBar`, `Tabs`, `EmptyState` (+ `lib/empty-states.ts`) | 2026-07-21 | `d24a131` | Dependencias transitivas de los dos templates — se portaron completos aunque no todas sus variantes se usan hoy |
 
+| Contact Template completo (`contact-template.tsx`, `contact-form.tsx`, `contact-hero.tsx`, `contact-sidebar.tsx`, `social-proof.tsx`, `contact-page.tsx`, `lib/templates/contact-data.ts`) | 2026-07-21 | `db83fdd` | `contact-page.tsx` y `social-proof.tsx` se portaron por fidelidad del barrel export, pero no se usan — ver nota abajo |
+| `Field`, `Textarea`, `Checkbox`, `RadioGroup`, `Select`, `Tooltip` | 2026-07-21 | `db83fdd` | Dependencias del formulario |
+
+### Nota sobre Contact Template — dos mejoras hechas primero en el DS
+
+Antes de portar, se corrigieron dos problemas reales en el propio DS (commit `db83fdd`):
+
+1. `ContactForm` no tenía forma de conectarse a un backend real — `handleSubmit` simulaba el
+   envío con un `setTimeout`, tal como el propio README del template ya documentaba
+   ("wiring a real endpoint later only touches `contact-form.tsx`'s `handleSubmit`"). Se agregó
+   un prop `onSubmit` opcional (default: el mismo comportamiento simulado de siempre) en vez de
+   forkear el componente.
+2. `ContactTemplate` renderizaba siempre `<SocialProof />`, que muestra clientes ficticios
+   ("Estudio Nébula", "Fintech Co.") y un testimonio inventado (Julia Fernández) — contenido de
+   demo que Tangerine Studio no puede publicar como si fuera real. Se agregó un prop
+   `showSocialProof` (default `true`, sin cambiar el comportamiento del propio DS) para que un
+   consumidor real pueda omitir la sección en vez de mostrar clientes falsos.
+
+La web usa `<ContactTemplate onSubmit={...} showSocialProof={false} />` — ver
+`components/site-contact-form.tsx` y `lib/actions/send-contact-email.ts` (Resend, requiere
+`RESEND_API_KEY`; sin esa variable el formulario falla explícitamente, nunca finge éxito).
+
 ### Nota sobre la Fase 5
 
 Se detectó un error de documentación en el propio Brand OS: las secciones 01–04 del Volumen VIII

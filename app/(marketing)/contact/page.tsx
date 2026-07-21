@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui/container";
+import { SiteContactForm } from "@/components/site-contact-form";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Antes de proponer una solución, queremos entender tu proyecto.",
+};
 
 export default function ContactPage() {
-  return (
-    <Container size="content" className="py-24">
-      <h1 className="font-display text-3xl font-bold">Contact</h1>
-      <p className="mt-4 text-(--text-secondary)">Contenido real pendiente — Fase 6 (Contact Template).</p>
-    </Container>
-  );
+  return <SiteContactForm />;
 }
