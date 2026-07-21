@@ -33,6 +33,7 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Carousel` (`components/ui/carousel/`) | 2026-07-21 | `2418db1` | Componente nuevo en el DS — no existía nada equivalente. Ver nota abajo |
 | `Accordion` — prop nuevo `hiddenUntilFound` | 2026-07-21 | `93734c2` | El componente ya estaba portado (Fase 5); este commit solo trae el prop nuevo. Se usa en las secciones "Cómo trabajamos" y FAQ de la Home |
 | Isotipo como favicon: `app/icon.svg`, `app/apple-icon.png`, `public/brand/icon-mark-square.svg` | 2026-07-21 | `2418db1` | `apple-icon.png` y el SVG full-bleed son nuevos también en el propio DS (no tenía apple-touch-icon hasta este commit) |
+| `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Se usa en la grilla nueva de "Cómo trabajamos" |
 
 ### Nota sobre Contact Template — dos mejoras hechas primero en el DS
 
@@ -188,3 +189,21 @@ Solo se ajustó diseño, no contenido: las mismas 6 creencias, sin reescribir ni
   sutil, sombra `--shadow-elevation-1` → `-3` en hover, estado disabled real en los extremos del
   scroll) — específico de este componente nuevo, no se tocó el estilo de flechas de `Carousel`
   (Studio/Valores no cambia).
+
+### Nota sobre la segunda iteración de Cómo trabajamos (Home)
+
+Patrón "resumen cerrado, detalle al expandir" (referencia: Headspace) — mismo contenido de
+siempre (las 7 Capabilities reales), otra presentación. Cada capacidad pasó de una fila de
+`Accordion variant="card"` en una sola columna (con `resolves` visible como descripción
+permanente) a su propia celda en una grilla `1 col / 2 cols (sm) / 4 cols (lg)`: siete raíces de
+`Accordion` de un solo item, no un "modo grilla" nuevo — el DS ya resuelve el expand/collapse, acá
+solo se reorganiza dónde vive cada instancia.
+
+En cerrado ya no se muestra `resolves` como descripción — eso violaría el pedido explícito de "no
+mostrar párrafos en el estado cerrado". Las tres partes del contenido real (`resolves`,
+`existsBecause`, `generatesValue`) se movieron juntas adentro del panel expandible, apiladas en
+una columna (el `sm:grid-cols-2` que tenían antes no cabía bien en una celda de ~1/4 del ancho).
+El ícono a la izquierda del título (círculo violeta + lucide-icon) se eliminó — en su lugar, un
+SVG chico de `geometry/` a la derecha del título, vía el prop nuevo `trailingIcon` de
+`AccordionTrigger` (ver tabla arriba). Ninguna combinación motivo+color se repite entre las 7
+capacidades ni coincide con las que ya usa Filosofía en la misma página.

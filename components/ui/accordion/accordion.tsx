@@ -185,7 +185,7 @@ function AccordionItem({ value, disabled, className, children }: AccordionItemPr
   );
 }
 
-function AccordionTrigger({ title, description, leadingIcon, className }: AccordionTriggerProps) {
+function AccordionTrigger({ title, description, leadingIcon, trailingIcon, className }: AccordionTriggerProps) {
   const { size, icon, variant } = useAccordionConfig();
   const config = sizeConfig[size];
   const titleClass = variant === "faq" ? config.faqTitle : config.title;
@@ -216,6 +216,11 @@ function AccordionTrigger({ title, description, leadingIcon, className }: Accord
             </span>
           ) : null}
         </span>
+        {trailingIcon ? (
+          <span className="shrink-0" aria-hidden="true">
+            {trailingIcon}
+          </span>
+        ) : null}
         <ExpandIcon icon={icon} className={config.icon} />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

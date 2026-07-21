@@ -52,6 +52,8 @@ export interface AccordionTriggerProps {
   description?: ReactNode;
   /** Optional icon/avatar before the title. */
   leadingIcon?: ReactNode;
+  /** Optional icon/illustration after the title, before the expand indicator. */
+  trailingIcon?: ReactNode;
   className?: string;
 }
 

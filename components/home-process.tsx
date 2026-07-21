@@ -1,38 +1,35 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Layers, Globe, LayoutGrid, Compass, PenLine, TrendingUp, Zap, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { buttonVariants } from "@/components/ui/button";
-import { Reveal } from "@/components/templates/reveal";
+import { Reveal, RevealGroup } from "@/components/templates/reveal";
 import { capabilities } from "@/lib/capabilities";
 import { cn } from "@/lib/utils";
 
-const iconBySlug: Record<string, LucideIcon> = {
-  "brand-systems": Layers,
-  "digital-experiences": Globe,
-  "product-design": LayoutGrid,
-  "creative-direction": Compass,
-  "content-systems": PenLine,
-  growth: TrendingUp,
-  automation: Zap,
+// Un SVG distinto de public/illustrations/geometry/ por capacidad — apoyo
+// visual chico, no protagonista (a diferencia de Filosofía). Ninguna
+// combinación motivo+color se repite acá ni coincide con las que ya usa
+// Filosofía en la misma Home.
+const geometryBySlug: Record<string, string> = {
+  "brand-systems": "/illustrations/geometry/destello-orange.svg",
+  "digital-experiences": "/illustrations/geometry/flor-violet.svg",
+  "product-design": "/illustrations/geometry/semillas-green.svg",
+  "creative-direction": "/illustrations/geometry/hoja-yellow.svg",
+  "content-systems": "/illustrations/geometry/flor-lime.svg",
+  growth: "/illustrations/geometry/destello-green.svg",
+  automation: "/illustrations/geometry/semillas-violet.svg",
 };
 
-function CapabilityIcon({ slug }: { slug: string }) {
-  const Icon = iconBySlug[slug] ?? Layers;
-  return (
-    <span className="flex size-10 items-center justify-center rounded-full bg-(--purple-100) text-(--purple-600) dark:bg-(--purple-950) dark:text-(--purple-300)">
-      <Icon className="size-5" aria-hidden="true" />
-    </span>
-  );
-}
+const kickerSm = "font-display text-xs font-semibold tracking-wide text-(--text-brand) uppercase";
 
 export function HomeProcess() {
   return (
     <section className="border-t border-(--border-subtle)">
       <Container size="wide" className="py-24 sm:py-32">
-        <Reveal className="mb-12 max-w-xl sm:mb-16">
+        <Reveal className="mb-10 max-w-xl sm:mb-14">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
             Cómo trabajamos
           </p>
@@ -41,35 +38,46 @@ export function HomeProcess() {
           </h2>
         </Reveal>
 
-        <Reveal>
-          <Accordion variant="card" size="lg" icon="chevron-down" hiddenUntilFound>
-            {capabilities.map((cap) => (
-              <AccordionItem key={cap.slug} value={cap.slug}>
+        {/* Cada celda es su propio Accordion de un solo item — así cada una
+           expande de forma independiente dentro de la grilla (el Accordion
+           del DS no tiene, ni necesita, un "modo grilla" propio: 7 raíces
+           de un item resuelven esto sin inventar nada nuevo). */}
+        <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          {capabilities.map((cap) => (
+            <Accordion key={cap.slug} variant="card" size="md" icon="chevron-down" hiddenUntilFound>
+              <AccordionItem value={cap.slug}>
                 <AccordionTrigger
                   title={cap.name}
-                  description={cap.resolves}
-                  leadingIcon={<CapabilityIcon slug={cap.slug} />}
+                  trailingIcon={
+                    <Image
+                      src={geometryBySlug[cap.slug]}
+                      alt=""
+                      width={56}
+                      height={56}
+                      className="size-6 sm:size-7"
+                    />
+                  }
                 />
                 <AccordionContent>
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div className="flex flex-col gap-2">
-                      <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-                        Existe porque
-                      </p>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <p className={kickerSm}>Resuelve</p>
+                      <p className="text-pretty text-(--text-secondary)">{cap.resolves}</p>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <p className={kickerSm}>Existe porque</p>
                       <p className="text-pretty text-(--text-secondary)">{cap.existsBecause}</p>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-                        Genera valor
-                      </p>
+                    <div className="flex flex-col gap-1.5">
+                      <p className={kickerSm}>Genera valor</p>
                       <p className="text-pretty text-(--text-secondary)">{cap.generatesValue}</p>
                     </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            ))}
-          </Accordion>
-        </Reveal>
+            </Accordion>
+          ))}
+        </RevealGroup>
 
         <div className="mt-10">
           <Link href="/capabilities" className={cn(buttonVariants({ variant: "outline" }))}>
