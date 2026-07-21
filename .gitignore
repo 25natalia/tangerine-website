@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local multi-root workspace (path is machine-specific)
+*.code-workspace
