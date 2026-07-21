@@ -9,52 +9,79 @@ import { Reveal, RevealGroup } from "@/components/templates/reveal";
 import { capabilities } from "@/lib/capabilities";
 import { cn } from "@/lib/utils";
 
-// Un SVG distinto de public/illustrations/geometry/ por capacidad — apoyo
-// visual chico, no protagonista (a diferencia de Filosofía). Ninguna
-// combinación motivo+color se repite acá ni coincide con las que ya usa
-// Filosofía en la misma Home.
+// Un SVG distinto por capacidad, mezclando varias familias de
+// public/illustrations/geometry/ (destello/flor/hoja/leaf/spring/semillas)
+// para que cada una tenga identidad propia en vez de repetir siempre la
+// misma figura. Ninguna combinación coincide con las que ya usa Filosofía
+// en la misma Home.
 const geometryBySlug: Record<string, string> = {
   "brand-systems": "/illustrations/geometry/destello-orange.svg",
   "digital-experiences": "/illustrations/geometry/flor-violet.svg",
-  "product-design": "/illustrations/geometry/semillas-green.svg",
-  "creative-direction": "/illustrations/geometry/hoja-yellow.svg",
-  "content-systems": "/illustrations/geometry/flor-lime.svg",
-  growth: "/illustrations/geometry/destello-green.svg",
-  automation: "/illustrations/geometry/semillas-violet.svg",
+  "product-design": "/illustrations/geometry/hoja-green.svg",
+  "creative-direction": "/illustrations/geometry/leaf-yellow.svg",
+  "content-systems": "/illustrations/geometry/spring-lime.svg",
+  growth: "/illustrations/geometry/semillas-green.svg",
+  automation: "/illustrations/geometry/spring-violet.svg",
+};
+
+// Una frase de una sola línea por capacidad — versión comprimida de
+// `resolves` (mismo sentido, sin agregar ninguna afirmación nueva), no un
+// campo del Brand OS en sí. `resolves` completo se sigue mostrando, sin
+// recortar, dentro del panel expandido.
+const teaserBySlug: Record<string, string> = {
+  "brand-systems": "Marcas que dicen lo mismo en todas partes.",
+  "digital-experiences": "La primera impresión que genera confianza.",
+  "product-design": "Que lo prometido sea lo que se entrega.",
+  "creative-direction": "Una sola voz, sin importar quién ejecute.",
+  "content-systems": "Contenido consistente, no producido al apuro.",
+  growth: "Traducir identidad sólida en resultados.",
+  automation: "Menos tareas repetitivas, más criterio humano.",
 };
 
 const kickerSm = "font-display text-xs font-semibold tracking-wide text-(--text-brand) uppercase";
 
 export function HomeProcess() {
   return (
-    <section className="border-t border-(--border-subtle)">
+    <section>
       <Container size="wide" className="py-24 sm:py-32">
-        <Reveal className="mb-10 max-w-xl sm:mb-14">
-          <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-            Cómo trabajamos
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">
-            Siete formas distintas de aplicar la misma manera de pensar.
-          </h2>
+        <Reveal className="mb-8 flex flex-col items-start justify-between gap-6 sm:mb-10 sm:flex-row sm:items-end">
+          <div className="max-w-xl">
+            <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
+              Cómo trabajamos
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">
+              Siete formas distintas de aplicar la misma manera de pensar.
+            </h2>
+          </div>
+          <Link href="/capabilities" className={cn(buttonVariants({ variant: "ghost" }), "shrink-0")}>
+            Ver todas las capacidades
+          </Link>
         </Reveal>
 
-        {/* Cada celda es su propio Accordion de un solo item — así cada una
-           expande de forma independiente dentro de la grilla (el Accordion
-           del DS no tiene, ni necesita, un "modo grilla" propio: 7 raíces
-           de un item resuelven esto sin inventar nada nuevo). */}
-        <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+        {/* flex-wrap (no grid) para que la última fila de 3 quede centrada
+           en vez de pegada a la izquierda con una columna vacía — cada
+           celda es su propio Accordion de un solo item, igual que antes. */}
+        <RevealGroup className="flex flex-wrap justify-center gap-4">
           {capabilities.map((cap) => (
-            <Accordion key={cap.slug} variant="card" size="md" icon="chevron-down" hiddenUntilFound>
+            <Accordion
+              key={cap.slug}
+              variant="card"
+              size="md"
+              icon="chevron-down"
+              hiddenUntilFound
+              className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]"
+            >
               <AccordionItem value={cap.slug}>
                 <AccordionTrigger
                   title={cap.name}
-                  trailingIcon={
+                  description={teaserBySlug[cap.slug]}
+                  leadingIcon={
                     <Image
                       src={geometryBySlug[cap.slug]}
                       alt=""
-                      width={56}
-                      height={56}
-                      className="size-6 sm:size-7"
+                      width={64}
+                      height={64}
+                      className="size-8"
                     />
                   }
                 />
@@ -63,10 +90,6 @@ export function HomeProcess() {
                     <div className="flex flex-col gap-1.5">
                       <p className={kickerSm}>Resuelve</p>
                       <p className="text-pretty text-(--text-secondary)">{cap.resolves}</p>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <p className={kickerSm}>Existe porque</p>
-                      <p className="text-pretty text-(--text-secondary)">{cap.existsBecause}</p>
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <p className={kickerSm}>Genera valor</p>
@@ -78,12 +101,6 @@ export function HomeProcess() {
             </Accordion>
           ))}
         </RevealGroup>
-
-        <div className="mt-10">
-          <Link href="/capabilities" className={cn(buttonVariants({ variant: "outline" }))}>
-            Ver todas las capacidades
-          </Link>
-        </div>
       </Container>
     </section>
   );

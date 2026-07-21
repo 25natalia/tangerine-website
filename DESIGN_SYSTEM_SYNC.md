@@ -33,7 +33,9 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 | `Carousel` (`components/ui/carousel/`) | 2026-07-21 | `2418db1` | Componente nuevo en el DS — no existía nada equivalente. Ver nota abajo |
 | `Accordion` — prop nuevo `hiddenUntilFound` | 2026-07-21 | `93734c2` | El componente ya estaba portado (Fase 5); este commit solo trae el prop nuevo. Se usa en las secciones "Cómo trabajamos" y FAQ de la Home |
 | Isotipo como favicon: `app/icon.svg`, `app/apple-icon.png`, `public/brand/icon-mark-square.svg` | 2026-07-21 | `2418db1` | `apple-icon.png` y el SVG full-bleed son nuevos también en el propio DS (no tenía apple-touch-icon hasta este commit) |
-| `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Se usa en la grilla nueva de "Cómo trabajamos" |
+| `Accordion` — prop nuevo `trailingIcon` en `AccordionTrigger` | 2026-07-21 | `f65de00` | Simétrico a `leadingIcon` pero antes del ícono de expandir en vez de antes del título. Ya no se usa en "Cómo trabajamos" (volvió a `leadingIcon`), pero el prop queda disponible |
+| `MascotStage` — prop nuevo `size` | 2026-07-21 | `46bae03` | `"default" \| "lg"`, default sin cambios. Escala mascota+glow+sombra juntos |
+| `FloatingElement` — resorte de retorno más suave | 2026-07-21 | `46bae03` | `stiffness`/`damping` ajustados, no es un prop nuevo — mismo comportamiento externo, distinta sensación |
 
 ### Nota sobre Contact Template — dos mejoras hechas primero en el DS
 
@@ -230,3 +232,37 @@ lectura de profundidad viene de esa diferencia de velocidad, no de valores aleat
 Responsive: los 2 `window-*` y 1 estrella se ven siempre; hoja y la segunda estrella aparecen
 desde `sm`; los 2 acentos de `geometry/` solo desde `lg` — en mobile quedan únicamente los
 elementos más grandes/importantes, como pidió el usuario.
+
+### Nota sobre la tercera ronda de refinamiento del Home
+
+Cambios transversales, sin tocar arquitectura ni contenido de marca:
+
+- **Dividers**: se quitó `border-t border-(--border-subtle)` de las 4 secciones del Home que lo
+  tenían (Filosofía, Cómo trabajamos, FAQ, Cierre). Los `border-t` que siguen apareciendo en el
+  HTML de la Home son del `Footer` (compartido en todo el sitio) — no son dividers entre
+  secciones y no se tocaron.
+- **Hero**: `MascotStage` ahora usa el prop nuevo `size="lg"` (ver tabla arriba) y la proporción de
+  columnas pasó de `[1.1fr_0.9fr]` a `[1fr_1.1fr]` — la mascota gana espacio real, no solo un
+  contenedor más grande con el mismo mascot adentro. El `sparkle` acotado al stage de la mascota
+  se reemplazó por un `CursorTrail` propio en `home-hero.tsx`, con `targetRef` en la sección
+  completa del Hero (no el div interno de `MascotStage`) y `spawnIntervalMs` más bajo (35 vs. 90)
+  — así las partículas nacen en cualquier punto del Hero donde esté el cursor, no solo cerca de la
+  mascota.
+- **Cómo trabajamos**: pasó de `grid` a `flex flex-wrap justify-center` — con 7 ítems en un grid
+  de 4 columnas, la fila de 3 quedaba pegada a la izquierda; con flex-wrap + justify-center esa
+  fila queda centrada. La ilustración volvió a `leadingIcon` (izquierda), con `description` como
+  frase de una sola línea (ver `teaserBySlug` — paráfrasis corta de `resolves`, mismo sentido, sin
+  agregar afirmaciones nuevas; documentado en el propio archivo). El bloque "Existe porque" se
+  quitó del panel expandido; "Resuelve" (completo) y "Genera valor" se mantienen. El botón "Ver
+  todas las capacidades" se movió arriba de la grilla como `variant="ghost"`. Las ilustraciones
+  ahora mezclan 6 familias distintas de `geometry/` (antes solo 3) — `leaf-*` y `spring-*` se usan
+  acá por primera vez.
+- **FAQ**: bajó de 8 preguntas a 5, completamente reescritas para reflejar dudas reales de un
+  cliente evaluando una agencia de diseño digital (qué proyectos hacen, tamaño de cliente,
+  herramientas, duración, precios) en vez de las anteriores. Igual que antes, sin inventar
+  nombres de herramientas ni tarifas específicas no confirmadas en el Brand OS — la respuesta
+  sobre herramientas describe el criterio, no una lista de software.
+- **Cierre**: las ilustraciones flotantes se reposicionaron relativas al mismo `max-w-2xl` que
+  envuelve el texto (antes relativas a toda la sección "wide") — quedan a decenas de px del borde
+  del texto en vez de en las esquinas del viewport. `FloatingElement` en sí se actualizó en el DS
+  (ver tabla arriba) con un resorte de retorno más suave.

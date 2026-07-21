@@ -48,8 +48,8 @@ export function FloatingElement({
   const reduceMotion = usePrefersReducedMotion();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 160, damping: 14 });
-  const springY = useSpring(pointerY, { stiffness: 160, damping: 14 });
+  const springX = useSpring(pointerX, { stiffness: 110, damping: 22 });
+  const springY = useSpring(pointerY, { stiffness: 110, damping: 22 });
   const repelX = useTransform(springX, [-1, 1], [-16 * repelStrength, 16 * repelStrength]);
   const repelY = useTransform(springY, [-1, 1], [-16 * repelStrength, 16 * repelStrength]);
   const repelRotate = useTransform(springX, [-1, 1], [-10 * repelStrength, 10 * repelStrength]);

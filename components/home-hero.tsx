@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
@@ -7,10 +8,16 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { MascotStage } from "@/components/marketing/mascot-stage";
+import { CursorTrail } from "@/components/marketing/cursor-trail";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+// El mismo rango de acento que MascotStage usaba para su propio sparkle
+// acotado al mascot — acá cubre todo el Hero, así que vive en este archivo
+// en vez de importarse de allá.
+const HERO_PARTICLE_COLORS = ["var(--purple-400)", "var(--tangerine-400)", "var(--lime-400)", "var(--info-400)"];
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 18 },
@@ -56,12 +63,23 @@ function SecondaryCTA({ href, children }: { href: string; children: ReactNode })
 
 export function HomeHero() {
   const reduceMotion = usePrefersReducedMotion();
+  const sectionRef = React.useRef<HTMLElement>(null);
 
   return (
-    <section className="relative overflow-hidden">
+    <section ref={sectionRef} className="relative overflow-hidden">
+      <CursorTrail
+        targetRef={sectionRef}
+        colors={HERO_PARTICLE_COLORS}
+        size={[4, 16]}
+        blurPx={1}
+        lifetimeMs={[1200, 2400]}
+        spawnIntervalMs={35}
+        organic
+      />
+
       <Container
         size="hero"
-        className="relative grid items-center gap-y-14 md:grid-cols-[1.1fr_0.9fr] md:gap-x-10 lg:gap-x-16"
+        className="relative grid items-center gap-y-14 md:grid-cols-[1fr_1.1fr] md:gap-x-10 lg:gap-x-16"
       >
         <motion.div
           initial={reduceMotion ? false : "hidden"}
@@ -102,7 +120,7 @@ export function HomeHero() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
           className="relative flex justify-center md:justify-end"
         >
-          <MascotStage sparkle />
+          <MascotStage size="lg" />
         </motion.div>
       </Container>
     </section>

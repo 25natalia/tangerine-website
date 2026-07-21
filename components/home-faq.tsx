@@ -2,56 +2,42 @@ import { Container } from "@/components/ui/container";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Reveal } from "@/components/templates/reveal";
 
-// Respuestas honestas y generales, ancladas en contenido ya real del sitio
-// (capabilities.ts, la copy del propio Contact) — deliberadamente sin
-// inventar políticas de negocio específicas (plazos exactos, alcance
-// internacional) que no están confirmadas en el Brand OS todavía.
+// Preguntas reales de un cliente evaluando contratar una agencia de diseño
+// digital, no genéricas de plantilla. Respuestas ancladas en contenido ya
+// real del sitio (capabilities.ts, el flujo real de Contact) — deliberadamente
+// sin inventar nombres de herramientas, tarifas o plazos específicos que no
+// están confirmados en el Brand OS todavía.
 const faqs = [
   {
-    question: "¿Con qué tipo de clientes trabajan?",
+    question: "¿Qué tipo de proyectos desarrollan?",
     answer:
-      "Con marcas y personas que ya tienen algo real que decir, sin importar el tamaño o la industria — de proyectos de salud a proyectos gastronómicos. No buscamos un rubro específico: buscamos que haya una identidad real detrás para trabajar.",
+      "Desde sistemas de marca completos hasta productos y experiencias digitales — Brand Systems, Digital Experiences, Product Design, Creative Direction, Content Systems, Growth y Automation son las siete formas en las que aplicamos la misma manera de pensar a un problema distinto.",
   },
   {
-    question: "¿También desarrollan productos digitales?",
+    question: "¿Trabajan con startups o con empresas grandes?",
     answer:
-      "Sí — Digital Experiences y Product Design son dos de nuestras capacidades reales, no un servicio adicional. Diseñamos, y podemos llevar a producción, sitios y productos digitales completos, no solo la identidad visual que los viste.",
+      "Con ambas. No buscamos un tamaño de empresa específico, sino que haya una identidad real detrás para trabajar — el tamaño cambia el alcance del proyecto, no el criterio con el que lo encaramos.",
   },
   {
-    question: "¿Cómo empieza un proyecto?",
+    question: "¿Qué herramientas utilizan?",
     answer:
-      "Escuchando primero. Antes de proponer cualquier solución necesitamos entender tu proyecto — quién sos, qué resolviste hasta ahora y qué es lo que todavía no encuentra su forma. Esa conversación inicial, no un brief genérico, es lo que define el resto.",
+      "Las que mejor se adapten a cada proyecto — priorizamos el resultado sobre el apego a una herramienta en particular. Lo que sí se mantiene siempre igual es el criterio: investigar antes de proponer, documentar las decisiones, y dejarte un sistema que tu equipo pueda sostener sin depender de nosotros.",
   },
   {
-    question: "¿Cuánto dura normalmente un proyecto?",
+    question: "¿Cuánto dura un proyecto?",
     answer:
       "Depende directamente del alcance — un sistema de marca completo no dura lo mismo que una pieza puntual. Antes de arrancar definimos un cronograma real para ese proyecto específico, no una estimación genérica.",
   },
   {
-    question: "¿Trabajan con empresas internacionales?",
+    question: "¿Cómo funcionan los precios y las cotizaciones?",
     answer:
-      "Trabajamos donde tenga sentido el proyecto — la ubicación no es, en sí misma, un filtro. Lo que sí importa es poder sostener una comunicación real y frecuente durante todo el proceso.",
-  },
-  {
-    question: "¿Pueden integrarse con equipos internos?",
-    answer:
-      "Sí. Cuando ya existe un equipo de diseño, marketing o producto del otro lado, nos sumamos a su forma de trabajar en vez de imponer la nuestra — cómo se da esa integración es parte de lo que se acuerda en la conversación inicial.",
-  },
-  {
-    question: "¿Qué entregables reciben los clientes?",
-    answer:
-      "Depende de la capacidad — un sistema de marca completo entrega lineamientos verbales, visuales y de comportamiento; un proyecto digital entrega el producto o sitio funcionando, no solo un diseño. En cualquier caso, algo que tu equipo pueda sostener y aplicar sin depender de que sigamos ahí.",
-  },
-  {
-    question: "¿Cómo solicito una propuesta?",
-    answer:
-      "Completando el formulario de contacto con el contexto de tu proyecto — no hace falta un brief perfecto, alcanza con lo que tengas claro hoy. Respondemos desde ahí para coordinar la primera conversación.",
+      "Cada cotización se arma después de entender tu proyecto, no antes — por eso no tenemos una tarifa fija publicada. Nos escribís por el formulario de contacto con el contexto de lo que necesitás, y desde ahí coordinamos la conversación que define el alcance y la propuesta.",
   },
 ];
 
 export function HomeFaq() {
   return (
-    <section className="border-t border-(--border-subtle)">
+    <section>
       <Container size="content" className="py-24 sm:py-32">
         <Reveal className="mb-12 max-w-xl sm:mb-16">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">

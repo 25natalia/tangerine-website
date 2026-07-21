@@ -5,6 +5,7 @@ import type { MouseEvent } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { Mascot } from "@/components/ui/mascot";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { cn } from "@/lib/utils";
 import { CursorTrail } from "./cursor-trail";
 
 /** Rotated through, one per spawned sparkle — the DS's own accent range: purple, tangerine, lime, blue (info). */
@@ -30,7 +31,28 @@ const SPARKLE_COLORS = ["var(--purple-400)", "var(--tangerine-400)", "var(--lime
  * crescents, so a blink wouldn't read as a distinct animation on this
  * design even if faked.
  */
-export function MascotStage({ sparkle = false }: { sparkle?: boolean }) {
+const glowSize = {
+  default: "size-[22rem] sm:size-[26rem]",
+  lg: "size-[26rem] sm:size-[32rem]",
+} as const;
+
+const mascotSize = {
+  default: "relative w-64 sm:w-72 lg:w-96",
+  lg: "relative w-72 sm:w-80 lg:w-[28rem]",
+} as const;
+
+const shadowSize = {
+  default: "h-7 w-36 sm:w-44",
+  lg: "h-8 w-44 sm:w-52",
+} as const;
+
+export interface MascotStageProps {
+  sparkle?: boolean;
+  /** Bumps the mascot (and its glow/shadow, proportionally) up a size — for compositions where it needs to read as the clear protagonist. @default "default" */
+  size?: "default" | "lg";
+}
+
+export function MascotStage({ sparkle = false, size = "default" }: MascotStageProps) {
   const reduceMotion = usePrefersReducedMotion();
   const stageRef = React.useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -83,14 +105,14 @@ export function MascotStage({ sparkle = false }: { sparkle?: boolean }) {
          focal point competing with the mascot itself. */}
       <div
         aria-hidden="true"
-        className="absolute size-[22rem] rounded-full opacity-50 blur-3xl sm:size-[26rem] dark:hidden"
+        className={cn("absolute rounded-full opacity-50 blur-3xl dark:hidden", glowSize[size])}
         style={{
           background: "radial-gradient(circle at center, var(--purple-100), transparent 70%)",
         }}
       />
       <div
         aria-hidden="true"
-        className="absolute hidden size-[22rem] rounded-full opacity-30 blur-3xl sm:size-[26rem] dark:block"
+        className={cn("absolute hidden rounded-full opacity-30 blur-3xl dark:block", glowSize[size])}
         style={{
           background: "radial-gradient(circle at center, var(--purple-900), transparent 70%)",
         }}
@@ -100,14 +122,14 @@ export function MascotStage({ sparkle = false }: { sparkle?: boolean }) {
          reads as "resting", not detached from the stage */}
       <motion.div
         aria-hidden="true"
-        className="absolute bottom-8 h-7 w-36 rounded-full bg-(--purple-950)/25 blur-xl sm:bottom-10 sm:w-44 dark:bg-black/45"
+        className={cn("absolute bottom-8 rounded-full bg-(--purple-950)/25 blur-xl sm:bottom-10 dark:bg-black/45", shadowSize[size])}
         animate={reduceMotion ? undefined : { scaleX: [1, 0.88, 1], opacity: [0.55, 0.35, 0.55] }}
         transition={reduceMotion ? undefined : { duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* The mascot — the composition's only protagonist */}
       <motion.div
-        className="relative w-64 sm:w-72 lg:w-96"
+        className={mascotSize[size]}
         style={reduceMotion ? undefined : { rotate: parallaxRotate, y: parallaxY }}
       >
         <motion.div

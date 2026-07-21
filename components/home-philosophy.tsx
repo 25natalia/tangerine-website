@@ -52,7 +52,7 @@ function BeliefCard({ belief, index }: { belief: (typeof beliefs)[number]; index
 
 export function HomePhilosophy() {
   return (
-    <section className="border-t border-(--border-subtle)">
+    <section>
       <Container size="wide" className="py-24 sm:py-32">
         <Reveal className="mb-10 flex max-w-2xl flex-col gap-6 sm:mb-14">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
