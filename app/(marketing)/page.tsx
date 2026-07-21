@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardBody, CardDescription } from "@/components/ui/card";
 import { Reveal, RevealGroup } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
+import { capabilities } from "@/lib/capabilities";
 
 // Seis creencias reales de Tangerine Studio (Brand OS, Volumen II —
 // "Creencias"), citadas literalmente. No es contenido de placeholder.
@@ -14,43 +15,6 @@ const beliefs = [
   "El proceso importa tanto como el resultado.",
   "El miedo a equivocarse cuesta más que el error mismo.",
   "Nadie recuerda lo perfecto; recuerda lo verdadero.",
-];
-
-// Las 7 capacidades del estudio, con su "resuelve" literal (Brand OS,
-// Volumen IV). El texto completo de cada una vive en /capabilities (Fase 4);
-// esto es la vista previa.
-const capabilities = [
-  {
-    name: "Brand Systems",
-    resolves:
-      "Marcas que dicen algo distinto en cada lugar donde aparecen porque nunca tuvieron una identidad completa, solo piezas sueltas.",
-  },
-  {
-    name: "Digital Experiences",
-    resolves:
-      "El momento más frágil de cualquier marca: los primeros segundos en los que alguien decide, sin saberlo del todo, si confía o se va.",
-  },
-  {
-    name: "Product Design",
-    resolves: "La distancia entre lo que un producto promete y lo que realmente entrega a quien lo usa.",
-  },
-  {
-    name: "Creative Direction",
-    resolves:
-      "Marcas que trabajan con muchos proveedores distintos y terminan, sin darse cuenta, hablando con varias voces a la vez.",
-  },
-  {
-    name: "Content Systems",
-    resolves: "La inconsistencia de voz que aparece cuando el contenido se produce rápido y sin un criterio detrás.",
-  },
-  {
-    name: "Growth",
-    resolves: "El estancamiento que aparece cuando una marca ya tiene identidad sólida pero no sabe traducirla en resultados.",
-  },
-  {
-    name: "Automation",
-    resolves: "El tiempo perdido en tareas repetitivas que le restan horas al trabajo que sí requiere criterio humano.",
-  },
 ];
 
 export default function HomePage() {
@@ -112,8 +76,8 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Capabilities — preview de las 7, cada una linkea a la página
-         completa en /capabilities (Fase 4), no a sí misma. */}
+      {/* Capabilities — preview de las 7, cada una linkea a su ancla real
+         en /capabilities (Fase 4). */}
       <section className="border-t border-(--border-subtle)">
         <Container size="wide" className="py-24 sm:py-32">
           <Reveal className="mb-12 max-w-xl">
@@ -126,7 +90,7 @@ export default function HomePage() {
           </Reveal>
           <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((cap) => (
-              <Card key={cap.name} variant="outlined">
+              <Card key={cap.slug} variant="outlined" interaction="clickable" href={`/capabilities#${cap.slug}`}>
                 <CardHeader>
                   <CardTitle>{cap.name}</CardTitle>
                 </CardHeader>
