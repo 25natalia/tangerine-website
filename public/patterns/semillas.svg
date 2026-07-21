@@ -1,0 +1,16 @@
+<svg width="1920" height="480" viewBox="0 0 1920 480" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="1920" height="480" fill="#FFBF8A"/>
+<rect width="1920" height="480" fill="url(#pattern0_676_759)"/>
+<defs>
+<pattern id="pattern0_676_759" patternUnits="userSpaceOnUse" patternTransform="matrix(135.167 0 0 270.334 0 0)" preserveAspectRatio="none" viewBox="0 0 225.278 450.556" width="1" height="1">
+<use xlink:href="#pattern0_676_759_inner" transform="translate(-225.278 0)"/>
+<g id="pattern0_676_759_inner">
+<circle cx="43.3227" cy="43.3227" r="43.3227" fill="#FF7401"/>
+<circle cx="43.3227" cy="129.968" r="43.3227" fill="#FF7401"/>
+<circle cx="129.968" cy="43.3227" r="43.3227" fill="#FF7401"/>
+<circle cx="129.968" cy="129.968" r="43.3227" fill="#FF7401"/>
+</g>
+<use xlink:href="#pattern0_676_759_inner" transform="translate(-112.639 225.278)"/>
+<use xlink:href="#pattern0_676_759_inner" transform="translate(112.639 225.278)"/>
+</pattern></defs>
+</svg>
