@@ -78,8 +78,8 @@ export function HomeHero() {
       />
 
       <Container
-        size="hero"
-        className="relative grid items-center gap-y-14 md:grid-cols-[1fr_1.1fr] md:gap-x-10 lg:gap-x-16"
+        size="wide"
+        className="relative grid items-center gap-y-14 pt-10 pb-24 sm:pt-14 sm:pb-28 lg:pt-20 lg:pb-32 md:grid-cols-[1fr_1.1fr] md:gap-x-10 lg:gap-x-16"
       >
         <motion.div
           initial={reduceMotion ? false : "hidden"}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
+import { HomeTicker } from "@/components/home-ticker";
 import { HomePhilosophy } from "@/components/home-philosophy";
 import { HomeProcess } from "@/components/home-process";
 import { HomeFaq } from "@/components/home-faq";
@@ -20,6 +21,7 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
+      <HomeTicker />
 
       {/* Por qué existe Tangerine — Volumen I, §03, citado literalmente. */}
       <section>

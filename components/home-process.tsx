@@ -58,18 +58,22 @@ export function HomeProcess() {
           </Link>
         </Reveal>
 
-        {/* flex-wrap (no grid) para que la última fila de 3 quede centrada
-           en vez de pegada a la izquierda con una columna vacía — cada
-           celda es su propio Accordion de un solo item, igual que antes. */}
-        <RevealGroup className="flex flex-wrap justify-center gap-4">
+        {/* CSS Grid, no flex-wrap con calc(): un flex-basis calculado puede
+           terminar desigual entre hermanos cuando el contenido (un título
+           largo como "Digital Experiences") empuja el ancho intrínseco más
+           allá de esa base — grid con columnas fijas no tiene ese problema,
+           cada track mide exactamente lo mismo sin importar el contenido, y
+           además iguala la altura de cada fila por default (align-items:
+           stretch). 3 columnas en vez de 4 — más ancho y aire por card. */}
+        <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {capabilities.map((cap) => (
             <Accordion
               key={cap.slug}
               variant="card"
-              size="md"
+              size="lg"
               icon="chevron-down"
               hiddenUntilFound
-              className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]"
+              className="h-full"
             >
               <AccordionItem value={cap.slug}>
                 <AccordionTrigger

@@ -14,20 +14,22 @@ import { cn } from "@/lib/utils";
  * Every illustration here is decorative (empty alt, aria-hidden) and sits
  * behind the phrase (z-0 vs. the content's z-10).
  *
- * Unlike the first pass, the floats are positioned relative to the same
- * `max-w-2xl` wrapper as the text itself — not the full section — so their
- * offsets read as "close to the message" (tens of px past the text's own
- * edges) instead of scattered at the viewport's corners. `overflow-hidden`
- * on the section still crops anything that pokes past it, so nothing risks
- * a horizontal scrollbar.
+ * Eight pieces, one per compass position around the `max-w-2xl` text
+ * wrapper (NW/NE/N/E/SE/S/SW/W) — never two sharing the same corner, which
+ * is what caused the previous pass to read as clumped. Distance from the
+ * text varies on purpose (the two `deco/window-*` anchors and the N/S pair
+ * sit farther out; the smaller pieces sit closer), and every family
+ * (deco, geometry/flor, geometry/leaf, geometry/spring) is represented at
+ * least once instead of leaning on the same one or two files.
  */
 export function HomeClosing() {
   return (
     <section className="relative overflow-hidden">
       <Container size="content" className="py-32 sm:py-40 lg:py-48">
         <div className="relative mx-auto max-w-2xl">
+          {/* NW — ancla grande, la más alejada del texto */}
           <FloatingElement
-            className="absolute -top-10 -left-12 z-0 w-20 sm:-top-14 sm:-left-20 sm:w-28 lg:w-32"
+            className="absolute -top-12 -left-16 z-0 w-20 sm:-top-16 sm:-left-24 sm:w-28 lg:w-32"
             floatY={7}
             floatDuration={7}
             floatRotate={3}
@@ -43,42 +45,9 @@ export function HomeClosing() {
             />
           </FloatingElement>
 
+          {/* NE — chica, cerca */}
           <FloatingElement
-            className="absolute -bottom-12 -right-12 z-0 hidden w-24 sm:-right-20 sm:block sm:w-32 lg:w-36"
-            floatY={9}
-            floatDuration={8}
-            floatRotate={-3}
-            repelStrength={0.6}
-          >
-            <Image
-              src="/illustrations/deco/window-sandy-green.svg"
-              alt=""
-              aria-hidden="true"
-              width={500}
-              height={500}
-              className="h-auto w-full"
-            />
-          </FloatingElement>
-
-          <FloatingElement
-            className="absolute bottom-2 -left-10 z-0 hidden w-8 sm:block sm:w-10"
-            floatY={11}
-            floatDuration={5}
-            floatRotate={6}
-            repelStrength={1}
-          >
-            <Image
-              src="/illustrations/deco/hoja.svg"
-              alt=""
-              aria-hidden="true"
-              width={64}
-              height={64}
-              className="h-auto w-full"
-            />
-          </FloatingElement>
-
-          <FloatingElement
-            className="absolute -top-6 -right-9 z-0 w-7 sm:w-9"
+            className="absolute -top-8 -right-10 z-0 w-7 sm:-right-14 sm:w-9"
             floatY={13}
             floatDuration={4}
             floatRotate={10}
@@ -94,8 +63,27 @@ export function HomeClosing() {
             />
           </FloatingElement>
 
+          {/* N — geometry/leaf, arriba y centrada, la más alejada del bloque */}
           <FloatingElement
-            className="absolute top-1/3 -right-16 z-0 hidden w-6 lg:block"
+            className="absolute -top-24 left-[40%] z-0 hidden w-6 lg:block"
+            floatY={12}
+            floatDuration={5}
+            floatRotate={-8}
+            repelStrength={1.1}
+          >
+            <Image
+              src="/illustrations/geometry/leaf-yellow.svg"
+              alt=""
+              aria-hidden="true"
+              width={80}
+              height={80}
+              className="h-auto w-full"
+            />
+          </FloatingElement>
+
+          {/* E — chica, media distancia */}
+          <FloatingElement
+            className="absolute top-[30%] -right-20 z-0 hidden w-6 lg:block"
             floatY={15}
             floatDuration={3.5}
             floatRotate={12}
@@ -111,25 +99,63 @@ export function HomeClosing() {
             />
           </FloatingElement>
 
+          {/* SE — ancla grande, alejada */}
           <FloatingElement
-            className="absolute top-10 -left-16 z-0 hidden w-5 lg:block"
-            floatY={13}
-            floatDuration={4.5}
-            floatRotate={14}
-            repelStrength={1.3}
+            className="absolute -bottom-14 -right-16 z-0 hidden w-24 sm:-right-24 sm:block sm:w-32 lg:w-36"
+            floatY={9}
+            floatDuration={8}
+            floatRotate={-3}
+            repelStrength={0.6}
           >
             <Image
-              src="/illustrations/geometry/semillas-lime.svg"
+              src="/illustrations/deco/window-sandy-green.svg"
               alt=""
               aria-hidden="true"
-              width={174}
-              height={174}
+              width={500}
+              height={500}
               className="h-auto w-full"
             />
           </FloatingElement>
 
+          {/* S — geometry/spring, abajo y centrada, alejada */}
           <FloatingElement
-            className="absolute bottom-14 right-[6%] z-0 hidden w-5 lg:block"
+            className="absolute -bottom-24 left-[56%] z-0 hidden w-6 lg:block"
+            floatY={12}
+            floatDuration={4.5}
+            floatRotate={9}
+            repelStrength={1.1}
+          >
+            <Image
+              src="/illustrations/geometry/spring-lime.svg"
+              alt=""
+              aria-hidden="true"
+              width={90}
+              height={90}
+              className="h-auto w-full"
+            />
+          </FloatingElement>
+
+          {/* SW — chica, cerca */}
+          <FloatingElement
+            className="absolute bottom-0 -left-12 z-0 hidden w-8 sm:block sm:w-10"
+            floatY={11}
+            floatDuration={5}
+            floatRotate={6}
+            repelStrength={1}
+          >
+            <Image
+              src="/illustrations/deco/hoja.svg"
+              alt=""
+              aria-hidden="true"
+              width={64}
+              height={64}
+              className="h-auto w-full"
+            />
+          </FloatingElement>
+
+          {/* W — geometry/flor, media distancia */}
+          <FloatingElement
+            className="absolute top-[68%] -left-20 z-0 hidden w-5 lg:block"
             floatY={11}
             floatDuration={4}
             floatRotate={-12}

@@ -266,3 +266,36 @@ Cambios transversales, sin tocar arquitectura ni contenido de marca:
   envuelve el texto (antes relativas a toda la sección "wide") — quedan a decenas de px del borde
   del texto en vez de en las esquinas del viewport. `FloatingElement` en sí se actualizó en el DS
   (ver tabla arriba) con un resorte de retorno más suave.
+
+### Nota sobre la cuarta ronda de refinamiento del Home
+
+Sin cambios en el DS esta ronda — todo reutiliza primitivos ya portados (`Container`, `Accordion`,
+`FloatingElement`, el keyframe `ticker-scroll` que ya vivía en `globals.css` desde el Footer).
+
+- **Cómo trabajamos**: de `flex flex-wrap` + anchos por `calc()` a `grid` con columnas fijas
+  (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`, bajó de 4 a 3 columnas en desktop). El motivo del
+  cambio: un `flex-basis` calculado puede terminar desigual entre hermanos cuando un título largo
+  ("Digital Experiences") empuja el ancho intrínseco más allá de esa base — grid con tracks fijos
+  no tiene ese problema, y además iguala alto por fila por default (`align-items: stretch`, con
+  `h-full` en cada `Accordion` para que efectivamente ocupe esa altura). `size="lg"` en vez de
+  `"md"` para más padding interno.
+- **Ticker nuevo** (`components/home-ticker.tsx`, entre Hero y "Por qué existe"): usa
+  `public/illustrations/deco/ticker.svg` (5388×240, ya viene con su propio fondo lima) con la
+  misma técnica que `FooterTicker` ya usa — contenido duplicado una vez para que
+  `translateX(-50%)` sea un loop invisible, animado con el keyframe `ticker-scroll` ya existente.
+  No es un componente del DS porque envuelve una sola imagen ancha en vez de una lista de items de
+  texto (la API de `FooterTicker` no encaja); si en el futuro hace falta este mismo patrón en más
+  de un lugar, vale la pena generalizarlo allá.
+- **Hero**: el padding vertical pasó de `Container size="hero"` (con `py-(--spacing-section-sm)
+  lg:py-(--spacing-section-lg)` internos) a `size="wide"` con `pt-10 pb-24 sm:pt-14 sm:pb-28
+  lg:pt-20 lg:pb-32` explícitos. Un primer intento agregó `pt-*` por encima de `size="hero"`
+  esperando que `tailwind-merge` recortara el `py-*` interno, pero `tailwind-merge` no reconoció
+  `py-(--spacing-section-sm)` (sintaxis de variable arbitraria) y `pt-10` (escala estándar) como
+  el mismo grupo, así que las dos clases quedaban en el HTML — se detectó revisando la clase
+  final renderizada con `curl`, no asumiendo. `size="wide"` no trae `py` propio, así que el
+  padding queda completamente explícito y sin conflicto.
+- **Cierre**: se pasó de 7 piezas agrupadas en 2 esquinas a 8, una por posición cardinal alrededor
+  del wrapper `max-w-2xl` (N/NE/E/SE/S/SW/W/NW) — ninguna comparte esquina con otra. Se agregaron
+  `geometry/leaf-yellow` y `geometry/spring-lime` (primera vez que se usan acá), sumado a
+  `geometry/flor-violet` ya existente — entre las 4 familias (`deco`, `geometry/flor`,
+  `geometry/leaf`, `geometry/spring`) no se repite ningún archivo.
