@@ -28,6 +28,7 @@ completa en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 
 | Contact Template completo (`contact-template.tsx`, `contact-form.tsx`, `contact-hero.tsx`, `contact-sidebar.tsx`, `social-proof.tsx`, `contact-page.tsx`, `lib/templates/contact-data.ts`) | 2026-07-21 | `db83fdd` | `contact-page.tsx` y `social-proof.tsx` se portaron por fidelidad del barrel export, pero no se usan — ver nota abajo |
 | `Field`, `Textarea`, `Checkbox`, `RadioGroup`, `Select`, `Tooltip` | 2026-07-21 | `db83fdd` | Dependencias del formulario |
+| Not Found Template completo (`not-found-template.tsx`, `not-found-scene.tsx`, `not-found-page.tsx`, `index.ts`) | 2026-07-21 | `9c99437` | `not-found-page.tsx` se portó por fidelidad del barrel export, pero no se usa — `app/not-found.tsx` compone `SiteNavbar` + `NotFoundTemplate` + `SiteFooter` directamente, con CTAs propios (`/`, `/work`, `/studio`) |
 
 ### Nota sobre Contact Template — dos mejoras hechas primero en el DS
 
@@ -56,3 +57,15 @@ seguros" en vez del semillero de medicina de emergencias. No se usó ese texto c
 `content/case-studies/simer.ts` documenta esto y construye el contenido solo a partir de las
 secciones del Volumen VIII que sí son genuinamente sobre SIMER. Vale la pena corregir el Brand OS
 original en Notion para que esto no se repita en una futura sincronización.
+
+### Nota sobre la Fase 7 — `opengraph-image` es por segmento, no se hereda
+
+`opengraph-image.tsx` (convención de archivo de Next.js) solo aplica al segmento de ruta exacto
+donde vive, no cae en cascada a sub-rutas hermanas. Un primer intento con un único
+`app/opengraph-image.tsx` "por defecto" quedó huérfano (aplicaba a un `app/page.tsx` que no
+existe, porque la home real es `app/(marketing)/page.tsx`) y dejó `/`, `/studio`, `/capabilities`,
+`/work` y `/contact` sin `og:image`. Se detectó levantando un build de producción real
+(`next build` + `next start`) y comprobando con `curl` el HTML de cada ruta — no alcanza con que
+el build compile o que la ruta aparezca como estática. Fix: un `opengraph-image.tsx` por segmento
+(`/`, `/studio`, `/capabilities`, `/work`, `/contact`, más el ya existente `/work/[slug]`), cada
+uno reusando `OgCard` de `lib/og.tsx` con el título/eyebrow real de esa página.

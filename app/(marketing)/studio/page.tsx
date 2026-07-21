@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Reveal, RevealGroup } from "@/components/templates/reveal";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Studio",
   description:
     "Natalia García y Emy Dorado notaron esto: que el mundo se había llenado de cosas bien hechas y vacías.",
-};
+  path: "/studio",
+});
 
 const kicker = "font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase";
 

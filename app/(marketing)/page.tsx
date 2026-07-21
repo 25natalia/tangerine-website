@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,15 @@ import { Card, CardHeader, CardTitle, CardBody, CardDescription } from "@/compon
 import { Reveal, RevealGroup } from "@/components/templates/reveal";
 import { HomeHero } from "@/components/home-hero";
 import { capabilities } from "@/lib/capabilities";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Tangerine Studio",
+  description:
+    "Ayudamos a que las cosas, y las personas, recuerden cómo ser exactamente lo que son. No vendemos diseño. Construimos identidad.",
+  path: "/",
+  titleAbsolute: true,
+});
 
 // Seis creencias reales de Tangerine Studio (Brand OS, Volumen II —
 // "Creencias"), citadas literalmente. No es contenido de placeholder.

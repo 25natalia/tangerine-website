@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/templates/reveal";
 import { capabilities } from "@/lib/capabilities";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Capabilities",
   description:
     "No ofrecemos una lista de servicios sueltos. Ofrecemos capacidades: formas distintas de aplicar la misma manera de pensar a un problema distinto.",
-};
+  path: "/capabilities",
+});
 
 const kicker = "font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase";
 

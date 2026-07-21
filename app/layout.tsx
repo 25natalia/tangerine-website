@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Baloo_2, Roboto, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { OrganizationJsonLd } from "@/components/json-ld";
 import "./globals.css";
 
 // Same font stack as tangerine-design-system, portado sin modificar — ver
@@ -37,9 +39,10 @@ const cocogooseRegular = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Tangerine Studio",
-    template: "%s · Tangerine Studio",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
   description:
     "Tangerine Studio existe porque el mundo tiene, cada vez más, marcas y personas que funcionan perfecto y dicen cada vez menos.",
@@ -57,6 +60,7 @@ export default function RootLayout({
       className={`${baloo2.variable} ${roboto.variable} ${geistMono.variable} ${cocogooseRegular.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <OrganizationJsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
