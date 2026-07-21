@@ -39,7 +39,7 @@ const rootVariants = cva("w-full", {
       filled: "divide-y divide-(--purple-100) rounded-(--radius-container) bg-(--purple-50) overflow-hidden dark:divide-(--purple-800) dark:bg-(--purple-950)",
       bordered: "divide-y divide-(--border-subtle) rounded-(--radius-container) border border-(--border-default)",
       ghost: "space-y-1",
-      card: "space-y-3",
+      card: "flex flex-col space-y-3",
       faq: "space-y-4",
     } satisfies Record<AccordionVariant, string>,
   },
@@ -53,7 +53,18 @@ const itemVariants = cva("", {
       filled: "",
       bordered: "",
       ghost: "rounded-(--radius-container)",
-      card: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-shadow duration-(--duration-base) ease-(--ease-standard) data-open:shadow-(--shadow-elevation-2)",
+      // No overflow-hidden/border/bg here on purpose — those live on the
+      // inner clip wrapper AccordionItem renders for this variant (see
+      // below). box-shadow paints outside an element's border box, so an
+      // element that both hides overflow and grows a shadow on hover clips
+      // its own shadow; splitting the two responsibilities across two
+      // elements is the actual fix, not a smaller/inset shadow.
+      //
+      // No scale/translate on hover, deliberately: a card that changes size
+      // on hover reads as a layout glitch more than a lift, and it's what
+      // caused the clipping this fixed in the first place. Feedback is
+      // shadow + border color only — geometry never moves.
+      card: "rounded-(--radius-container) transition-shadow duration-(--duration-base) ease-(--ease-standard) hover:shadow-(--shadow-elevation-3) data-open:shadow-(--shadow-elevation-2)",
       faq: "overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card",
     } satisfies Record<AccordionVariant, string>,
   },
@@ -136,6 +147,7 @@ function Accordion({
   value,
   defaultValue,
   onValueChange,
+  hiddenUntilFound = false,
   disabled,
   className,
   children,
@@ -162,6 +174,7 @@ function Accordion({
         onValueChange={handleValueChange}
         multiple={multiple}
         disabled={disabled}
+        hiddenUntilFound={hiddenUntilFound}
         className={cn(rootVariants({ variant }), className)}
       >
         {children}
@@ -172,6 +185,35 @@ function Accordion({
 
 function AccordionItem({ value, disabled, className, children }: AccordionItemProps) {
   const { variant } = useAccordionConfig();
+
+  // "card" needs two elements, not one: the outer one (Base UI's Item,
+  // which is where `data-open` actually lands) owns the hover shadow, and a
+  // plain inner div owns overflow-hidden for the rounded corners around
+  // AccordionContent's height animation, plus the border — whose hover
+  // color needs `group-hover/item` since the color lives one element in
+  // from the one the pointer is actually over. `flex-1` on the outer +
+  // `flex flex-col` on the Root (rootVariants) is what makes every card in
+  // a row match height when the consumer stretches the Root itself (e.g. a
+  // CSS Grid cell). No z-index anywhere here: without a scale/lift transform
+  // (removed — see the hover comment on itemVariants.card), neighboring
+  // cards never visually overlap, so there's nothing for a z-index to
+  // referee — and Tailwind's numeric scale (z-10, z-20…) mirrors this DS's
+  // reserved --z-sticky/--z-dropdown/etc. tokens closely enough that reaching
+  // for it out of habit risks a real collision with page-level chrome.
+  if (variant === "card") {
+    return (
+      <AccordionPrimitive.Item
+        value={value}
+        disabled={disabled}
+        className={cn("group/item relative flex-1", itemVariants({ variant }), className)}
+      >
+        <div className="h-full overflow-hidden rounded-(--radius-container) border border-(--border-default) bg-card transition-colors duration-(--duration-base) ease-(--ease-standard) group-hover/item:border-(--border-strong)">
+          {children}
+        </div>
+      </AccordionPrimitive.Item>
+    );
+  }
+
   return (
     <AccordionPrimitive.Item
       value={value}
@@ -183,7 +225,7 @@ function AccordionItem({ value, disabled, className, children }: AccordionItemPr
   );
 }
 
-function AccordionTrigger({ title, description, leadingIcon, className }: AccordionTriggerProps) {
+function AccordionTrigger({ title, description, leadingIcon, trailingIcon, className }: AccordionTriggerProps) {
   const { size, icon, variant } = useAccordionConfig();
   const config = sizeConfig[size];
   const titleClass = variant === "faq" ? config.faqTitle : config.title;
@@ -214,6 +256,11 @@ function AccordionTrigger({ title, description, leadingIcon, className }: Accord
             </span>
           ) : null}
         </span>
+        {trailingIcon ? (
+          <span className="shrink-0" aria-hidden="true">
+            {trailingIcon}
+          </span>
+        ) : null}
         <ExpandIcon icon={icon} className={config.icon} />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

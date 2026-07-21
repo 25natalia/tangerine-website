@@ -42,12 +42,15 @@ const showsWordmarkByVariant: Record<FooterVariant, boolean> = {
 };
 
 /**
- * The root — a border-top surface whose padding/container width/decorative
- * wordmark flex with `variant`. Which zones actually render (mascot hero,
- * ticker, message, links, social) is left entirely to composition: pass
- * whichever `Footer*` children fit the context, the same way `<Navbar>`
- * leaves Brand/Links/Actions up to the consumer. See the README for the 5
- * full example compositions this maps to.
+ * The root — a surface whose padding/container width/decorative wordmark
+ * flex with `variant`. No border-top: the transition from whatever page
+ * content precedes it is whitespace-only, by design — a border here would
+ * be one more line competing with the wordmark and the mascot for the same
+ * "where does the page end" signal. Which zones actually render (mascot
+ * hero, ticker, message, links, social) is left entirely to composition:
+ * pass whichever `Footer*` children fit the context, the same way
+ * `<Navbar>` leaves Brand/Links/Actions up to the consumer. See the README
+ * for the 5 full example compositions this maps to.
  */
 function Footer({ variant = "creative", className, children }: FooterProps) {
   const showWordmark = showsWordmarkByVariant[variant];
@@ -55,7 +58,7 @@ function Footer({ variant = "creative", className, children }: FooterProps) {
   return (
     <footer
       data-variant={variant}
-      className={cn("relative overflow-hidden border-t border-(--border-subtle) bg-(--surface-default)", className)}
+      className={cn("relative overflow-hidden bg-(--surface-default)", className)}
     >
       {showWordmark ? (
         <Image
