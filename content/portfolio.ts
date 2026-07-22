@@ -42,6 +42,7 @@ export const portfolio: PortfolioData = {
       accent: "info",
       size: "large",
       href: "/work/alegra-veneers-cali",
+      coverVideo: { src: "/animations/portada-ALEGRA.mp4", poster: "/animations/portada-ALEGRA-poster.jpg" },
     },
     {
       slug: "simer",
@@ -56,6 +57,7 @@ export const portfolio: PortfolioData = {
       accent: "green",
       size: "medium",
       href: "/work/simer",
+      coverVideo: { src: "/animations/portada-SIMER.mp4", poster: "/animations/portada-SIMER-poster.jpg" },
     },
     {
       slug: "una-noche",
@@ -70,6 +72,7 @@ export const portfolio: PortfolioData = {
       accent: "tangerine",
       size: "medium",
       href: "/work/una-noche",
+      coverVideo: { src: "/animations/portada-UNA-NOCHE.mp4", poster: "/animations/portada-UNA-NOCHE-poster.jpg" },
     },
     {
       slug: "margarita-burgos",
@@ -84,6 +87,7 @@ export const portfolio: PortfolioData = {
       accent: "purple",
       size: "medium",
       href: "/work/margarita-burgos",
+      coverVideo: { src: "/animations/portada-MB.mp4", poster: "/animations/portada-MB-poster.jpg" },
     },
     {
       slug: "quickbite",
@@ -98,6 +102,7 @@ export const portfolio: PortfolioData = {
       accent: "tangerine",
       size: "small",
       href: "/work/quickbite",
+      coverVideo: { src: "/animations/portada-QUICKBITE.mp4", poster: "/animations/portada-QUICKBITE-poster.jpg" },
     },
   ],
 };

@@ -5,6 +5,7 @@
 // lib/patterns.ts already uses between data and components/patterns/*.tsx.
 
 import type { PatternId } from "@/lib/patterns";
+import type { VisualBlockVideo } from "@/components/templates/shared/visual-block";
 
 export type CaseStudyAccent = "purple" | "green" | "tangerine" | "info" | "gold";
 /** Mirrors Avatar's own `color` variant (components/ui/avatar.tsx) — not imported directly since Avatar exports no standalone prop type. */
@@ -47,6 +48,8 @@ export interface CaseStudyVisualIdentity {
   intro: string;
   colors: CaseStudyVisualColor[];
   typography: CaseStudyTypeRole[];
+  /** Rendered after the color grid, before typography — a real motion piece (palette reveal, brand animation...) when a project has one. */
+  video?: VisualBlockVideo;
 }
 
 export interface CaseStudyGalleryItem {
@@ -89,6 +92,12 @@ export interface CaseStudyNextProject {
   pattern: PatternId;
 }
 
+/** The "explore the live site" section — only makes sense alongside `liveUrl`, which supplies the actual destination; this just supplies the section's own copy. */
+export interface CaseStudyLiveSite {
+  title: string;
+  description: string;
+}
+
 export interface CaseStudyData {
   slug: string;
   client: string;
@@ -100,6 +109,8 @@ export interface CaseStudyData {
   liveUrl?: string;
   heroPattern: PatternId;
   accent: CaseStudyAccent;
+  /** Real footage for the hero banner, replacing `heroPattern` when present — see `VisualBlock`'s `video` mode. */
+  bannerVideo?: VisualBlockVideo;
 
   /** 2-3 paragraphs — enforced loosely by convention, not by the type. */
   summary: string[];
@@ -121,4 +132,6 @@ export interface CaseStudyData {
   learnings?: CaseStudyLearning[];
   testimonial?: CaseStudyTestimonial;
   nextProject?: CaseStudyNextProject;
+  /** Renders near the end, before `nextProject` — only when both this and `liveUrl` are set. */
+  liveSite?: CaseStudyLiveSite;
 }

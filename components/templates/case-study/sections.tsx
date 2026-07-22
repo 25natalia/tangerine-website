@@ -112,7 +112,11 @@ export function CaseStudyHero({ data }: { data: CaseStudyData }) {
         transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
         className="mt-4"
       >
-        <VisualBlock pattern={data.heroPattern} accent={data.accent} animate className="aspect-[16/8] w-full sm:aspect-[16/6]" />
+        {data.bannerVideo ? (
+          <VisualBlock video={data.bannerVideo} className="aspect-[16/8] w-full sm:aspect-[16/6]" />
+        ) : (
+          <VisualBlock pattern={data.heroPattern} accent={data.accent} animate className="aspect-[16/8] w-full sm:aspect-[16/6]" />
+        )}
       </motion.div>
     </header>
   );
@@ -282,7 +286,14 @@ export function CaseStudyVisualIdentity({ data }: { data: NonNullable<CaseStudyD
           </div>
         ))}
       </Reveal>
-      <Reveal className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3" delay={0.1}>
+      {data.video ? (
+        <Reveal className="mt-10" delay={0.1}>
+          <div className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
+            <VisualBlock video={data.video} className="aspect-video w-full" />
+          </div>
+        </Reveal>
+      ) : null}
+      <Reveal className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3" delay={0.15}>
         {data.typography.map((t) => (
           <div key={t.role} className="rounded-(--radius-container) border border-(--border-subtle) p-6">
             <span className="font-display block text-5xl">{t.sample}</span>
@@ -495,6 +506,34 @@ export function CaseStudyTestimonial({ testimonial }: { testimonial: NonNullable
               <p className="text-caption text-(--text-tertiary)">{testimonial.role} · {testimonial.company}</p>
             </div>
           </div>
+        </Card>
+      </Reveal>
+    </Container>
+  );
+}
+
+/* ================= LIVE SITE ================= */
+
+export function CaseStudyLiveSite({ data }: { data: CaseStudyData }) {
+  if (!data.liveSite || !data.liveUrl) return null;
+  return (
+    <Container size="wide" className="py-20 sm:py-28">
+      <Reveal>
+        <Card variant="flat" className="flex flex-col items-start gap-8 p-8 sm:flex-row sm:items-center sm:justify-between sm:p-12">
+          <div className="max-w-xl">
+            <p className="text-overline text-(--text-brand) uppercase">Sitio web en producción</p>
+            <h2 className="font-display mt-3 text-3xl font-bold text-balance sm:text-4xl">{data.liveSite.title}</h2>
+            <p className="mt-4 text-body-lg text-pretty text-(--text-secondary)">{data.liveSite.description}</p>
+          </div>
+          <a
+            href={data.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants({ size: "lg" }), "group/cta shrink-0")}
+          >
+            Explora el sitio en vivo
+            <ArrowUpRight className="size-4 transition-transform duration-(--duration-base) ease-(--ease-standard) group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" aria-hidden="true" />
+          </a>
         </Card>
       </Reveal>
     </Container>

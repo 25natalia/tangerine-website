@@ -32,11 +32,18 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
       className="group/card relative flex h-full flex-col overflow-hidden rounded-(--radius-container) border border-(--border-subtle) bg-(--surface-default) transition-[border-color,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:border-(--border-brand) hover:shadow-(--shadow-elevation-3)"
     >
       <div className="relative overflow-hidden">
-        <VisualBlock
-          pattern={project.pattern}
-          accent={project.accent}
-          className={cn("w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/card:scale-105", config.aspect)}
-        />
+        {project.coverVideo ? (
+          <VisualBlock
+            video={project.coverVideo}
+            className={cn("w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/card:scale-105", config.aspect)}
+          />
+        ) : (
+          <VisualBlock
+            pattern={project.pattern}
+            accent={project.accent}
+            className={cn("w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/card:scale-105", config.aspect)}
+          />
+        )}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-(--duration-base) ease-(--ease-standard) group-hover/card:opacity-100"

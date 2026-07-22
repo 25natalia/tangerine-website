@@ -21,6 +21,7 @@ export const simer: CaseStudyData = {
   duration: "2 semanas",
   heroPattern: "hoja",
   accent: "green",
+  bannerVideo: { src: "/animations/banner-SIMER.mp4", poster: "/animations/banner-SIMER-poster.jpg" },
 
   summary: [
     "SIMER es el Semillero de Medicina de Emergencias y Reanimación de la Universidad Icesi. Necesitaba una identidad visual reconocible, capaz de diferenciarlo del resto de los semilleros universitarios, y de transmitir cercanía, profesionalismo y juventud sin caer en la imagen fría que suele asociarse a la medicina de emergencias.",
@@ -63,6 +64,24 @@ export const simer: CaseStudyData = {
       { title: "Percepción antes que estética", description: "Muchos estudiantes asocian la medicina de emergencias con una carga emocional intensa antes de descubrir su costado formativo y comunitario." },
       { title: "El costo de la inconsistencia", description: "Cada publicación sin sistema no solo tomaba más tiempo — perdía la oportunidad de corregir esa percepción." },
     ],
+  },
+
+  // Colores y jerarquía (primario/secundario/neutro/complemento/acento)
+  // extraídos directamente del video real de paleta del proyecto — no hay
+  // typography documentada en el Volumen VIII, así que ese campo queda
+  // vacío en vez de inventar una familia tipográfica.
+  visualIdentity: {
+    intro: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional — blancos clínicos, cruces, señalética hospitalaria.",
+    colors: [
+      { name: "Azul eléctrico", hex: "#3B5BFF", role: "Color primario" },
+      { name: "Blanco grisáceo", hex: "#F4F6FA", role: "Color secundario" },
+      { name: "Negro carbón", hex: "#1E1E1E", role: "Color neutro" },
+      { name: "Azul claro", hex: "#A8C7FF", role: "Color complemento" },
+      { name: "Rojo coral", hex: "#FF4E4E", role: "Color acento" },
+      { name: "Verde lima", hex: "#C7FF4E", role: "Color complemento" },
+    ],
+    typography: [],
+    video: { src: "/animations/paleta-SIMER.mp4", poster: "/animations/paleta-SIMER-poster.jpg" },
   },
 
   gallery: [

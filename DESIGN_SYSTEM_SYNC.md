@@ -466,6 +466,7 @@ tal cual ya existían.
 
 | `Carousel` — flechas alineadas al estilo de `ScrollCarousel` | 2026-07-21 | `bc4c537` | No es un prop nuevo, es un ajuste de estilo compartido. `Carousel` no tenía ningún consumidor real todavía en ninguno de los dos repos, así que no hay riesgo de regresión visual |
 | `ScrollCarousel` — prop nuevo `draggable` + `items-start` en el track | 2026-07-22 | `dcd712c` | `draggable` (default `false`) habilita arrastre con mouse; se acota a `pointerType === "mouse"` para no interferir con el scroll táctil nativo que ya funcionaba. `items-start` reemplaza el `stretch` por defecto de flex — necesario para que una card no infle la altura de sus vecinas al expandirse. Ver nota abajo |
+| `VisualBlock` — modo nuevo `video` + `LazyVideo` (`components/templates/shared/`) | 2026-07-22 | `210b1a7` | `video` es un modo alternativo (unión discriminada con `pattern`/`accent`/`animate`), no un prop suelto — no se puede pasar ambos por error. `LazyVideo` es un componente nuevo: `src` no se asigna hasta que el elemento entra al viewport (IntersectionObserver), y una vez cargado nunca se vuelve a limpiar, solo se pausa/reanuda. Bajo `prefers-reduced-motion` el video nunca carga y el `poster` queda fijo. Ver nota abajo |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -573,3 +574,76 @@ una franja igual de alta que antes se habría comido una porción mucho mayor de
 Verificado con build + `next start` + `curl` reales: los 6 títulos y descripciones nuevos
 presentes, las 6 franjas de color en el orden esperado, grid de 2 columnas confirmado, y sin
 ningún rastro de `aria-expanded`/botón dentro de las cards del proceso.
+
+### Videos reales en Work y Case Studies
+
+El usuario agregó 16 `.mov` en `public/animations/` (portada×6 — dos opciones para SIMER —,
+banner×5, paleta×5) para reemplazar los placeholders de `VisualBlock` (pattern) por metraje real
+del proyecto. Antes de tocar componentes hubo que resolver un problema técnico real: los `.mov`
+traían el brand `ftyp qt  ` (QuickTime) — códec H.264 compatible, pero Chrome/Firefox rechazan ese
+brand contenedor específicamente, sin importar el códec interno; solo Safari los reproduce tal
+cual. Sin `ffmpeg` disponible en el PATH del entorno, se instaló `ffmpeg-static` en un proyecto
+npm aislado dentro del scratchpad (no como dependencia de ninguno de los dos repos) únicamente
+para remuxear.
+
+Los 16 `.mov` se remuxearon/recodificaron a `.mp4` (`ftyp isom`, real y reproducible en todos los
+navegadores) — no fue un simple copy de contenedor: los bitrates originales eran extremadamente
+inconsistentes (de 491 kb/s a 23 Mb/s entre archivos con duración y contenido comparables), así
+que se recodificaron con `libx264 -crf 23 -preset medium`, ancho tope 1280px (nunca se agranda,
+solo se reduce si el original es más ancho) y `-movflags +faststart`. Resultado: los 15 archivos
+usados (se descartó `portada-SIMER2.mov`, ver más abajo) pasaron de ~134MB a 9.6MB combinados —
+una reducción del ~93%, sin la cual autoplay en la grilla de `/work` (hasta 5 videos "visibles" a
+la vez para el navegador) hubiera sido irresponsable en móvil. Se generó además un frame poster
+(`-poster.jpg`) por video para evitar pantalla negra mientras carga. Los `.mov` originales quedan
+intactos en el repo (ya estaban versionados) como masters; el código no los referencia más.
+
+**SIMER tenía dos portadas** (`portada-SIMER1.mov`, fondo lima; `portada-SIMER2.mov`, fondo claro)
+— mismo logo animándose sobre fondos distintos. Se le preguntó al usuario cuál usar; eligió
+SIMER1. `portada-SIMER2.mov` queda sin usar en el repo.
+
+**`VisualBlock` — modo `video` nuevo, construido primero en la DS** (ver tabla arriba, `210b1a7`):
+unión discriminada con el modo `pattern` existente, y `LazyVideo` como pieza nueva que solo
+carga/reproduce el video mientras está (o está por entrar) en el viewport — la app de perf pedida
+explícitamente ("cargar únicamente los videos que realmente estén visibles... evitar reproducir
+videos innecesarios fuera del viewport"). Bajo `prefers-reduced-motion` el video ni siquiera se
+carga, mismo contrato que el resto de la animación de este DS.
+
+**Dónde quedó cada video:**
+- `coverVideo` (`lib/templates/portfolio.ts`) — portada de cada proyecto. Alegra es
+  `projects[0]`, así que su portada vive en `FeaturedProject` (aspect `21/9`); los otros 4 van en
+  `ProjectCard` dentro de la grilla. Los portada son verticales (1518×1896) y los contenedores son
+  panorámicos — con `object-cover` (mismo criterio que `PatternImage` ya usaba) el recorte termina
+  centrado sobre la pantalla del mockup del iMac que el propio video muestra, no sobre el
+  wordmark/periféricos — se ve intencional, no como un recorte accidental.
+- `bannerVideo` (`lib/templates/case-study.ts`) — reemplaza el pattern del Hero de cada Case
+  Study. Aspect casi idéntico al contenedor (2828×1052 vs. `aspect-[16/8]`/`aspect-[16/6]`), sin
+  recorte relevante.
+- `visualIdentity.video` — el video de paleta, colocado después del grid de colores y antes de la
+  tipografía (exactamente donde se pidió), envuelto en un contenedor propio con
+  `rounded-(--radius-container)` + borde sutil (los otros dos usos de video no llevan ese wrapper
+  porque ya heredan el redondeo de su contenedor — el Hero es full-bleed a propósito, sin
+  contenedor, y las cards de portfolio/featured ya tienen `overflow-hidden rounded-*` en el `<a>`
+  padre).
+
+**SIMER y Una Noche no tenían sección `visualIdentity` todavía** (solo Alegra, Margarita Burgos y
+QuickBite la tenían) — sin colores/tipografía documentados no había dónde insertar el video sin
+inventar contenido. Los propios videos de paleta de estos dos proyectos resultaron ser, igual que
+el de Alegra, una pieza de marca real con nombre/rol/hex por color — así que los colores y hex de
+`visualIdentity.colors` en `simer.ts` y `una-noche.ts` están **extraídos literalmente del video**
+(no inventados); solo el `name` descriptivo de cada swatch ("Azul eléctrico", "Rojo vino"...) es
+mío, como etiqueta de un hex real, no como un hecho de marca nuevo. Ninguno de los dos tiene
+`typography` documentada en el Brand OS, así que ese campo queda como array vacío en vez de
+inventar una familia tipográfica — el componente ya soporta una lista vacía sin romperse.
+
+**Sección nueva "Sitio web en producción"** (`CaseStudyLiveSite`, en `sections.tsx`), solo en
+Alegra Veneers vía `data.liveSite` (reutiliza el `liveUrl` que ya existía en el tipo pero que
+Alegra no tenía seteado — se agregó `https://alegraveneerscali.com/`). Reutiliza `Card` +
+`buttonVariants` del DS, un solo botón (no dos): "principal" y "con ícono de enlace externo" se
+resolvieron como el mismo elemento en vez de dos CTAs redundantes, siguiendo el mismo patrón que
+ya usa el botón "Visitar el proyecto" del Hero. `target="_blank"` + `rel="noopener noreferrer"`.
+
+Verificado con build + `next start` + `curl` reales: los 5 `<video>` de portada en `/work` (con
+`poster`, `muted`, `loop`, `playsInline`, `preload="none"`, sin `src` en el HTML servido — se
+asigna client-side recién al entrar al viewport), banner + paleta en el Hero/Sistema Visual de
+Alegra, `Content-Type: video/mp4` real en las respuestas de `/animations/*.mp4`, colores reales
+en SIMER/Una Noche, y la sección de sitio en vivo con el link correcto y `target="_blank"`.

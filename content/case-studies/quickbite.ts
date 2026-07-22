@@ -14,6 +14,7 @@ export const quickbite: CaseStudyData = {
   duration: "8 sprints",
   heroPattern: "hoja",
   accent: "tangerine",
+  bannerVideo: { src: "/animations/banner-QUICKBITE.mp4", poster: "/animations/banner-QUICKBITE-poster.jpg" },
 
   summary: [
     "QuickBite nace como un proyecto conceptual desarrollado por Tangerine Studio para explorar cómo una experiencia de compra digital puede simplificar el acceso a alimentos saludables sin sacrificar comodidad, velocidad ni calidad.",
@@ -72,6 +73,7 @@ export const quickbite: CaseStudyData = {
       { role: "Interfaz y cuerpo", family: "DM Sans", sample: "Aa" },
       { role: "Titulares", family: "Radio Canada", sample: "Aa" },
     ],
+    video: { src: "/animations/paleta-QUICKBITE.mp4", poster: "/animations/paleta-QUICKBITE-poster.jpg" },
   },
 
   gallery: [

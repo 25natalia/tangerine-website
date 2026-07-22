@@ -18,4 +18,5 @@ export type {
   CaseStudyLearning,
   CaseStudyTestimonial as CaseStudyTestimonialData,
   CaseStudyNextProject as CaseStudyNextProjectData,
+  CaseStudyLiveSite as CaseStudyLiveSiteData,
 } from "@/lib/templates/case-study";

@@ -14,6 +14,7 @@ export const margaritaBurgos: CaseStudyData = {
   duration: "6 sprints + acompañamiento",
   heroPattern: "flor",
   accent: "purple",
+  bannerVideo: { src: "/animations/banner-MB.mp4", poster: "/animations/banner-MB-poster.jpg" },
 
   summary: [
     "Margarita Burgos llegó a Tangerine con la necesidad de construir una marca personal sólida que representara su experiencia como asesora de seguros y la diferenciara en un sector caracterizado por una comunicación altamente estandarizada.",
@@ -72,6 +73,7 @@ export const margaritaBurgos: CaseStudyData = {
       { role: "Título", family: "Champagne & Limousines — Bold", sample: "Mg" },
       { role: "Cuerpo", family: "Champagne & Limousines — Regular", sample: "Mg" },
     ],
+    video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
   },
 
   gallery: [

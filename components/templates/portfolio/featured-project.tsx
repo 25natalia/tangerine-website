@@ -40,12 +40,19 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
           className="group/featured relative block overflow-hidden rounded-(--radius-overlay) border border-(--border-subtle) shadow-(--shadow-elevation-2)"
         >
           <div className="overflow-hidden">
-            <VisualBlock
-              pattern={project.pattern}
-              accent={project.accent}
-              animate
-              className="aspect-[21/9] w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/featured:scale-[1.03] sm:aspect-[21/8]"
-            />
+            {project.coverVideo ? (
+              <VisualBlock
+                video={project.coverVideo}
+                className="aspect-[21/9] w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/featured:scale-[1.03] sm:aspect-[21/8]"
+              />
+            ) : (
+              <VisualBlock
+                pattern={project.pattern}
+                accent={project.accent}
+                animate
+                className="aspect-[21/9] w-full transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/featured:scale-[1.03] sm:aspect-[21/8]"
+              />
+            )}
           </div>
           <div
             aria-hidden="true"

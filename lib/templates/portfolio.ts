@@ -5,7 +5,7 @@
 // para crecer" section).
 
 import type { PatternId } from "@/lib/patterns";
-import type { TemplateAccent } from "@/components/templates/shared/visual-block";
+import type { TemplateAccent, VisualBlockVideo } from "@/components/templates/shared/visual-block";
 
 export type PortfolioCategory =
   | "Branding"
@@ -40,6 +40,8 @@ export interface PortfolioProject {
   size: PortfolioProjectSize;
   /** Where "View Case Study" points — a real route if one exists, otherwise omit and the card shows no CTA link. */
   href?: string;
+  /** Real project footage for the card's cover, replacing `pattern` when present — see `VisualBlock`'s `video` mode. `pattern`/`accent` stay set regardless, so removing this later falls straight back to the placeholder instead of leaving the project cover-less. */
+  coverVideo?: VisualBlockVideo;
 }
 
 export interface PortfolioStat {

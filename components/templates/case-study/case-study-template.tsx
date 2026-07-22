@@ -16,6 +16,7 @@ import {
   CaseStudyImpact,
   CaseStudyLearnings,
   CaseStudyTestimonial,
+  CaseStudyLiveSite,
   CaseStudyNextProject,
 } from "./sections";
 
@@ -54,6 +55,7 @@ export function CaseStudyTemplate({ data }: { data: CaseStudyData }) {
       {data.impact ? <CaseStudyImpact impact={data.impact} /> : null}
       {data.learnings ? <CaseStudyLearnings learnings={data.learnings} /> : null}
       {data.testimonial ? <CaseStudyTestimonial testimonial={data.testimonial} /> : null}
+      <CaseStudyLiveSite data={data} />
       {data.nextProject ? <CaseStudyNextProject nextProject={data.nextProject} /> : null}
     </article>
   );

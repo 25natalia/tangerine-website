@@ -11,6 +11,7 @@ export const unaNoche: CaseStudyData = {
   duration: "No especificada en la documentación original",
   heroPattern: "semillas",
   accent: "tangerine",
+  bannerVideo: { src: "/animations/banner-UNA-NOCHE.mp4", poster: "/animations/banner-UNA-NOCHE-poster.jpg" },
 
   summary: [
     "Una Noche llegó a Tangerine sin ninguna identidad previa que heredar: una marca todavía por nacer visualmente, con una ambición mucho más grande que la de organizar eventos. Su intención real es construir una comunidad alrededor de la música, la creatividad, la cultura y el estilo de vida — no solo vender entradas.",
@@ -54,6 +55,21 @@ export const unaNoche: CaseStudyData = {
       { title: "Objeto, no solo imagen", description: "Una identidad puramente digital, sin un elemento capaz de trascender la pantalla, difícilmente iba a construir el mismo sentido de pertenencia que Una Noche buscaba." },
       { title: "Flexibilidad como requisito", description: "Cualquier elemento central tenía que poder viajar entre formatos digitales, físicos y futuros sin perder coherencia." },
     ],
+  },
+
+  // Mismo criterio que en simer.ts: colores y jerarquía extraídos
+  // directamente del video real de paleta del proyecto, sin typography
+  // documentada que citar.
+  visualIdentity: {
+    intro: "Rojo vino profundo como color primario, acompañado de un crema cálido y un neutro casi negro — la misma tensión entre seriedad y calidez que sostiene al dado como símbolo.",
+    colors: [
+      { name: "Rojo vino", hex: "#A41414", role: "Color primario" },
+      { name: "Crema cálido", hex: "#FFF5E6", role: "Color secundario" },
+      { name: "Negro", hex: "#0C0C0C", role: "Color neutro" },
+      { name: "Gris cálido", hex: "#9D918C", role: "Color complemento" },
+    ],
+    typography: [],
+    video: { src: "/animations/paleta-UNA-NOCHE.mp4", poster: "/animations/paleta-UNA-NOCHE-poster.jpg" },
   },
 
   gallery: [

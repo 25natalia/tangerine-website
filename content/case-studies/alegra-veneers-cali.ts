@@ -11,6 +11,8 @@ export const alegraVeneersCali: CaseStudyData = {
   duration: "4 semanas",
   heroPattern: "destello",
   accent: "info",
+  liveUrl: "https://alegraveneerscali.com/",
+  bannerVideo: { src: "/animations/banner-ALEGRA.mp4", poster: "/animations/banner-ALEGRA-poster.jpg" },
 
   summary: [
     "El proyecto consistió en el rediseño, estructuración y desarrollo completo de una nueva página web para la clínica odontológica Alegra, con un enfoque orientado a la captación de pacientes internacionales —principalmente de Estados Unidos— sin dejar de atender el mercado colombiano.",
@@ -64,6 +66,7 @@ export const alegraVeneersCali: CaseStudyData = {
       { name: "Blanco azulado", hex: "#F7FDFF", role: "Superficie clara" },
     ],
     typography: [{ role: "Título y cuerpo", family: "Urbanist", sample: "Aa" }],
+    video: { src: "/animations/paleta-ALEGRA.mp4", poster: "/animations/paleta-ALEGRA-poster.jpg" },
   },
 
   gallery: [
@@ -84,6 +87,12 @@ export const alegraVeneersCali: CaseStudyData = {
       description: "Estructurar el sitio directamente alrededor del recorrido real del paciente en lugar de un listado convencional de servicios permitió traducir un proceso logístico complejo en una promesa de marca simple y visual.",
     },
   ],
+
+  liveSite: {
+    title: "Explora el sitio en vivo",
+    description:
+      "El sitio está en producción, sirviendo campañas reales de Google y Meta Ads orientadas a pacientes internacionales. Visítalo para ver el sistema completo en contexto real, no solo en capturas.",
+  },
 
   nextProject: {
     eyebrow: "Siguiente proyecto",
