@@ -461,3 +461,35 @@ tal cual ya existían.
   alrededor del texto, sin ningún z-index explícito (mismo criterio que ya se aplicó en el Home:
   `position:relative` sin z pinta igual de bien después de sus hermanos `absolute z-0` anteriores
   en el DOM, sin arriesgar colisión con el `--z-sticky` de la Navbar).
+
+### Nota sobre el rediseño de Capabilities
+
+| `Carousel` — flechas alineadas al estilo de `ScrollCarousel` | 2026-07-21 | `bc4c537` | No es un prop nuevo, es un ajuste de estilo compartido. `Carousel` no tenía ningún consumidor real todavía en ninguno de los dos repos, así que no hay riesgo de regresión visual |
+
+`Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
+primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
+componente ya resolvía sin usar. Antes de portarlo se le alinearon las flechas al mismo estilo
+minimalista de `ScrollCarousel` (ver tabla arriba), porque hasta ahora nadie lo consumía en
+producción y no tenía sentido que el sitio tuviera dos estilos de flecha de carrusel distintos
+conviviendo.
+
+El ancho de la card (75-85%) se aplica envolviendo `<Carousel>` en un `div` con ese ancho, no vía
+su prop `slideClassName` — las flechas de `Carousel` se posicionan relativas a su elemento raíz,
+no al viewport que `slideClassName` dimensiona, así que pasarle el ancho ahí habría dejado las
+flechas pegadas a los bordes del `Container` completo en vez de a los de la card. Se detectó
+leyendo el componente completo antes de usarlo, no ajustando a prueba y error.
+
+El Hero (`capabilities-hero.tsx`) usa `bg-primary`/`text-primary-foreground` — los tokens
+semánticos reales (`--primary: var(--purple-600)` en claro, `var(--purple-400)` en oscuro;
+`--primary-foreground` resuelve blanco/casi-negro automáticamente) en vez de fijar un color a
+mano, así que el contraste AA queda garantizado en los dos temas sin tener que verificarlo aparte.
+La ilustración `deco/tangerine-bana-strawy.svg` (ya versionada desde antes) usa `FloatingElement`
+con `repelStrength` bajo (0.4) — a diferencia de
+los acentos chicos que este mismo componente mueve en el Cierre del Home o el Manifiesto de
+Studio, acá es la pieza protagonista del hero, así que el movimiento debe sentirse vivo sin
+volverse juguetón.
+
+Las 7 cards del carrusel usan 7 combinaciones de color reales del DS, nunca dos seguidas iguales;
+"Cream" se resolvió como `--gold-50` (el tono cálido y claro más cercano) porque el DS no tiene un
+primitivo cream propio. Ilustraciones: `Mascot` para Brand Systems y Creative Direction (las dos
+capacidades más "de identidad"), `geometry/`+`deco/` para el resto, sin repetir ningún archivo.
