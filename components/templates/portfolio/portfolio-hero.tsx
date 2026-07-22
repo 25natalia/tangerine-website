@@ -19,7 +19,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export function PortfolioHero({ data }: { data: PortfolioData }) {
   const reduceMotion = usePrefersReducedMotion();
   return (
-    <header className="border-b border-(--border-subtle)">
+    <header>
       <Container size="wide" className="pt-6 pb-16 sm:pt-8 sm:pb-24">
         <Breadcrumb>
           <BreadcrumbList>

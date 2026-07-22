@@ -84,11 +84,6 @@ export const simer: CaseStudyData = {
     video: { src: "/animations/paleta-SIMER.mp4", poster: "/animations/paleta-SIMER-poster.jpg" },
   },
 
-  gallery: [
-    { pattern: "hoja", caption: "Sistema de plantillas para Instagram — anuncios, contenido educativo, cobertura de actividades.", accent: "green" },
-    { pattern: "semillas", caption: "Brand Sheet — referencia rápida de logo, colores y tipografía para cualquier miembro de SIMER.", accent: "gold" },
-  ],
-
   mockups: ["branding", "merch"],
 
   beforeAfter: {
@@ -113,5 +108,6 @@ export const simer: CaseStudyData = {
     category: "Brand Identity",
     href: "/work/una-noche",
     pattern: "semillas",
+    coverVideo: { src: "/animations/portada-UNA-NOCHE.mp4", poster: "/animations/portada-UNA-NOCHE-poster.jpg" },
   },
 };

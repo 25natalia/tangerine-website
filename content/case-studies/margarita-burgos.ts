@@ -76,11 +76,6 @@ export const margaritaBurgos: CaseStudyData = {
     video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
   },
 
-  gallery: [
-    { pattern: "flor", caption: "Sistema de plantillas para posts — carruseles educativos, testimonios, casos reales.", accent: "purple" },
-    { pattern: "destello", caption: "Landing page desarrollada en Framer, conectada al flujo de automatización.", accent: "purple" },
-  ],
-
   mockups: ["desktop", "branding"],
 
   learnings: [
@@ -96,5 +91,6 @@ export const margaritaBurgos: CaseStudyData = {
     category: "Diseño y Desarrollo Web",
     href: "/work/alegra-veneers-cali",
     pattern: "destello",
+    coverVideo: { src: "/animations/portada-ALEGRA.mp4", poster: "/animations/portada-ALEGRA-poster.jpg" },
   },
 };

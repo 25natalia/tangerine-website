@@ -90,6 +90,8 @@ export interface CaseStudyNextProject {
   category: string;
   href: string;
   pattern: PatternId;
+  /** The target project's real cover footage, replacing `pattern` when present — same `VisualBlock` video mode as `bannerVideo`/`coverVideo` elsewhere, so "next project" previews the real thing instead of an abstract pattern. */
+  coverVideo?: VisualBlockVideo;
 }
 
 /** The "explore the live site" section — only makes sense alongside `liveUrl`, which supplies the actual destination; this just supplies the section's own copy. */

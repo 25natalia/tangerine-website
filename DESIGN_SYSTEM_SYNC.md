@@ -468,6 +468,7 @@ tal cual ya existían.
 | `ScrollCarousel` — prop nuevo `draggable` + `items-start` en el track | 2026-07-22 | `dcd712c` | `draggable` (default `false`) habilita arrastre con mouse; se acota a `pointerType === "mouse"` para no interferir con el scroll táctil nativo que ya funcionaba. `items-start` reemplaza el `stretch` por defecto de flex — necesario para que una card no infle la altura de sus vecinas al expandirse. Ver nota abajo |
 | `VisualBlock` — modo nuevo `video` + `LazyVideo` (`components/templates/shared/`) | 2026-07-22 | `210b1a7` | `video` es un modo alternativo (unión discriminada con `pattern`/`accent`/`animate`), no un prop suelto — no se puede pasar ambos por error. `LazyVideo` es un componente nuevo: `src` no se asigna hasta que el elemento entra al viewport (IntersectionObserver), y una vez cargado nunca se vuelve a limpiar, solo se pausa/reanuda. Bajo `prefers-reduced-motion` el video nunca carga y el `poster` queda fijo. Ver nota abajo |
 | `PortfolioProject.category` → `categories[]` + `PortfolioTemplate` prop nuevo `showFeatured` | 2026-07-22 | `c505924` | `categories` es un array — un proyecto puede pertenecer a más de una categoría real a la vez; se agregó también `"Página web"` como categoría nueva. `ProjectCard`/`FeaturedProject` ahora muestran un Badge por categoría, y su `h3` (mayor jerarquía) pasó de `project.title` a `project.client` — la marca es el punto de lectura principal, no el tagline. `showFeatured` (default `true`, mismo patrón que `showTimeline`) permite que ningún proyecto reciba el tratamiento "hero" de `FeaturedProject`. Ver nota abajo |
+| `PortfolioHero` — se quitó el `border-b` del root | 2026-07-22 | `7784b50` | Mismo criterio "solo whitespace, sin dividers" ya aplicado al Footer (`e3bf07b`) — no es un prop nuevo, es un ajuste de estilo compartido |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -704,3 +705,58 @@ Verificado con build + `next start` + `curl` reales: cero proyectos con tratamie
 en vez del tagline, los chips `Página web`/`UX/UI` en Alegra y `Branding`/`E-commerce` en
 QuickBite, breadcrumb `Home → Work → Alegra Veneers Cali` en el case study con el último nivel no
 clickeable, y `Design System` desaparecido por completo de `/work` y `/contact`.
+
+### Tercera ronda sobre Case Studies — limpieza editorial
+
+**Cards de colores eliminadas** de "El sistema visual" (`CaseStudyVisualIdentity`). Cambio
+solo en la web, no portado a la DS: a diferencia de `showFeatured`/`categories` (capacidades
+genéricas que cualquier consumidor del template podría querer), esto es una decisión editorial
+específica de este portfolio ("la lectura del caso debe sentirse más continua"), no una mejora
+universal del template — la DS conserva la capacidad de mostrar paleta de colores para cualquier
+otro consumidor. El campo `colors` sigue existiendo en `lib/templates/case-study.ts` y en el
+contenido de cada proyecto (incluyendo los hex reales extraídos de los videos de SIMER/Una Noche
+en la ronda anterior) — solo se dejó de renderizar, no se borró; mismo criterio que ya se usó con
+`project.title` al sacarlo de `ProjectCard`. De paso se resolvió un problema de espaciado
+preexistente: el grid de tipografía se renderizaba igual aunque `typography` viniera vacío (el
+caso de SIMER/Una Noche), dejando un hueco de `margin-top` sin contenido — ahora ese bloque solo
+se renderiza si `typography.length > 0`, y el primer elemento visible dentro de la sección (video
+o tipografía, lo que haya) ya no carga un `mt-10` extra que antes asumía que el grid de colores
+venía justo antes.
+
+**Divider bajo el banner de `/work`**: no estaba donde se buscó primero (Hero de Case Study →
+Summary, sin ningún border en el código ni en el HTML real verificado con curl). El usuario aclaró
+que era en `/work`, específicamente el `border-b` del `<header>` de `PortfolioHero` — se quitó
+primero en la DS (mismo criterio que ya se aplicó al Footer). Al revisar el HTML renderizado
+apareció un segundo `border-b`, pero es el del propio `Navbar` sticky del sitio (persiste en cada
+página, no solo en Work) — se le preguntó al usuario si tocarlo también, y la respuesta fue no
+tocarlo por quedar fuera del alcance de este pedido (afecta Home/Studio/Capabilities/Contact, no
+solo Work/Case Studies).
+
+**Año de Alegra Veneers corregido a `2026`** en las tres referencias que existían: `year` y el
+ítem "Año" dentro de `info` (`content/case-studies/alegra-veneers-cali.ts`), y `year` en la card
+del listado (`content/portfolio.ts`). Antes decía `"2025–2026"`/`"2025 – 2026"` en el Case Study y
+`"2025"` en la card — inconsistentes entre sí, y ninguno era el año pedido.
+
+**Navegación al siguiente proyecto con portada real** — `CaseStudyNextProject` (tipo +
+componente) gana un `coverVideo` opcional, mismo modo `video` de `VisualBlock` que ya usan
+`bannerVideo`/`coverVideo` en otras partes; con él presente reemplaza el `pattern` genérico. Solo
+en la web (mismo criterio que el resto de los campos de video de `CaseStudyData`, ninguno se portó
+a la DS en la ronda anterior tampoco). Cada uno de los 5 `nextProject` ahora apunta al mismo
+`coverVideo` que esa card ya usa en `/work` (`content/portfolio.ts`) — la preview de "siguiente
+proyecto" y la card real del listado muestran exactamente el mismo video, no una copia aparte.
+
+**Sección "El trabajo, a resolución real" (Gallery) eliminada** de los 5 Case Studies. No hizo
+falta ningún cambio de componente ni de tipo: `gallery` ya era un campo opcional y
+`case-study-template.tsx` ya la omitía por completo cuando no estaba presente
+(`{data.gallery ? <CaseStudyGallery /> : null}`) — bastó con quitar el campo `gallery` del
+contenido de los 5 proyectos. `CaseStudyMockups` usaba `data.gallery` como una de sus fuentes de
+pattern de respaldo; sin `gallery`, ese fallback ya caía en `data.heroPattern` (la lógica
+`data.gallery?.[...]?.pattern ?? data.heroPattern` ya contemplaba este caso), así que Mockups
+sigue funcionando sin ningún ajuste adicional.
+
+Verificado con build + `next start` + `curl` reales: cero elementos de swatch de color visibles
+(los hex reales solo sobreviven en el JSON serializado para hidratación, invisible al usuario),
+`border-b` fuera de `PortfolioHero`, año `2026` en las 10 referencias esperadas en el Case Study
+de Alegra, el video `portada-QUICKBITE` en la navegación de "siguiente proyecto" de Alegra, cero
+apariciones de "El trabajo, a resolución real", y el grid de tipografía vacío de SIMER
+confirmado ausente del HTML.

@@ -72,11 +72,6 @@ export const unaNoche: CaseStudyData = {
     video: { src: "/animations/paleta-UNA-NOCHE.mp4", poster: "/animations/paleta-UNA-NOCHE-poster.jpg" },
   },
 
-  gallery: [
-    { pattern: "semillas", caption: "El dado como elemento gráfico independiente — logotipo, patrones y aplicaciones.", accent: "tangerine" },
-    { pattern: "flor", caption: "Patrones 01 y 02, derivados del mismo concepto del dado.", accent: "purple" },
-  ],
-
   mockups: ["merch", "branding"],
 
   beforeAfter: {
@@ -97,5 +92,6 @@ export const unaNoche: CaseStudyData = {
     category: "Personal Branding",
     href: "/work/margarita-burgos",
     pattern: "flor",
+    coverVideo: { src: "/animations/portada-MB.mp4", poster: "/animations/portada-MB-poster.jpg" },
   },
 };

@@ -278,34 +278,25 @@ export function CaseStudyVisualIdentity({ data }: { data: NonNullable<CaseStudyD
   return (
     <Container size="wide" className="py-20 sm:py-28">
       <SectionHeading eyebrow="Visual Identity" title="El sistema visual" description={data.intro} />
-      <Reveal className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {data.colors.map((c) => (
-          <div key={c.name} className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
-            <div className="h-20" style={{ backgroundColor: c.hex }} />
-            <div className="p-3">
-              <p className="text-body-sm font-semibold">{c.name}</p>
-              <p className="text-caption font-mono text-(--text-tertiary)">{c.hex}</p>
-              <p className="text-caption mt-1 text-(--text-tertiary)">{c.role}</p>
-            </div>
-          </div>
-        ))}
-      </Reveal>
       {data.video ? (
-        <Reveal className="mt-10" delay={0.1}>
-          <div className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
-            <VisualBlock video={data.video} className="aspect-video w-full" />
-          </div>
+        <Reveal className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
+          <VisualBlock video={data.video} className="aspect-video w-full" />
         </Reveal>
       ) : null}
-      <Reveal className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3" delay={0.15}>
-        {data.typography.map((t) => (
-          <div key={t.role} className="rounded-(--radius-container) border border-(--border-subtle) p-6">
-            <span className="font-display block text-5xl">{t.sample}</span>
-            <p className="mt-3 text-body-sm font-semibold">{t.role}</p>
-            <p className="text-caption text-(--text-tertiary)">{t.family}</p>
-          </div>
-        ))}
-      </Reveal>
+      {data.typography.length > 0 ? (
+        <Reveal
+          className={cn("grid grid-cols-1 gap-4 sm:grid-cols-3", data.video && "mt-10")}
+          delay={data.video ? 0.1 : 0}
+        >
+          {data.typography.map((t) => (
+            <div key={t.role} className="rounded-(--radius-container) border border-(--border-subtle) p-6">
+              <span className="font-display block text-5xl">{t.sample}</span>
+              <p className="mt-3 text-body-sm font-semibold">{t.role}</p>
+              <p className="text-caption text-(--text-tertiary)">{t.family}</p>
+            </div>
+          ))}
+        </Reveal>
+      ) : null}
     </Container>
   );
 }
@@ -552,7 +543,11 @@ export function CaseStudyNextProject({ nextProject }: { nextProject: NonNullable
       <Reveal>
         <Card variant="outlined" interaction="clickable" href={nextProject.href} className="group/next overflow-hidden">
           <div className="grid sm:grid-cols-2">
-            <VisualBlock pattern={nextProject.pattern} className="aspect-video sm:aspect-auto" />
+            {nextProject.coverVideo ? (
+              <VisualBlock video={nextProject.coverVideo} className="aspect-video sm:aspect-auto" />
+            ) : (
+              <VisualBlock pattern={nextProject.pattern} className="aspect-video sm:aspect-auto" />
+            )}
             <CardBody className="flex flex-col justify-center gap-2 p-8">
               <p className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">{nextProject.eyebrow}</p>
               <CardTitle className="text-2xl">{nextProject.title}</CardTitle>

@@ -34,7 +34,7 @@ export const portfolio: PortfolioData = {
       client: "Alegra Veneers Cali",
       title: "Your 5-day smile transformation",
       categories: ["Página web", "UX/UI"],
-      year: "2025",
+      year: "2026",
       services: ["Diseño Web", "Desarrollo"],
       description: "Rediseño completo de una clínica odontológica para captar pacientes internacionales.",
       status: "Live",

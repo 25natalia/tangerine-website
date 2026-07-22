@@ -6,7 +6,7 @@ export const alegraVeneersCali: CaseStudyData = {
   client: "Alegra Veneers Cali",
   title: "Your 5-day smile transformation",
   category: "Diseño y Desarrollo Web",
-  year: "2025–2026",
+  year: "2026",
   services: ["Diseño Web", "Desarrollo"],
   duration: "4 semanas",
   heroPattern: "destello",
@@ -21,7 +21,7 @@ export const alegraVeneersCali: CaseStudyData = {
 
   info: [
     { label: "Cliente", value: "Alegra Veneers Cali" },
-    { label: "Año", value: "2025 – 2026" },
+    { label: "Año", value: "2026" },
     { label: "Duración", value: "4 semanas" },
     { label: "Equipo", value: "Natalia García, Emy Dorado" },
     { label: "Herramientas", value: "Framer → Google Sheets" },
@@ -69,11 +69,6 @@ export const alegraVeneersCali: CaseStudyData = {
     video: { src: "/animations/paleta-ALEGRA.mp4", poster: "/animations/paleta-ALEGRA-poster.jpg" },
   },
 
-  gallery: [
-    { pattern: "destello", caption: "Home — línea de tiempo del proceso de 5 días, testimonios y antes/después.", accent: "info" },
-    { pattern: "flor", caption: "Sección Dental Experience — contenido de turismo dental y preguntas frecuentes de seguridad.", accent: "info" },
-  ],
-
   mockups: ["desktop", "tablet", "mobile"],
 
   beforeAfter: {
@@ -100,5 +95,6 @@ export const alegraVeneersCali: CaseStudyData = {
     category: "Concept Proposal",
     href: "/work/quickbite",
     pattern: "hoja",
+    coverVideo: { src: "/animations/portada-QUICKBITE.mp4", poster: "/animations/portada-QUICKBITE-poster.jpg" },
   },
 };

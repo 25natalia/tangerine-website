@@ -76,11 +76,6 @@ export const quickbite: CaseStudyData = {
     video: { src: "/animations/paleta-QUICKBITE.mp4", poster: "/animations/paleta-QUICKBITE-poster.jpg" },
   },
 
-  gallery: [
-    { pattern: "hoja", caption: "Ecommerce diseñado para Shopify — categorías, filtros y ficha de producto.", accent: "tangerine" },
-    { pattern: "semillas", caption: "Packaging conceptual — bolsas reutilizables, cajas de domicilio y etiquetas.", accent: "green" },
-  ],
-
   mockups: ["desktop", "mobile", "packaging"],
 
   learnings: [
@@ -96,5 +91,6 @@ export const quickbite: CaseStudyData = {
     category: "Brand Identity",
     href: "/work/simer",
     pattern: "hoja",
+    coverVideo: { src: "/animations/portada-SIMER.mp4", poster: "/animations/portada-SIMER-poster.jpg" },
   },
 };
