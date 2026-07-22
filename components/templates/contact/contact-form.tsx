@@ -20,7 +20,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem, RadioCard } from "@/components/ui/radio-group";
-import { ChipToggle, ChipGroup } from "@/components/ui/chip";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
@@ -30,7 +29,6 @@ import {
   projectTypeOptions,
   budgetOptions,
   timelineOptions,
-  serviceOptions,
   referralOptions,
   type ProjectTypeOption,
 } from "@/lib/templates/contact-data";
@@ -149,11 +147,16 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
               <FieldError match="typeMismatch">Ese correo no parece válido.</FieldError>
             </Field>
             <Field>
+              <FieldLabel>Teléfono</FieldLabel>
+              <Input name="phone" type="tel" placeholder="+57 300 1234567" autoComplete="tel" />
+              <FieldDescription>Opcional — útil si preferís que te escribamos por WhatsApp.</FieldDescription>
+            </Field>
+            <Field>
               <FieldLabel>Sitio web</FieldLabel>
               <Input name="website" type="url" placeholder="https://tuempresa.com" autoComplete="url" />
               <FieldDescription>Opcional.</FieldDescription>
             </Field>
-            <Field className="sm:col-span-2">
+            <Field>
               <FieldLabel>LinkedIn</FieldLabel>
               <Input name="linkedin" type="url" placeholder="https://linkedin.com/in/vos" />
               <FieldDescription>Opcional — nos ayuda a conocerte antes de la primera llamada.</FieldDescription>
@@ -264,18 +267,6 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
               placeholder="¿Qué problema estás tratando de resolver? ¿Qué existe hoy, si es que existe algo?"
             />
             <FieldError match="valueMissing">Contanos aunque sea un poco — con eso alcanza para empezar.</FieldError>
-          </Field>
-
-          <Field>
-            <FieldLabel>Servicios de interés</FieldLabel>
-            <FieldDescription>Podés elegir más de uno.</FieldDescription>
-            <ChipGroup multiple className="mt-1">
-              {serviceOptions.map((service) => (
-                <ChipToggle key={service} value={service}>
-                  {service}
-                </ChipToggle>
-              ))}
-            </ChipGroup>
           </Field>
 
           <Field>

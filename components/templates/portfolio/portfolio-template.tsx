@@ -20,15 +20,21 @@ import { PortfolioTimeline } from "./portfolio-timeline";
  * — a consumer whose projects should all read as equally prominent (no
  * single "hero" project) turns it off, and every project — including what
  * would've been `projects[0]` — renders through the gallery instead.
+ *
+ * `showStats` follows the same pattern — a portfolio without a meaningful
+ * `sectionStats` list (too new to have real numbers worth a whole section)
+ * turns it off instead of shipping placeholder-feeling stats.
  */
 export function PortfolioTemplate({
   data,
   showTimeline = true,
   showFeatured = true,
+  showStats = true,
 }: {
   data: PortfolioData;
   showTimeline?: boolean;
   showFeatured?: boolean;
+  showStats?: boolean;
 }) {
   const [featured, ...rest] = data.projects;
 
@@ -37,7 +43,7 @@ export function PortfolioTemplate({
       <PortfolioHero data={data} />
       {showFeatured && featured ? <FeaturedProject project={featured} /> : null}
       <PortfolioGallery projects={showFeatured ? rest : data.projects} />
-      <PortfolioStats stats={data.sectionStats} />
+      {showStats ? <PortfolioStats stats={data.sectionStats} /> : null}
       {showTimeline ? <PortfolioTimeline projects={data.projects} /> : null}
     </article>
   );

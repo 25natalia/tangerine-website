@@ -12,7 +12,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Tangerine Studio",
   description:
-    "Ayudamos a que las cosas, y las personas, recuerden cómo ser exactamente lo que son. No vendemos diseño. Construimos identidad.",
+    "Construimos marcas que no podrían pertenecerle a nadie más. No vendemos diseño. Construimos identidad.",
   path: "/",
   titleAbsolute: true,
 });
@@ -38,7 +38,7 @@ export default function HomePage() {
               Porque el mundo tiene, cada vez más, marcas y personas que funcionan perfecto y
               dicen cada vez menos. Esa es la respuesta completa.
             </p>
-            <p className="mt-6 max-w-2xl text-pretty text-(--text-secondary)">
+            <p className="font-reading mt-6 max-w-2xl text-pretty text-(--text-secondary)">
               No existe Tangerine para hacer branding, ni diseño, ni contenido. Esos son, hoy,
               los oficios a través de los cuales se ejerce algo más antiguo: la convicción de que
               cualquier persona o cualquier marca, si se le da el espacio y el criterio

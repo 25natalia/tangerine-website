@@ -14,6 +14,7 @@ export const quickbite: CaseStudyData = {
   duration: "8 sprints",
   heroPattern: "hoja",
   accent: "tangerine",
+  liveUrl: "https://quickbite-ecommerce.vercel.app/",
   bannerVideo: { src: "/animations/banner-QUICKBITE.mp4", poster: "/animations/banner-QUICKBITE-poster.jpg" },
 
   summary: [
@@ -84,6 +85,12 @@ export const quickbite: CaseStudyData = {
       description: "En un ecommerce, la marca no se comunica únicamente mediante el logotipo o la paleta cromática — la organización de la información también construye percepción de marca.",
     },
   ],
+
+  liveSite: {
+    title: "Visita la experiencia",
+    description:
+      "El prototipo de e-commerce está desplegado y navegable — visítalo para ver el sistema completo en contexto real, no solo en capturas.",
+  },
 
   nextProject: {
     eyebrow: "Siguiente proyecto",

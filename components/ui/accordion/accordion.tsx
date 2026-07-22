@@ -78,7 +78,7 @@ const sizeConfig = {
     faqTitle: "text-body font-semibold",
     description: "text-xs",
     icon: "size-3.5",
-    content: "px-4 pb-3 text-body-sm",
+    content: "px-4 pb-3 text-body-sm font-reading",
   },
   md: {
     padding: "gap-3 px-5 py-4",
@@ -86,7 +86,7 @@ const sizeConfig = {
     faqTitle: "text-h4 font-semibold",
     description: "text-body-sm",
     icon: "size-4",
-    content: "px-5 pb-4 text-body-sm",
+    content: "px-5 pb-4 text-body-sm font-reading",
   },
   lg: {
     padding: "gap-4 px-6 py-5",
@@ -94,7 +94,7 @@ const sizeConfig = {
     faqTitle: "text-h3 font-bold",
     description: "text-body",
     icon: "size-5",
-    content: "px-6 pb-5 text-body",
+    content: "px-6 pb-5 text-body font-reading",
   },
 } satisfies Record<AccordionSize, { padding: string; title: string; faqTitle: string; description: string; icon: string; content: string }>;
 

@@ -68,7 +68,7 @@ export function HomePhilosophy() {
           <p className="font-display text-3xl font-bold text-balance sm:text-4xl">
             Las restricciones no limitan, revelan.
           </p>
-          <p className="text-body-lg text-pretty text-(--text-secondary)">
+          <p className="font-reading text-body-lg text-pretty text-(--text-secondary)">
             Un límite real, mirado de frente en vez de evitado, casi siempre esconde la mejor
             respuesta posible. Seis creencias sostienen esa idea.
           </p>
