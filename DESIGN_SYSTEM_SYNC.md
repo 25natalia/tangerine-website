@@ -405,3 +405,91 @@ apretarlas en columnas angostas.
 **Espaciado "Por qué existe" → Filosofía**: se recortó solo el padding inferior de "Por qué
 existe" (`pt-24 pb-16 sm:pt-32 sm:pb-20`, antes `py-24 sm:py-32` simétrico) — el superior queda
 igual, relativo al Ticker de arriba. Filosofía no se tocó.
+
+### Nota sobre el rediseño del intro de Studio
+
+Sin cambios en el DS esta vez — `StudioIntro` (nuevo, `components/studio-intro.tsx`) reutiliza
+`Container`, `Reveal` y `FloatingElement` tal cual ya existían.
+
+**El asset no es una fotografía real**: `public/illustrations/us/natalia-emy.svg` (816×372, dos
+PNG embebidos en base64 dentro del SVG) es una ilustración estilo Memoji de Natalia y Emy, cada
+una en su propia tarjeta de color inclinada con esquinas redondeadas — no una foto. El usuario
+señaló ese archivo específico y lo llamó "la fotografía"; se usó tal cual, sin agregar otra
+tarjeta de color detrás (el asset ya trae la suya, una por persona) para no duplicar el recurso.
+Vale la pena que quede registrado en caso de que el nombre haya sido una forma de hablar y en
+algún momento quieran una foto real de las fundadoras.
+
+Solo esta primera sección de Studio (el hero con el título) tiene fondo `bg-(--lime-400)` —
+Origen y Manifiesto, justo debajo, siguen con el fondo default de siempre; no se tocó su
+`border-t` tampoco, eso no formaba parte de este pedido. Las dos decoraciones alrededor de la
+imagen (`deco/star-violet`, `geometry/semillas-orange`) se eligieron por contraste real contra el
+lime (violeta y naranja, no otro tono de lima) y porque hacen eco de los colores que la propia
+ilustración ya usa para las tarjetas de Natalia (violeta) y Emy (naranja).
+
+### Nota sobre la segunda ronda de refinamiento de Studio
+
+Sin cambios en el DS — todo reutiliza `ScrollCarousel`, `FloatingElement`, `Container` y `Reveal`
+tal cual ya existían.
+
+- **Dividers**: se quitó `border-t border-(--border-subtle)` de Origen, Manifiesto y Valores. El
+  `border-t` que sigue apareciendo en el HTML de Studio es el de `FooterLegal` (el separador
+  interno entre los grupos de links y el copyright dentro del propio Footer) — no es un divider
+  entre secciones de la página, es contenido del Footer, no se tocó.
+- **Hero**: la foto (`natalia-emy.svg`) subió de `max-w-xl lg:max-w-2xl` a `max-w-2xl
+  lg:max-w-3xl`; se quitaron las dos `FloatingElement` que tenía alrededor (`star-violet`,
+  `semillas-orange`) — ahora es la única protagonista del banner. Ya no necesita `"use client"`
+  al no quedar ningún hook/interactividad propia (`Reveal` es client component, pero eso no obliga
+  a que su padre lo sea).
+- **Valores**: se reescribió para espejar `home-philosophy.tsx` pieza por pieza — mismo
+  `ScrollCarousel` (antes usaba el `Carousel` de un slide), misma proporción de card
+  (`h-64 sm:h-72`, `w-[82%] sm:w-[56%] lg:w-[44%]`), mismo patrón de ilustración (geometry
+  sangrando la esquina superior, no `PatternImage` de textura), mismo hover (solo sombra, sin
+  scale). El contenido de cada valor bajó a nombre + `meaning` (ya la frase más contundente del
+  texto original) — se quitó `notMeaning` ("No es") y el `Mascot`, tal como pidió el usuario
+  ("nombre + descripción, nada más"). Colores: 5 de los 6 combos que pidió el usuario existen tal
+  cual en el DS (lime+negro, morado+blanco, naranja+blanco, azul+blanco, verde+blanco); "rosa+negro"
+  se reemplazó por dorado+negro porque el DS no tiene un primitivo rosa/rose — agregar uno solo
+  para esto habría roto la consistencia que el propio pedido pide mantener. Las 6 geometrías usan
+  las 6 familias reales que existen en `geometry/` (destello/flor/hoja/leaf/semillas/spring, una
+  por valor) en vez de los `burst`/`wave`/`ribbon`/`circle` de ejemplo del pedido, que no existen
+  como archivos.
+- **Manifiesto**: mismo contenido exacto de siempre (cero cambios de copy), extraído a su propio
+  componente (`studio-manifesto.tsx`) para poder agregarle 4 `FloatingElement` alrededor del
+  wrapper de texto — mismo mecanismo que ya usa el Cierre del Home (reposo con loop ambiental +
+  desplazamiento con resorte al pasar el cursor cerca). Mezcla `deco/star-yellow` +
+  `geometry/flor-orange`+`hoja-lime`+`semillas-violet`, distribuidas en posiciones no espejadas
+  alrededor del texto, sin ningún z-index explícito (mismo criterio que ya se aplicó en el Home:
+  `position:relative` sin z pinta igual de bien después de sus hermanos `absolute z-0` anteriores
+  en el DOM, sin arriesgar colisión con el `--z-sticky` de la Navbar).
+
+### Nota sobre el rediseño de Capabilities
+
+| `Carousel` — flechas alineadas al estilo de `ScrollCarousel` | 2026-07-21 | `bc4c537` | No es un prop nuevo, es un ajuste de estilo compartido. `Carousel` no tenía ningún consumidor real todavía en ninguno de los dos repos, así que no hay riesgo de regresión visual |
+
+`Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
+primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
+componente ya resolvía sin usar. Antes de portarlo se le alinearon las flechas al mismo estilo
+minimalista de `ScrollCarousel` (ver tabla arriba), porque hasta ahora nadie lo consumía en
+producción y no tenía sentido que el sitio tuviera dos estilos de flecha de carrusel distintos
+conviviendo.
+
+El ancho de la card (75-85%) se aplica envolviendo `<Carousel>` en un `div` con ese ancho, no vía
+su prop `slideClassName` — las flechas de `Carousel` se posicionan relativas a su elemento raíz,
+no al viewport que `slideClassName` dimensiona, así que pasarle el ancho ahí habría dejado las
+flechas pegadas a los bordes del `Container` completo en vez de a los de la card. Se detectó
+leyendo el componente completo antes de usarlo, no ajustando a prueba y error.
+
+El Hero (`capabilities-hero.tsx`) usa `bg-primary`/`text-primary-foreground` — los tokens
+semánticos reales (`--primary: var(--purple-600)` en claro, `var(--purple-400)` en oscuro;
+`--primary-foreground` resuelve blanco/casi-negro automáticamente) en vez de fijar un color a
+mano, así que el contraste AA queda garantizado en los dos temas sin tener que verificarlo aparte.
+La ilustración `deco/tangerine-bana-strawy.svg` (ya versionada desde antes) usa `FloatingElement`
+con `repelStrength` bajo (0.4) — a diferencia de
+los acentos chicos que este mismo componente mueve en el Cierre del Home o el Manifiesto de
+Studio, acá es la pieza protagonista del hero, así que el movimiento debe sentirse vivo sin
+volverse juguetón.
+
+Las 7 cards del carrusel usan 7 combinaciones de color reales del DS, nunca dos seguidas iguales;
+"Cream" se resolvió como `--gold-50` (el tono cálido y claro más cercano) porque el DS no tiene un
+primitivo cream propio. Ilustraciones: `Mascot` para Brand Systems y Creative Direction (las dos
+capacidades más "de identidad"), `geometry/`+`deco/` para el resto, sin repetir ningún archivo.

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/templates/reveal";
+import { StudioIntro } from "@/components/studio-intro";
+import { StudioManifesto } from "@/components/studio-manifesto";
 import { StudioValues } from "@/components/studio-values";
 import { buildMetadata } from "@/lib/seo";
 
@@ -16,18 +18,10 @@ const kicker = "font-display text-sm font-semibold tracking-wide text-(--text-br
 export default function StudioPage() {
   return (
     <>
-      {/* Intro */}
-      <Container size="content" className="py-24 sm:py-32">
-        <Reveal>
-          <p className={kicker}>Studio</p>
-          <h1 className="mt-6 font-display text-3xl font-bold text-balance sm:text-4xl lg:text-5xl">
-            Dos personas que notaron algo que a nadie más parecía molestarle.
-          </h1>
-        </Reveal>
-      </Container>
+      <StudioIntro />
 
       {/* Origen — Volumen I, §02 */}
-      <section className="border-t border-(--border-subtle)">
+      <section>
         <Container size="reading" className="py-20 sm:py-24">
           <Reveal className="flex flex-col gap-6">
             <p className={kicker}>Origen</p>
@@ -49,33 +43,7 @@ export default function StudioPage() {
         </Container>
       </section>
 
-      {/* Manifiesto — Volumen I, §06, condensado a su arco esencial (apertura
-         → tesis → dos líneas de énfasis que el propio texto ya destacaba
-         tipográficamente). Cada frase es una cita literal; se redujo cuántas
-         se incluyen, no se reescribió ninguna. */}
-      <section className="border-t border-(--border-subtle)">
-        <Container size="reading" className="py-20 sm:py-24">
-          <Reveal className="flex flex-col gap-6">
-            <p className={kicker}>Manifiesto</p>
-            <p className="font-display text-xl leading-snug font-semibold text-balance sm:text-2xl">
-              Hubo un tiempo, para cada persona que existe, en el que crear no pedía permiso.
-            </p>
-            <div className="flex flex-col gap-5 text-pretty text-(--text-secondary)">
-              <p>
-                Tangerine no cree que la creatividad sea un talento reservado para pocos. Cree
-                que es una memoria compartida por todos, y que el trabajo de un lugar como este
-                consiste, antes que nada, en ayudar a recordarla.
-              </p>
-              <p className="font-display text-lg font-semibold text-(--text-primary)">
-                El mundo no necesita más cosas bonitas. Necesita más cosas que signifiquen algo.
-              </p>
-              <p className="text-(--text-primary)">
-                Este es el punto exacto donde termina la reflexión y empieza el trabajo.
-              </p>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <StudioManifesto />
 
       <StudioValues />
     </>

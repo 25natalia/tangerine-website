@@ -11,6 +11,13 @@ import type { CarouselProps } from "./types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+// Mismo tratamiento que `ScrollCarousel` — circular, superficie neutra,
+// borde sutil, sombra que sube en hover. Antes de este pass, este
+// componente no tenía ningún consumidor real en ninguno de los dos repos,
+// así que alinear el estilo acá no arriesga ninguna regresión visual.
+const arrowClass =
+  "pointer-events-auto size-11 rounded-full border border-(--border-subtle) bg-(--surface-default) text-(--text-primary) shadow-(--shadow-elevation-1) transition-all duration-(--duration-base) ease-(--ease-standard) hover:-translate-y-0.5 hover:shadow-(--shadow-elevation-3) active:translate-y-0 active:scale-95 disabled:pointer-events-none disabled:opacity-(--opacity-disabled) disabled:shadow-(--shadow-elevation-1) disabled:hover:translate-y-0";
+
 const slideVariants = {
   enter: (direction: number) => ({ opacity: 0, x: direction > 0 ? 32 : -32 }),
   center: { opacity: 1, x: 0 },
@@ -104,23 +111,23 @@ export function Carousel({
         <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 sm:px-4">
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="icon"
             aria-label="Anterior"
             onClick={prev}
-            className="pointer-events-auto bg-background/80 backdrop-blur"
+            className={arrowClass}
           >
-            <ChevronLeft />
+            <ChevronLeft className="size-4" />
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="icon"
             aria-label="Siguiente"
             onClick={next}
-            className="pointer-events-auto bg-background/80 backdrop-blur"
+            className={arrowClass}
           >
-            <ChevronRight />
+            <ChevronRight className="size-4" />
           </Button>
         </div>
       ) : null}
