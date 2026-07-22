@@ -405,3 +405,23 @@ apretarlas en columnas angostas.
 **Espaciado "Por qué existe" → Filosofía**: se recortó solo el padding inferior de "Por qué
 existe" (`pt-24 pb-16 sm:pt-32 sm:pb-20`, antes `py-24 sm:py-32` simétrico) — el superior queda
 igual, relativo al Ticker de arriba. Filosofía no se tocó.
+
+### Nota sobre el rediseño del intro de Studio
+
+Sin cambios en el DS esta vez — `StudioIntro` (nuevo, `components/studio-intro.tsx`) reutiliza
+`Container`, `Reveal` y `FloatingElement` tal cual ya existían.
+
+**El asset no es una fotografía real**: `public/illustrations/us/natalia-emy.svg` (816×372, dos
+PNG embebidos en base64 dentro del SVG) es una ilustración estilo Memoji de Natalia y Emy, cada
+una en su propia tarjeta de color inclinada con esquinas redondeadas — no una foto. El usuario
+señaló ese archivo específico y lo llamó "la fotografía"; se usó tal cual, sin agregar otra
+tarjeta de color detrás (el asset ya trae la suya, una por persona) para no duplicar el recurso.
+Vale la pena que quede registrado en caso de que el nombre haya sido una forma de hablar y en
+algún momento quieran una foto real de las fundadoras.
+
+Solo esta primera sección de Studio (el hero con el título) tiene fondo `bg-(--lime-400)` —
+Origen y Manifiesto, justo debajo, siguen con el fondo default de siempre; no se tocó su
+`border-t` tampoco, eso no formaba parte de este pedido. Las dos decoraciones alrededor de la
+imagen (`deco/star-violet`, `geometry/semillas-orange`) se eligieron por contraste real contra el
+lime (violeta y naranja, no otro tono de lima) y porque hacen eco de los colores que la propia
+ilustración ya usa para las tarjetas de Natalia (violeta) y Emy (naranja).

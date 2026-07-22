@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/templates/reveal";
+import { StudioIntro } from "@/components/studio-intro";
 import { StudioValues } from "@/components/studio-values";
 import { buildMetadata } from "@/lib/seo";
 
@@ -16,15 +17,7 @@ const kicker = "font-display text-sm font-semibold tracking-wide text-(--text-br
 export default function StudioPage() {
   return (
     <>
-      {/* Intro */}
-      <Container size="content" className="py-24 sm:py-32">
-        <Reveal>
-          <p className={kicker}>Studio</p>
-          <h1 className="mt-6 font-display text-3xl font-bold text-balance sm:text-4xl lg:text-5xl">
-            Dos personas que notaron algo que a nadie más parecía molestarle.
-          </h1>
-        </Reveal>
-      </Container>
+      <StudioIntro />
 
       {/* Origen — Volumen I, §02 */}
       <section className="border-t border-(--border-subtle)">
