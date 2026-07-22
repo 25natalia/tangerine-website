@@ -469,6 +469,7 @@ tal cual ya existían.
 | `VisualBlock` — modo nuevo `video` + `LazyVideo` (`components/templates/shared/`) | 2026-07-22 | `210b1a7` | `video` es un modo alternativo (unión discriminada con `pattern`/`accent`/`animate`), no un prop suelto — no se puede pasar ambos por error. `LazyVideo` es un componente nuevo: `src` no se asigna hasta que el elemento entra al viewport (IntersectionObserver), y una vez cargado nunca se vuelve a limpiar, solo se pausa/reanuda. Bajo `prefers-reduced-motion` el video nunca carga y el `poster` queda fijo. Ver nota abajo |
 | `PortfolioProject.category` → `categories[]` + `PortfolioTemplate` prop nuevo `showFeatured` | 2026-07-22 | `c505924` | `categories` es un array — un proyecto puede pertenecer a más de una categoría real a la vez; se agregó también `"Página web"` como categoría nueva. `ProjectCard`/`FeaturedProject` ahora muestran un Badge por categoría, y su `h3` (mayor jerarquía) pasó de `project.title` a `project.client` — la marca es el punto de lectura principal, no el tagline. `showFeatured` (default `true`, mismo patrón que `showTimeline`) permite que ningún proyecto reciba el tratamiento "hero" de `FeaturedProject`. Ver nota abajo |
 | `PortfolioHero` — se quitó el `border-b` del root | 2026-07-22 | `7784b50` | Mismo criterio "solo whitespace, sin dividers" ya aplicado al Footer (`e3bf07b`) — no es un prop nuevo, es un ajuste de estilo compartido |
+| `PortfolioTemplate` prop nuevo `showStats` + `ContactForm`/`contact-data.ts` actualizados | 2026-07-22 | `e4ce6a8` | `showStats` (default `true`, mismo patrón que `showFeatured`/`showTimeline`) permite omitir la sección de stats. `ContactForm` es distinto a Portfolio/Case Study: está documentado como el espejo real del proceso de intake de Tangerine, no un modelo genérico — así que actualizarlo (montos en COP reales, sin "Servicios de interés", con "Teléfono" opcional) se hizo en la DS, no como fork del sitio. Ver nota abajo |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -760,3 +761,96 @@ Verificado con build + `next start` + `curl` reales: cero elementos de swatch de
 de Alegra, el video `portada-QUICKBITE` en la navegación de "siguiente proyecto" de Alegra, cero
 apariciones de "El trabajo, a resolución real", y el grid de tipografía vacío de SIMER
 confirmado ausente del HTML.
+
+### Cuarta ronda — Work más liviano, Contact profesional, leads estructurados
+
+**Timeline y Stats fuera de `/work`**: `showTimeline={false}` ya existía como prop de
+`PortfolioTemplate`; `showStats` es nuevo (construido en la DS, ver tabla arriba) siguiendo
+exactamente el mismo patrón. `/work` ahora pasa los tres opt-out (`showFeatured`, `showStats`,
+`showTimeline`) en `false`. El `heroStats` de `PortfolioHero` (Proyectos / Años activos /
+Capacidades del estudio) es una sección distinta y se mantiene — el pedido apuntaba
+específicamente a la sección gris de `sectionStats` (Proyectos documentados / Fundadoras /
+Capacidades / Primer proyecto), no a los tres números que ya vienen en el Hero.
+
+**Sitio en vivo de QuickBite**: cero cambios de componente — se reutilizó `CaseStudyLiveSite`
+(ya construida para Alegra) agregando `liveUrl`/`liveSite` al contenido de `quickbite.ts`, exactamente
+como pidió el usuario ("si ya existe un componente reutilizable, simplemente reutilízalo").
+
+**`ContactForm` actualizado en la DS, no como fork del sitio** — a diferencia de Portfolio/Case
+Study (templates genéricos, multi-consumidor), el propio README de `ContactForm` ya documentaba
+que este template *es* el espejo real del proceso de intake de Tangerine Studio, no un modelo
+swappable. Eso cambia el criterio de dónde vive el cambio: actualizar el formulario para reflejar
+lo que Tangerine realmente quiere de su propio proceso es, para este template puntual, exactamente
+lo que el componente de la DS existe para documentar.
+
+- **Presupuesto en COP reales**: `COP $1.000.000 – $3.000.000` / `$3.000.000 – $8.000.000` /
+  `$8.000.000 – $15.000.000` / `$15.000.000+` / `Aún no estoy seguro`, reemplazando los montos
+  placeholder anteriores (`$15M`, `$30M`... sin moneda explícita).
+- **"Servicios de interés" eliminado** — campo + `serviceOptions` + los imports de `Chip`/
+  `ChipToggle`/`ChipGroup` que solo esa sección usaba en todo el template.
+- **"Teléfono" agregado**, opcional, `type="tel"` con placeholder en formato colombiano
+  (`+57 300 1234567`). Al insertarlo en el grid de "Información básica" (antes 4 campos
+  regulares + LinkedIn a ancho completo) quedaban 5 campos regulares — número impar, hueco al
+  lado de "Sitio web". Se resolvió quitándole el `sm:col-span-2` a LinkedIn en vez de agregarlo
+  a otro campo: ahora "Sitio web" y "LinkedIn" comparten la última fila (mismo criterio, los dos
+  son campos de URL opcionales), sin ningún hueco y sin inventar un séptimo campo solo para
+  cuadrar la grilla.
+
+**Revisión del envío**: la causa real de que el formulario "no estuviera enviando" es que no hay
+`RESEND_API_KEY` configurada en este entorno — comportamiento esperado, no un bug:
+`sendContactEmail` ya estaba diseñada para fallar de forma explícita sin esa variable ("nunca
+finge éxito"), y sin ella el estado de error de `ContactForm` se dispara correctamente. Validación
+nativa (`required`, `type="email"`), estado `loading` del botón, mensaje de éxito con `Mascot`, y
+accesibilidad (`FieldError` con `match="valueMissing"`/`match="typeMismatch"`, `role="alert"` en
+el error) ya estaban bien resueltos — se revisaron y no se encontró ningún problema real de
+lógica más allá de la credencial faltante. Documentado en `.env.local.example` qué variable falta
+y de dónde se obtiene.
+
+**Registro estructurado de leads (Google Sheets)** — nuevo, 100% del sitio, sin nada portable a
+la DS (credenciales, direcciones de correo reales y la propia integración son infraestructura de
+este negocio, no contenido de plantilla). Se evaluó `googleapis` (SDK completo) contra
+`google-auth-library` (solo autenticación) + un `fetch` directo a la API REST de Sheets — se
+eligió la segunda: acá solo hace falta `spreadsheets.values.append`, así que traer el SDK entero
+habría sido una dependencia mucho más pesada de lo que este único endpoint necesita, y
+"prioriza una solución sencilla de mantener" fue explícito en el pedido. Se descartó también la
+alternativa de un Google Apps Script Web App (URL pública que recibe el POST) por ser más frágil
+de mantener en el tiempo (puede necesitar reautorización periódica, la URL no es un recurso
+versionado) frente a una Service Account con scope acotado.
+
+Arquitectura (`lib/actions/append-lead-to-sheet.ts` + cambios en `send-contact-email.ts`): al
+enviar el formulario, correo (Resend) y hoja (Sheets) se disparan en paralelo vía
+`Promise.allSettled`, no en secuencia — ninguno depende del otro para saber si falló. El envío se
+considera exitoso (el visitante ve la confirmación) si **al menos uno** de los dos canales
+funcionó; si ambos fallan, recién ahí se propaga el error real. Esto es intencional y directo del
+pedido: "no quiero almacenar datos únicamente por correo" corta en las dos direcciones — ni el
+correo depende de que la hoja esté configurada, ni la hoja depende de que el correo lo esté. Cada
+fallo parcial se registra con `console.error` en el servidor para que sea visible en los logs
+aunque el visitante nunca lo note.
+
+Cada fila registra exactamente los 9 campos pedidos: Fecha (ISO), Nombre, Empresa, Email,
+Teléfono, Presupuesto (la etiqueta legible, no el `value` interno — "COP $1.000.000 –
+$3.000.000", no "1-3m"), Mensaje, URL de origen, y los UTM concatenados en un solo campo de texto
+(`utm_source=..., utm_medium=...`). El mismo mapeo de `budget` (value → label) se reutilizó
+también en el cuerpo del correo, que hasta ahora mostraba el value crudo en vez de la etiqueta —
+una mejora de legibilidad real encontrada al revisar "toda la integración", no parte original del
+pedido pero directamente relevante a que "quede completamente funcional".
+
+**Requiere configuración que no puede completarse desde acá**: igual que `RESEND_API_KEY`, la
+integración de Sheets necesita credenciales reales que solo el usuario puede generar
+(`GOOGLE_SHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`) — los
+pasos exactos de setup (crear proyecto en Google Cloud, habilitar Sheets API, crear Service
+Account, compartir la hoja como Editor con su email, crear la pestaña "Leads" con encabezados en
+A1:I1) quedan documentados en `.env.local.example`. Sin esas variables, `appendLeadToSheet` falla
+de forma explícita — mismo criterio que ya existía para el correo — pero el correo se sigue
+enviando igual mientras `RESEND_API_KEY` esté configurada, y viceversa.
+
+Verificado con `tsc`, `eslint` y build reales en ambos repos, y con build + `next start` + `curl`
+en el sitio: cero "Proyectos por año" (Timeline) y cero "Proyectos documentados" (Stats) visibles
+en `/work` (los `heroStats` del Hero, una sección distinta, siguen ahí), el video real y el link
+`quickbite-ecommerce.vercel.app` en el Case Study de QuickBite, los 5 montos en COP en el
+selector de presupuesto, cero apariciones de "Servicios de interés", el campo `phone` presente en
+el HTML, y cero clases `sm:col-span-2` huérfanas en el grid del formulario. No fue posible probar
+el envío real de correo ni el registro en Sheets de punta a punta — ambos requieren credenciales
+reales que no existen en este entorno; se verificó en cambio que la lógica, el manejo de errores
+parciales y los mensajes de configuración faltante son correctos por revisión de código y por
+`tsc`/build limpios.

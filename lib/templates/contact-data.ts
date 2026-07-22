@@ -28,12 +28,15 @@ export const projectTypeOptions: ProjectTypeOption[] = [
   { value: "other", label: "Otro", icon: "sparkles" },
 ];
 
+// Montos en pesos colombianos (COP) — Tangerine Studio factura en COP, no en
+// USD, así que el propio selector debe decirlo explícito en vez de dejarlo
+// implícito en un número solo.
 export const budgetOptions: ChoiceOption[] = [
-  { value: "under-15", label: "Menos de $15M", description: "Proyecto acotado, alcance definido." },
-  { value: "15-30", label: "$15M – $30M", description: "El rango más frecuente para un proyecto completo." },
-  { value: "30-50", label: "$30M – $50M", description: "Alcance amplio, varios entregables." },
-  { value: "50-plus", label: "Más de $50M", description: "Proyecto integral o de largo plazo." },
-  { value: "not-sure", label: "Todavía no lo sé", description: "Podemos definirlo juntos en la primera charla." },
+  { value: "1-3m", label: "COP $1.000.000 – $3.000.000", description: "Proyecto acotado, alcance definido." },
+  { value: "3-8m", label: "COP $3.000.000 – $8.000.000", description: "El rango más frecuente para un proyecto completo." },
+  { value: "8-15m", label: "COP $8.000.000 – $15.000.000", description: "Alcance amplio, varios entregables." },
+  { value: "15m-plus", label: "COP $15.000.000+", description: "Proyecto integral o de largo plazo." },
+  { value: "not-sure", label: "Aún no estoy seguro", description: "Podemos definirlo juntos en la primera charla." },
 ];
 
 export const timelineOptions: ChoiceOption[] = [
@@ -41,16 +44,6 @@ export const timelineOptions: ChoiceOption[] = [
   { value: "1-month", label: "En el próximo mes" },
   { value: "2-3-months", label: "En 2–3 meses" },
   { value: "flexible", label: "Soy flexible con los tiempos" },
-];
-
-export const serviceOptions: string[] = [
-  "Estrategia de marca",
-  "Diseño UX / UI",
-  "Design system",
-  "Desarrollo frontend",
-  "E-commerce",
-  "Landing page",
-  "Consultoría y auditoría",
 ];
 
 export const referralOptions: ChoiceOption[] = [
