@@ -38,6 +38,7 @@ export function ScrollCarousel({
   showIndicators = true,
   className,
   slideClassName,
+  draggable = false,
   ...props
 }: ScrollCarouselProps) {
   const reduceMotion = usePrefersReducedMotion();
@@ -46,7 +47,61 @@ export function ScrollCarousel({
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [atStart, setAtStart] = React.useState(true);
   const [atEnd, setAtEnd] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const dragState = React.useRef<{ startX: number; startScrollLeft: number; moved: boolean } | null>(null);
   const count = slides.length;
+
+  // Mouse-only click-and-drag scrolling. Scoped to `pointerType === "mouse"`
+  // deliberately: touch/pen already get native momentum scrolling from the
+  // browser via `overflow-x-auto` + scroll-snap, and running this same
+  // scrollLeft-follows-pointer logic on top of that would fight the
+  // platform's own touch scrolling instead of complementing it.
+  const onPointerDown = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable || e.pointerType !== "mouse") return;
+      const track = trackRef.current;
+      if (!track) return;
+      dragState.current = { startX: e.clientX, startScrollLeft: track.scrollLeft, moved: false };
+      track.setPointerCapture(e.pointerId);
+    },
+    [draggable]
+  );
+
+  const onPointerMove = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable || e.pointerType !== "mouse" || !dragState.current) return;
+      const track = trackRef.current;
+      if (!track) return;
+      const dx = e.clientX - dragState.current.startX;
+      if (!dragState.current.moved && Math.abs(dx) > 4) {
+        dragState.current.moved = true;
+        setIsDragging(true);
+      }
+      if (dragState.current.moved) track.scrollLeft = dragState.current.startScrollLeft - dx;
+    },
+    [draggable]
+  );
+
+  const onPointerUp = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable || e.pointerType !== "mouse") return;
+      const track = trackRef.current;
+      track?.releasePointerCapture(e.pointerId);
+      if (dragState.current?.moved && track) {
+        // A drag that just ended shouldn't also fire a click on whatever's
+        // under the pointer (e.g. an expand button inside a slide) — swallow
+        // exactly the one click this gesture would otherwise generate.
+        const suppressClick = (ev: MouseEvent) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+        };
+        track.addEventListener("click", suppressClick, { capture: true, once: true });
+      }
+      dragState.current = null;
+      setIsDragging(false);
+    },
+    [draggable]
+  );
 
   const step = React.useCallback(() => {
     const track = trackRef.current;
@@ -131,7 +186,14 @@ export function ScrollCarousel({
           aria-roledescription="carousel"
           aria-label={props["aria-label"]}
           onScroll={updateEdges}
-          className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
+          className={cn(
+            "flex items-start snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+            draggable && (isDragging ? "cursor-grabbing select-none" : "cursor-grab")
+          )}
         >
           {slides.map((slide, i) => (
             <div

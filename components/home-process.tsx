@@ -1,19 +1,38 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/container";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { ScrollCarousel } from "@/components/ui/carousel";
 import { buttonVariants } from "@/components/ui/button";
-import { Reveal, RevealGroup } from "@/components/templates/reveal";
-import { capabilities } from "@/lib/capabilities";
+import { Reveal } from "@/components/templates/reveal";
+import { capabilities, type Capability } from "@/lib/capabilities";
 import { cn } from "@/lib/utils";
 
-// Un SVG distinto por capacidad, mezclando varias familias de
-// public/illustrations/geometry/ (destello/flor/hoja/leaf/spring/semillas)
-// para que cada una tenga identidad propia en vez de repetir siempre la
-// misma figura. Ninguna combinación coincide con las que ya usa Filosofía
-// en la misma Home.
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+// Un color de franja distinto por card, tomado únicamente de tokens reales
+// del DS — nunca dos cards consecutivas comparten color. "Pink" no existe
+// como familia propia del DS (igual que en el rediseño de Studio Values);
+// se sustituye por --gold-400, el tono cálido más cercano. Con 7 capacidades
+// y 6 colores pedidos, uno se repite (lime, en la posición 1 y 7 — no
+// consecutivas).
+const styleBySlug: Record<string, { bg: string; fg: string }> = {
+  "brand-systems": { bg: "bg-(--lime-400)", fg: "text-(--neutral-1000)" },
+  "digital-experiences": { bg: "bg-(--tangerine-500)", fg: "text-white" },
+  "product-design": { bg: "bg-(--purple-600)", fg: "text-white" },
+  "creative-direction": { bg: "bg-(--info-600)", fg: "text-white" },
+  "content-systems": { bg: "bg-(--gold-400)", fg: "text-(--neutral-1000)" },
+  growth: { bg: "bg-(--green-600)", fg: "text-white" },
+  automation: { bg: "bg-(--lime-400)", fg: "text-(--neutral-1000)" },
+};
+
+// Misma idea que antes: una familia de public/illustrations/geometry/ por
+// capacidad, sin repetir archivo. El pedido nombraba spring/leaf/ribbon/
+// burst/circle/wave — el DS solo tiene destello/flor/hoja/leaf/semillas/
+// spring como familias reales, así que se alternan esas seis.
 const geometryBySlug: Record<string, string> = {
   "brand-systems": "/illustrations/geometry/destello-orange.svg",
   "digital-experiences": "/illustrations/geometry/flor-violet.svg",
@@ -24,23 +43,86 @@ const geometryBySlug: Record<string, string> = {
   automation: "/illustrations/geometry/spring-violet.svg",
 };
 
-// Una frase de una sola línea por capacidad — versión comprimida de
-// `resolves` (mismo sentido, sin agregar ninguna afirmación nueva), no un
-// campo del Brand OS en sí. `resolves` completo se sigue mostrando, sin
-// recortar, dentro del panel expandido.
-const teaserBySlug: Record<string, string> = {
-  "brand-systems": "Marcas que dicen lo mismo en todas partes.",
-  "digital-experiences": "La primera impresión que genera confianza.",
-  "product-design": "Que lo prometido sea lo que se entrega.",
-  "creative-direction": "Una sola voz, sin importar quién ejecute.",
-  "content-systems": "Contenido consistente, no producido al apuro.",
-  growth: "Traducir identidad sólida en resultados.",
-  automation: "Menos tareas repetitivas, más criterio humano.",
-};
+function ExpandIndicator({ open }: { open: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="relative inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-(--border-subtle) text-(--icon-subtle) transition-colors duration-(--duration-base) ease-(--ease-standard) group-hover:border-(--border-strong) group-hover:text-(--icon-brand)"
+    >
+      <span className="absolute h-px w-3.5 bg-current" />
+      <motion.span
+        className="absolute h-3.5 w-px bg-current"
+        animate={{ rotate: open ? 90 : 0 }}
+        transition={{ duration: 0.3, ease: EASE }}
+      />
+    </span>
+  );
+}
 
-const kickerSm = "font-display text-xs font-semibold tracking-wide text-(--text-brand) uppercase";
+function WorkCard({
+  cap,
+  isOpen,
+  onToggle,
+}: {
+  cap: Capability;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const style = styleBySlug[cap.slug];
+  const descId = `${cap.slug}-description`;
+
+  return (
+    <button
+      type="button"
+      aria-expanded={isOpen}
+      aria-controls={descId}
+      onClick={onToggle}
+      className="group flex h-full w-full flex-col overflow-hidden rounded-[28px] bg-card text-left shadow-(--shadow-elevation-2) transition-shadow duration-(--duration-base) ease-(--ease-standard) hover:shadow-(--shadow-elevation-4)"
+    >
+      {/* Franja de color — altura fija (no un %), calculada para rondar
+         20-25% de la altura del estado cerrado; el expandido crece con la
+         descripción, así que no puede ser un porcentaje literal de "la
+         card" sin también estirar la franja. */}
+      <div className={cn("h-28 w-full shrink-0 sm:h-32", style.bg, style.fg)} />
+
+      <div className="flex flex-1 flex-col gap-6 p-6 sm:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="font-display text-xl font-bold text-balance sm:text-2xl">{cap.name}</h3>
+          <Image
+            src={geometryBySlug[cap.slug]}
+            alt=""
+            width={64}
+            height={64}
+            className="w-10 shrink-0 select-none sm:w-12"
+          />
+        </div>
+
+        <AnimatePresence initial={false}>
+          {isOpen ? (
+            <motion.div
+              id={descId}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className="overflow-hidden"
+            >
+              <p className="text-pretty text-(--text-secondary)">{cap.resolves}</p>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
+        <div className="mt-auto flex justify-end pt-2">
+          <ExpandIndicator open={isOpen} />
+        </div>
+      </div>
+    </button>
+  );
+}
 
 export function HomeProcess() {
+  const [openSlug, setOpenSlug] = React.useState<string | null>(null);
+
   return (
     <section>
       <Container size="wide" className="py-24 sm:py-32">
@@ -58,53 +140,19 @@ export function HomeProcess() {
           </Link>
         </Reveal>
 
-        {/* CSS Grid, no flex-wrap con calc(): un flex-basis calculado puede
-           terminar desigual entre hermanos cuando el contenido (un título
-           largo como "Digital Experiences") empuja el ancho intrínseco más
-           allá de esa base — grid con columnas fijas no tiene ese problema,
-           cada track mide exactamente lo mismo sin importar el contenido, y
-           además iguala la altura de cada fila por default (align-items:
-           stretch). 3 columnas en vez de 4 — más ancho y aire por card. */}
-        <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {capabilities.map((cap) => (
-            <Accordion
+        <ScrollCarousel
+          aria-label="Cómo trabajamos"
+          draggable
+          slideClassName="w-[85%] sm:w-[62%] lg:w-[calc(50%-0.75rem)]"
+          slides={capabilities.map((cap) => (
+            <WorkCard
               key={cap.slug}
-              variant="card"
-              size="lg"
-              icon="chevron-down"
-              hiddenUntilFound
-              className="h-full"
-            >
-              <AccordionItem value={cap.slug}>
-                <AccordionTrigger
-                  title={cap.name}
-                  description={teaserBySlug[cap.slug]}
-                  leadingIcon={
-                    <Image
-                      src={geometryBySlug[cap.slug]}
-                      alt=""
-                      width={64}
-                      height={64}
-                      className="size-8"
-                    />
-                  }
-                />
-                <AccordionContent>
-                  <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1.5">
-                      <p className={kickerSm}>Resuelve</p>
-                      <p className="text-pretty text-(--text-secondary)">{cap.resolves}</p>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <p className={kickerSm}>Genera valor</p>
-                      <p className="text-pretty text-(--text-secondary)">{cap.generatesValue}</p>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              cap={cap}
+              isOpen={openSlug === cap.slug}
+              onToggle={() => setOpenSlug((s) => (s === cap.slug ? null : cap.slug))}
+            />
           ))}
-        </RevealGroup>
+        />
       </Container>
     </section>
   );
