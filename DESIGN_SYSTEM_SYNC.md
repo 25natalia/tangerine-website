@@ -539,3 +539,37 @@ Verificado con build + `next start` + `curl` reales: las 7 franjas de color en e
 `rounded-[28px]` en las 7 cards, `cursor-grab` presente, y confirmé que Home Philosophy y Studio
 Values (los otros dos consumidores de `ScrollCarousel`) siguen renderizando sin cambios pese al
 `items-start` nuevo en el track compartido.
+
+### Segunda ronda sobre "Cómo trabajamos" — de Capabilities a contenido de proceso
+
+Esta ronda cambia la decisión de la nota anterior: el usuario confirmó reemplazar las 7
+Capabilities por un contenido nuevo de proceso/metodología en 6 pasos (`lib/process.ts`),
+redactado por mí a partir de los 6 títulos que dio como ejemplo. **Es contenido nuevo, no
+existente en el Brand OS** — queda marcado como borrador en el propio archivo hasta que el
+usuario lo revise o ajuste; las descripciones cortas de cada paso también son redacción propia,
+no citas.
+
+Cambios de estructura pedidos explícitamente: se eliminó el `ScrollCarousel` (ahora es un grid
+`grid-cols-1 sm:grid-cols-2`, sin scroll horizontal), se eliminó toda interacción de
+expandir/colapsar (la card ya no es un `<button>`, es un `div` estático — título + descripción
+visibles siempre, sin indicador `+`), y se eliminaron las ilustraciones de `geometry/` que la
+ronda anterior le había puesto a cada card. `home-process.tsx` ya no necesita `"use client"`: sin
+carrusel, sin estado de apertura y sin Framer Motion propio, vuelve a ser un componente de
+servidor (`Reveal`/`RevealGroup` ya son client components por su cuenta).
+
+Colores: con exactamente 6 pasos y 6 colores reales pedidos (Orange, Lime, Purple, Blue, Green,
+Yellow), esta vez no hizo falta sustituir ni repetir ninguno. De paso, corrijo una imprecisión de
+notas anteriores: `--gold-400` (`#FFCA00`) es un amarillo/dorado real, no un sustituto de "Pink" —
+en esta ronda se usa como Yellow, que es lo que su valor realmente representa. "Pink" sí se
+descartó sin sustituto: ninguna familia del DS cae en ese rango de matiz (el más cercano
+disponible es `--red-` en ~28° de tono, un rojo-anaranjado, no un rosa), y como esta vez la lista
+de colores pedidos traía 7 nombres para solo 6 cards, fue posible omitir "Pink" en vez de forzar
+una equivalencia poco honesta.
+
+La franja de encabezado bajó de `h-28/h-32` a `h-10 sm:h-12` (15-20% pedido esta vez, contra el
+20-25% de la ronda anterior) — con la card más corta (sin ilustración ni descripción expandible),
+una franja igual de alta que antes se habría comido una porción mucho mayor de la card.
+
+Verificado con build + `next start` + `curl` reales: los 6 títulos y descripciones nuevos
+presentes, las 6 franjas de color en el orden esperado, grid de 2 columnas confirmado, y sin
+ningún rastro de `aria-expanded`/botón dentro de las cards del proceso.
