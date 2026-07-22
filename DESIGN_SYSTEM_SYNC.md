@@ -425,3 +425,39 @@ Origen y Manifiesto, justo debajo, siguen con el fondo default de siempre; no se
 imagen (`deco/star-violet`, `geometry/semillas-orange`) se eligieron por contraste real contra el
 lime (violeta y naranja, no otro tono de lima) y porque hacen eco de los colores que la propia
 ilustración ya usa para las tarjetas de Natalia (violeta) y Emy (naranja).
+
+### Nota sobre la segunda ronda de refinamiento de Studio
+
+Sin cambios en el DS — todo reutiliza `ScrollCarousel`, `FloatingElement`, `Container` y `Reveal`
+tal cual ya existían.
+
+- **Dividers**: se quitó `border-t border-(--border-subtle)` de Origen, Manifiesto y Valores. El
+  `border-t` que sigue apareciendo en el HTML de Studio es el de `FooterLegal` (el separador
+  interno entre los grupos de links y el copyright dentro del propio Footer) — no es un divider
+  entre secciones de la página, es contenido del Footer, no se tocó.
+- **Hero**: la foto (`natalia-emy.svg`) subió de `max-w-xl lg:max-w-2xl` a `max-w-2xl
+  lg:max-w-3xl`; se quitaron las dos `FloatingElement` que tenía alrededor (`star-violet`,
+  `semillas-orange`) — ahora es la única protagonista del banner. Ya no necesita `"use client"`
+  al no quedar ningún hook/interactividad propia (`Reveal` es client component, pero eso no obliga
+  a que su padre lo sea).
+- **Valores**: se reescribió para espejar `home-philosophy.tsx` pieza por pieza — mismo
+  `ScrollCarousel` (antes usaba el `Carousel` de un slide), misma proporción de card
+  (`h-64 sm:h-72`, `w-[82%] sm:w-[56%] lg:w-[44%]`), mismo patrón de ilustración (geometry
+  sangrando la esquina superior, no `PatternImage` de textura), mismo hover (solo sombra, sin
+  scale). El contenido de cada valor bajó a nombre + `meaning` (ya la frase más contundente del
+  texto original) — se quitó `notMeaning` ("No es") y el `Mascot`, tal como pidió el usuario
+  ("nombre + descripción, nada más"). Colores: 5 de los 6 combos que pidió el usuario existen tal
+  cual en el DS (lime+negro, morado+blanco, naranja+blanco, azul+blanco, verde+blanco); "rosa+negro"
+  se reemplazó por dorado+negro porque el DS no tiene un primitivo rosa/rose — agregar uno solo
+  para esto habría roto la consistencia que el propio pedido pide mantener. Las 6 geometrías usan
+  las 6 familias reales que existen en `geometry/` (destello/flor/hoja/leaf/semillas/spring, una
+  por valor) en vez de los `burst`/`wave`/`ribbon`/`circle` de ejemplo del pedido, que no existen
+  como archivos.
+- **Manifiesto**: mismo contenido exacto de siempre (cero cambios de copy), extraído a su propio
+  componente (`studio-manifesto.tsx`) para poder agregarle 4 `FloatingElement` alrededor del
+  wrapper de texto — mismo mecanismo que ya usa el Cierre del Home (reposo con loop ambiental +
+  desplazamiento con resorte al pasar el cursor cerca). Mezcla `deco/star-yellow` +
+  `geometry/flor-orange`+`hoja-lime`+`semillas-violet`, distribuidas en posiciones no espejadas
+  alrededor del texto, sin ningún z-index explícito (mismo criterio que ya se aplicó en el Home:
+  `position:relative` sin z pinta igual de bien después de sus hermanos `absolute z-0` anteriores
+  en el DOM, sin arriesgar colisión con el `--z-sticky` de la Navbar).
