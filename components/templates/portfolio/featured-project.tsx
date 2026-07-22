@@ -60,7 +60,9 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
           />
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-4 p-6 sm:p-10">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="primary">{project.category}</Badge>
+              {project.categories.map((c) => (
+                <Badge key={c} variant="primary">{c}</Badge>
+              ))}
               <span className="text-body-sm text-white/80">{project.client}</span>
               <span aria-hidden="true" className="text-white/50">·</span>
               <span className="text-body-sm text-white/80">{project.year}</span>

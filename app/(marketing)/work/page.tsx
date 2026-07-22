@@ -10,5 +10,5 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function WorkPage() {
-  return <PortfolioTemplate data={portfolio} />;
+  return <PortfolioTemplate data={portfolio} showFeatured={false} />;
 }

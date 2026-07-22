@@ -27,7 +27,7 @@ export function PortfolioTimeline({ projects }: { projects: PortfolioProject[] }
                     <a href={p.href ?? "#"} className="text-body font-semibold text-(--text-primary) hover:text-(--text-brand)">
                       {p.title}
                     </a>
-                    <span className="text-caption text-(--text-tertiary)">{p.client} · {p.category}</span>
+                    <span className="text-caption text-(--text-tertiary)">{p.client} · {p.categories.join(", ")}</span>
                   </li>
                 ))}
               </ul>

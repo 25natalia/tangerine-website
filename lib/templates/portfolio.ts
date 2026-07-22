@@ -14,7 +14,8 @@ export type PortfolioCategory =
   | "Design Systems"
   | "Research"
   | "Product Design"
-  | "E-commerce";
+  | "E-commerce"
+  | "Página web";
 
 export type PortfolioProjectStatus = "Live" | "En proceso" | "Archivado";
 
@@ -30,7 +31,8 @@ export interface PortfolioProject {
   slug: string;
   client: string;
   title: string;
-  category: PortfolioCategory;
+  /** One or more — a project can be both Branding and E-commerce at once. Also drives PortfolioGallery's category filter (a project matches a tab if any of its categories does). */
+  categories: PortfolioCategory[];
   year: string;
   services: string[];
   description: string;

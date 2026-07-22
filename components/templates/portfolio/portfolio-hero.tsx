@@ -24,7 +24,7 @@ export function PortfolioHero({ data }: { data: PortfolioData }) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Design System</BreadcrumbLink>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

@@ -27,14 +27,14 @@ export function PortfolioGallery({ projects }: { projects: PortfolioProject[] })
   const reduceMotion = usePrefersReducedMotion();
 
   const categories = useMemo(() => {
-    const seen = new Set(projects.map((p) => p.category));
+    const seen = new Set(projects.flatMap((p) => p.categories));
     return [ALL, ...Array.from(seen)];
   }, [projects]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return projects.filter((p) => {
-      const matchesCategory = category === ALL || p.category === category;
+      const matchesCategory = category === ALL || p.categories.includes(category as PortfolioProject["categories"][number]);
       const matchesQuery =
         !q ||
         p.client.toLowerCase().includes(q) ||

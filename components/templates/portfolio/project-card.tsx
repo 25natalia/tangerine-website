@@ -18,6 +18,11 @@ const sizeConfig = {
  * description, and every size holds the CTA row back until hover so it
  * never competes with the image and title for attention at rest.
  *
+ * The client/brand name is the card's highest-hierarchy text (the `h3`) —
+ * not `project.title` (the tagline). A gallery of different brands reads
+ * fastest when the brand itself is what's scannable at a glance; the
+ * tagline lives in the description line instead, one step down.
+ *
  * Grid placement (column span) is deliberately not this component's
  * concern — it's presentation-only, unaware of the grid it happens to sit
  * in; PortfolioGallery's wrapper decides span so this card also works
@@ -59,15 +64,14 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
 
       <div className="flex flex-1 flex-col gap-2 p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{project.category}</Badge>
+          {project.categories.map((c) => (
+            <Badge key={c} variant="outline">{c}</Badge>
+          ))}
           <span className="text-caption text-(--text-tertiary)">{project.year}</span>
         </div>
-        <div>
-          <p className="text-caption font-medium text-(--text-tertiary)">{project.client}</p>
-          <h3 className={cn("font-display font-bold text-balance text-(--text-primary) transition-colors duration-(--duration-fast) ease-(--ease-standard) group-hover/card:text-(--text-brand)", config.title)}>
-            {project.title}
-          </h3>
-        </div>
+        <h3 className={cn("font-display font-bold text-balance text-(--text-primary) transition-colors duration-(--duration-fast) ease-(--ease-standard) group-hover/card:text-(--text-brand)", config.title)}>
+          {project.client}
+        </h3>
         {config.showDescription ? (
           <p className="text-body-sm line-clamp-2 text-(--text-secondary)">{project.description}</p>
         ) : null}

@@ -467,6 +467,7 @@ tal cual ya existían.
 | `Carousel` — flechas alineadas al estilo de `ScrollCarousel` | 2026-07-21 | `bc4c537` | No es un prop nuevo, es un ajuste de estilo compartido. `Carousel` no tenía ningún consumidor real todavía en ninguno de los dos repos, así que no hay riesgo de regresión visual |
 | `ScrollCarousel` — prop nuevo `draggable` + `items-start` en el track | 2026-07-22 | `dcd712c` | `draggable` (default `false`) habilita arrastre con mouse; se acota a `pointerType === "mouse"` para no interferir con el scroll táctil nativo que ya funcionaba. `items-start` reemplaza el `stretch` por defecto de flex — necesario para que una card no infle la altura de sus vecinas al expandirse. Ver nota abajo |
 | `VisualBlock` — modo nuevo `video` + `LazyVideo` (`components/templates/shared/`) | 2026-07-22 | `210b1a7` | `video` es un modo alternativo (unión discriminada con `pattern`/`accent`/`animate`), no un prop suelto — no se puede pasar ambos por error. `LazyVideo` es un componente nuevo: `src` no se asigna hasta que el elemento entra al viewport (IntersectionObserver), y una vez cargado nunca se vuelve a limpiar, solo se pausa/reanuda. Bajo `prefers-reduced-motion` el video nunca carga y el `poster` queda fijo. Ver nota abajo |
+| `PortfolioProject.category` → `categories[]` + `PortfolioTemplate` prop nuevo `showFeatured` | 2026-07-22 | `c505924` | `categories` es un array — un proyecto puede pertenecer a más de una categoría real a la vez; se agregó también `"Página web"` como categoría nueva. `ProjectCard`/`FeaturedProject` ahora muestran un Badge por categoría, y su `h3` (mayor jerarquía) pasó de `project.title` a `project.client` — la marca es el punto de lectura principal, no el tagline. `showFeatured` (default `true`, mismo patrón que `showTimeline`) permite que ningún proyecto reciba el tratamiento "hero" de `FeaturedProject`. Ver nota abajo |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -647,3 +648,59 @@ Verificado con build + `next start` + `curl` reales: los 5 `<video>` de portada 
 asigna client-side recién al entrar al viewport), banner + paleta en el Hero/Sistema Visual de
 Alegra, `Content-Type: video/mp4` real en las respuestas de `/animations/*.mp4`, colores reales
 en SIMER/Una Noche, y la sección de sitio en vivo con el link correcto y `target="_blank"`.
+
+### Refinamientos de Work y Case Studies — jerarquía, chips y breadcrumbs
+
+**Se eliminó el tratamiento "Featured" de Alegra Veneers** en `/work`. En vez de tocar la
+composición a mano, se construyó primero en la DS un prop `showFeatured` en `PortfolioTemplate`
+(default `true`, mismo patrón que el `showTimeline` que ya existía) — la web ahora llama
+`<PortfolioTemplate data={portfolio} showFeatured={false} />`, así que los 5 proyectos entran a
+`PortfolioGallery` sin excepciones. De paso, los 5 quedaron con `size: "medium"` (Alegra era
+`"large"`, QuickBite era `"small"`) — "todos los proyectos deben tener el mismo nivel de
+protagonismo" pedía igualar a los 5, no solo a Alegra. `FeaturedProject` sigue existiendo en la DS
+(sigue siendo un patrón real y documentado del template, otro consumidor puede seguir usándolo);
+esta web simplemente ya no lo usa.
+
+**`category` (un valor) → `categories` (array)** en `PortfolioProject`, también construido primero
+en la DS — un proyecto real puede pertenecer a más de una categoría a la vez, y forzar un solo
+valor significaba elegir cuál perder. `ProjectCard`/`FeaturedProject` ahora muestran un `Badge` por
+categoría; `PortfolioGallery` deriva su lista de tabs con `flatMap` en vez de `map` y filtra con
+`.includes(...)`. Se agregó `"Página web"` como categoría nueva del DS (no existía ninguna
+lo bastante precisa para un sitio institucional completo — "Landing Pages" describe algo más
+chico). Contenido: Alegra queda `["Página web", "UX/UI"]`, QuickBite queda `["Branding",
+"E-commerce"]`; los otros tres proyectos quedan igual que antes, solo envueltos en un array de un
+elemento.
+
+**Jerarquía de las cards** — también un cambio de componente, no solo de contenido: el `h3` de
+`ProjectCard` (el texto de mayor peso visual) pasó de `project.title` (el tagline, ej. "Your 5-day
+smile transformation") a `project.client` (la marca, ej. "Alegra Veneers Cali"). `title` sigue
+existiendo en el tipo — ya no se renderiza en la card, pero no se borró del modelo de datos por si
+algún otro consumidor lo necesita — y `description` se mantiene como el texto secundario, un nivel
+por debajo.
+
+**Breadcrumbs** — encontré tres instancias reales de esta misma referencia rota, no solo la de
+Case Study que se mencionó como ejemplo:
+
+1. `case-study/sections.tsx` (`CaseStudyHero`): decía `Templates → {cliente}`, enlazando a
+   `/templates` — una ruta que sí existe en el propio DS (es la página de su galería de templates
+   en su docs site), pero no en esta web. **No es un bug del componente de la DS** — es contenido
+   de demo correcto en su propio contexto que, al portearse, necesitaba valores reales de esta
+   web, igual que `data.client`/`data.title` ya eran reales. Ahora dice `Home → Work → {cliente}`,
+   con los tres niveles funcionales y solo el último no clickeable (`BreadcrumbPage`, que ya
+   renderiza `aria-disabled="true"` + `aria-current="page"` en el propio componente de la DS — no
+   hizo falta tocar nada ahí).
+2. `portfolio-hero.tsx` (el propio `/work`): decía `Design System → Work` — mismo problema, el
+   primer nivel ahora dice `Home`.
+3. `contact-hero.tsx` (`/contact`): mismo `Design System → Contacto`, mismo fix.
+
+Los tres casos comparten la misma naturaleza: el nivel raíz (`Home`) y el nivel intermedio
+(`Work`, cuando aplica) son y deben seguir siendo texto fijo — son la arquitectura real y estable
+del sitio, no datos por proyecto. Lo único que debía ser dinámico —y ya lo era— es la hoja final
+(`data.client`, `data.eyebrow`, o el texto de la página). El bug nunca fue "hay texto hardcodeado";
+fue que ese texto hardcodeado apuntaba a rutas de la DS en vez de a las reales de esta web.
+
+Verificado con build + `next start` + `curl` reales: cero proyectos con tratamiento Featured en
+`/work` (sin el texto "Explore Project" en el HTML), 5 `<h3>` de card mostrando el nombre de marca
+en vez del tagline, los chips `Página web`/`UX/UI` en Alegra y `Branding`/`E-commerce` en
+QuickBite, breadcrumb `Home → Work → Alegra Veneers Cali` en el case study con el último nivel no
+clickeable, y `Design System` desaparecido por completo de `/work` y `/contact`.
