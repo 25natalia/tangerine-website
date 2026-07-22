@@ -470,6 +470,8 @@ tal cual ya existían.
 | `PortfolioProject.category` → `categories[]` + `PortfolioTemplate` prop nuevo `showFeatured` | 2026-07-22 | `c505924` | `categories` es un array — un proyecto puede pertenecer a más de una categoría real a la vez; se agregó también `"Página web"` como categoría nueva. `ProjectCard`/`FeaturedProject` ahora muestran un Badge por categoría, y su `h3` (mayor jerarquía) pasó de `project.title` a `project.client` — la marca es el punto de lectura principal, no el tagline. `showFeatured` (default `true`, mismo patrón que `showTimeline`) permite que ningún proyecto reciba el tratamiento "hero" de `FeaturedProject`. Ver nota abajo |
 | `PortfolioHero` — se quitó el `border-b` del root | 2026-07-22 | `7784b50` | Mismo criterio "solo whitespace, sin dividers" ya aplicado al Footer (`e3bf07b`) — no es un prop nuevo, es un ajuste de estilo compartido |
 | `PortfolioTemplate` prop nuevo `showStats` + `ContactForm`/`contact-data.ts` actualizados | 2026-07-22 | `e4ce6a8` | `showStats` (default `true`, mismo patrón que `showFeatured`/`showTimeline`) permite omitir la sección de stats. `ContactForm` es distinto a Portfolio/Case Study: está documentado como el espejo real del proceso de intake de Tangerine, no un modelo genérico — así que actualizarlo (montos en COP reales, sin "Servicios de interés", con "Teléfono" opcional) se hizo en la DS, no como fork del sitio. Ver nota abajo |
+| Mascotas — 10 SVG (`public/brand/mascot/{lightmode,darkmode}/Tangerine[-1..4].svg`) resincronizadas | 2026-07-22 | `cf080a4` / `bf573e7` | Solo assets, sin cambios de código — `lib/mascot.ts` y `components/ui/mascot.tsx` ya estaban al día (mismos nombres de variante, mismas rutas). El arte en sí se había redibujado en la DS (commit "new tangerine") y el sitio seguía sirviendo la versión anterior. Ver nota abajo |
+| Tipografía — Cocogoose + Baloo 2 → Plus Jakarta Sans + Roboto | 2026-07-22 | `30fdb03` | Corrección de marca completa: sin `@font-face`, sin `next/font/local`, sin `--font-cocogoose-regular`/`--font-baloo-2`. `--font-sans`/`--font-display` ahora apuntan a Plus Jakarta Sans (dominante); `--font-reading` (Roboto) se aplica explícito vía la utilidad `font-reading`, nunca como regla ciega sobre `text-body*` — esos tamaños se reutilizan en toda la capa de UI. Ver nota abajo |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -854,3 +856,83 @@ el envío real de correo ni el registro en Sheets de punta a punta — ambos req
 reales que no existen en este entorno; se verificó en cambio que la lógica, el manejo de errores
 parciales y los mensajes de configuración faltante son correctos por revisión de código y por
 `tsc`/build limpios.
+
+### Quinta ronda — sincronización con el DS: mascotas nuevas y migración tipográfica completa
+
+**Conflicto real encontrado antes de tocar nada**: el changelog de la propia DS (v0.3.0,
+2026-07-17) documenta que Cocogoose + Roboto ya había reemplazado a Baloo 2 + Plus Jakarta Sans,
+calificando esa combinación como "una decisión de diseño provisional tomada sin especificación de
+marca". El pedido de esta ronda era literalmente lo opuesto a esa corrección ya documentada. Se
+le preguntó al usuario antes de migrar nada — confirmó que hay una decisión de marca más
+reciente que reemplaza a la de v0.3.0, así que se procedió, y se documentó la nueva corrección en
+el changelog de la DS (`30fdb03`, v1.1.0) con la misma honestidad que la v0.3.0 documentó la suya:
+sin borrar la entrada anterior, agregando una nueva que explica el reemplazo.
+
+**Mascotas**: la DS había redibujado las 10 SVG (`cf080a4`, "new tangerine") con los mismos
+nombres de archivo y rutas — `lib/mascot.ts` y `components/ui/mascot.tsx` del sitio ya estaban
+perfectamente sincronizados con la DS (mismo hash de archivo en ambos repos), así que no hizo
+falta ningún cambio de código. Solo se copiaron los 10 SVG actualizados
+(`public/brand/mascot/{lightmode,darkmode}/Tangerine[-1..4].svg`) desde la DS. Verificado
+rasterizando el nuevo `Tangerine.svg` con `sharp` antes de copiarlo (mascota real, no un archivo
+corrupto) y comparando el archivo servido por `next start` contra el original de la DS — idénticos
+byte a byte.
+
+**Tipografía — qué se eliminó**: el `@font-face` de "Cocogoose Display" en `globals.css` (nunca
+llegó a activarse en ninguno de los dos repos — los archivos con licencia jamás se agregaron, así
+que `--font-display` siempre cayó a Baloo 2 en la práctica), el loader `Baloo_2` de
+`next/font/google`, y el corte de acento `Cocogoose-Regular.otf` autohospedado vía
+`next/font/local` (+ su utilidad `font-cocogoose-regular`, usada en dos lugares reales: los stats
+del Hero de la DS y los numerales de Design Principles — ambos migrados a `font-display` liso, ya
+que ahora es la misma fuente). `app/layout.tsx` quedó con exactamente dos `next/font/google`
+(Plus Jakarta Sans, Roboto) + Geist Mono — cero fuentes locales que mantener.
+
+**Arquitectura nueva de tokens**: `--font-sans` y `--font-display` apuntan ahora los dos a Plus
+Jakarta Sans — antes `--font-display` (Cocogoose) solo cubría Display XL/L/M; ahora es la fuente
+dominante en Display, H1–H6, Title, Subtitle, Caption, Label, Button, Overline, Helper Text y
+cualquier componente de UI, exactamente el alcance que pidió el usuario ("títulos, headings,
+navegación, botones, cards, badges, componentes UI, hero, CTAs").
+
+**Error real que se corrigió a mitad de camino**: el primer intento ató `--font-reading` (Roboto)
+a los roles de tamaño `text-body`/`text-body-lg`/`text-body-sm` con una regla CSS global
+(`.text-body, .text-body-lg, .text-body-sm { font-family: var(--font-reading) }`), asumiendo que
+esos tres tamaños significaban "esto es lectura larga". Al revisar Navbar antes de darlo por
+terminado, se encontró que esos mismos tamaños se reutilizan en **15 componentes de UI**
+(`Input`, `Textarea`, `Select`, `Tabs`, `Chip`, `Card`, `Breadcrumb`, `Avatar`, `Popover`,
+`Drawer`, `Footer`, `Navbar`, `SearchBar`, `EmptyState`, `Accordion`) — la regla global habría
+vuelto Roboto los links del Navbar, el texto de los Inputs, los Chips, y buena parte del sistema
+de componentes, exactamente lo opuesto a "navegación, componentes UI" siendo dominados por Plus
+Jakarta Sans. Se revirtió esa regla (en los dos repos) antes de dar la tarea por terminada, y se
+reemplazó por una utilidad `font-reading` aplicada explícitamente, componente por componente, solo
+donde el texto es genuinamente una lectura larga:
+
+- `AccordionContent` (`components/ui/accordion/accordion.tsx`, DS) — cubre las respuestas de FAQ
+  (`home-faq.tsx`, `contact-faq.tsx`) y la sección Learnings de Case Study de una sola vez, sin
+  tocar ningún call site.
+- Case Study: el primer párrafo del Summary, el resto del Summary, el cuerpo de Challenge, la
+  descripción de cada insight de Research, las dos descripciones de Before/After, la descripción
+  de "Sitio web en producción", y la `description` de `SectionHeading` (compartida por Objectives,
+  Process, Research, Principles, Visual Identity, Gallery, Mockups, Components).
+- Home: el párrafo "No existe Tangerine para hacer branding..." (Por qué existe) y el párrafo de
+  intro de Filosofía.
+- Studio: los dos párrafos de Origen y el cuerpo del Manifiesto (sin tocar las líneas de énfasis
+  que ya eran `font-display` a propósito, como las citas destacadas).
+
+Deliberadamente **no** se tocaron los subtítulos de Hero (Home/Capabilities/Contact/Work) ni las
+descripciones cortas de las cards de Capabilities — son texto de apoyo corto dentro de un Hero o
+una card, no "párrafos largos de lectura continua", y el pedido nombra "hero" explícitamente del
+lado de Plus Jakarta Sans.
+
+**Limitación real**: no fue posible confirmar visualmente en navegador las proporciones exactas
+(pesos, tracking) de Plus Jakarta Sans en los tamaños Display grandes — el entorno no tiene
+navegador headless disponible. Se mantuvo la escala numérica existente (`letter-spacing` negativo
+en Display/H1–H3, etc.) sin cambios especulativos: Plus Jakarta Sans tiene proporciones
+razonablemente comparables a Baloo 2/Roboto (x-height moderada, sin rasgos extremos), así que no
+hay evidencia de que la escala actual se vea rota — pero vale la pena que el usuario lo confirme
+visualmente en el navegador real antes de considerar cerrado el punto 6 del pedido.
+
+Verificado con `tsc`, `eslint` y build reales en ambos repos, y con build + `next start` + `curl`
+en el sitio: cero menciones a Cocogoose/Baloo en código (solo sobreviven en las entradas
+históricas del changelog de la DS, que es exactamente su función), las variables
+`plus_jakarta_sans`/`roboto` cargando en el `<html>`, `font-reading` presente exactamente en los
+elementos listados arriba (confirmado en Home, Studio y el Case Study de Alegra), y las 10
+mascotas nuevas sirviéndose desde `/brand/mascot/`, verificadas byte a byte contra la DS.

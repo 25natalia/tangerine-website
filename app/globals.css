@@ -5,42 +5,6 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ==========================================================================
-   COCOGOOSE — brand display face.
-   This is a paid/licensed font (Yellow Design Studio), not distributed on
-   Google Fonts, so it can't be self-hosted via next/font the way Roboto and
-   the Baloo 2 fallback are. Drop the licensed files here to activate it —
-   nothing else in this file needs to change, --font-display already lists
-   "Cocogoose Display" first in its stack (see @theme below):
-     public/fonts/cocogoose/Cocogoose.woff2
-     public/fonts/cocogoose/Cocogoose.woff
-   Until then this @font-face simply fails to load (404) and the stack
-   falls through to Baloo 2 with no visible error — AS LONG AS the
-   font-family name here never collides with a font of the same name that
-   might already be installed locally on a machine's OS (a demo/trial copy,
-   a different license, anything). The internal name is deliberately
-   "Cocogoose Display", not the bare public font name "Cocogoose": if this
-   were named plain "Cocogoose" and any machine viewing the site happened to
-   have a same-named font installed system-wide, the browser can resolve
-   that local match instead of ever reaching Baloo 2 — even though this
-   @font-face's own src 404s. Verified on this exact repo: a locally
-   installed trial "Cocogoose" font on one test machine silently replaced
-   every digit with a "PERSONAL USE ONLY / ZETAFONTS.COM" watermark glyph in
-   every Display heading, with zero errors in the console — the exact
-   "números no respetan la identidad de Tangerine" bug this file exists to
-   prevent. A font-family name only this project's own @font-face can match
-   closes that hole for good, on every machine, not just this one.
-   ========================================================================== */
-@font-face {
-  font-family: "Cocogoose Display";
-  src:
-    url("/fonts/cocogoose/Cocogoose.woff2") format("woff2"),
-    url("/fonts/cocogoose/Cocogoose.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ==========================================================================
    TANGERINE DESIGN SYSTEM — TOKENS
    Four tiers: Primitives -> Semantic (Design Tokens) -> Legacy aliases -> Brand.
    Machine-readable mirror of these values: /tokens/*.json (Style Dictionary /
@@ -618,20 +582,25 @@
    ========================================================================== */
 
 @theme inline {
-  /* fonts — Display: Cocogoose (brand), falls back to Baloo 2 until the
-     licensed font files are added (see @font-face below and Resources).
-     Body: Roboto. Internal name is "Cocogoose Display", not bare
-     "Cocogoose" — see the @font-face comment above for why. */
-  --font-sans: var(--font-roboto);
-  --font-display: "Cocogoose Display", var(--font-baloo-2);
+  /* fonts — Plus Jakarta Sans is the dominant typeface: titles, headings,
+     navigation, buttons, cards, badges, every UI component, hero, CTAs.
+     Both --font-sans (the inherited default) and --font-display (explicit
+     opt-in, already applied across every heading/hero in this codebase)
+     point at it, so nothing renders in anything else unless it explicitly
+     opts into --font-reading. Roboto is that opt-in, applied via the
+     `font-reading` utility this generates — deliberately NOT wired to the
+     text-body/text-body-lg/text-body-sm size roles as a blanket rule: those
+     three sizes are reused all over the UI layer too (Input, Navbar links,
+     Chip, Card, Breadcrumb...), not just long-form reading, so tying the
+     font-family to the size class would've flipped half the component
+     library to Roboto by accident. `font-reading` gets applied explicitly,
+     component by component, only where the text is genuinely a reading
+     passage — AccordionContent (FAQ answers, Learnings), Case Study body
+     copy, editorial paragraphs (Manifesto, Home's Filosofía intro). */
+  --font-sans: var(--font-plus-jakarta-sans);
+  --font-display: var(--font-plus-jakarta-sans);
+  --font-reading: var(--font-roboto);
   --font-mono: var(--font-geist-mono);
-
-  /* Second Cocogoose cut — Regular weight, opt-in only. Generates the
-     `font-cocogoose-regular` utility (see app/layout.tsx for the next/font
-     loader). Never used by --font-display/--font-sans/--font-mono above —
-     invoke it explicitly on numbers, labels, chips, badges, stats: small,
-     personality-driven text, never headings or body copy. */
-  --font-cocogoose-regular: var(--font-cocogoose-regular-src), var(--font-baloo-2);
 
   /* legacy / shadcn-compatible semantic colors */
   --color-background: var(--background);

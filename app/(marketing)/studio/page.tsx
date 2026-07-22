@@ -25,14 +25,14 @@ export default function StudioPage() {
         <Container size="reading" className="py-20 sm:py-24">
           <Reveal className="flex flex-col gap-6">
             <p className={kicker}>Origen</p>
-            <p className="text-body-lg text-pretty">
+            <p className="font-reading text-body-lg text-pretty">
               Natalia García y Emy Dorado notaron esto: que el mundo se había llenado de cosas
               bien hechas y vacías. Interfaces perfectas sin ningún error, y sin ninguna huella.
               Identidades correctas, entregadas a tiempo, olvidadas apenas una semana después. Un
               oficio entero —el suyo— empezando a medirse por lo rápido que podía producir en vez
               de por lo verdadero que podía ser.
             </p>
-            <p className="text-pretty text-(--text-secondary)">
+            <p className="font-reading text-pretty text-(--text-secondary)">
               No fundaron un estudio para corregir eso. Fundaron un estudio porque no encontraron
               ningún lugar donde esa incomodidad tuviera espacio para convertirse en trabajo.
               Empezaron con lo que cualquiera empieza cuando no tiene nada más que una intuición:

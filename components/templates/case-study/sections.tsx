@@ -48,7 +48,7 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
     <Reveal className="mb-10 max-w-2xl sm:mb-14">
       <p className="text-overline text-(--text-brand) uppercase">{eyebrow}</p>
       <h2 className="font-display mt-3 text-3xl font-bold text-balance sm:text-4xl">{title}</h2>
-      {description ? <p className="mt-4 text-lg text-pretty text-(--text-secondary)">{description}</p> : null}
+      {description ? <p className="font-reading mt-4 text-lg text-pretty text-(--text-secondary)">{description}</p> : null}
     </Reveal>
   );
 }
@@ -133,7 +133,7 @@ export function CaseStudySummary({ summary }: { summary: string[] }) {
     <Container size="wide" className="py-20 sm:py-28">
       <Reveal className="mx-auto flex max-w-3xl flex-col gap-6">
         {summary.map((p, i) => (
-          <p key={i} className={cn("text-pretty text-(--text-secondary)", i === 0 ? "text-xl leading-relaxed sm:text-2xl" : "text-body-lg leading-relaxed")}>
+          <p key={i} className={cn("font-reading text-pretty text-(--text-secondary)", i === 0 ? "text-xl leading-relaxed sm:text-2xl" : "text-body-lg leading-relaxed")}>
             {p}
           </p>
         ))}
@@ -172,7 +172,7 @@ export function CaseStudyChallenge({ title, body }: { title: string; body: strin
           <div className="flex flex-col gap-5">
             <h2 className="font-display text-3xl font-bold text-balance sm:text-4xl">{title}</h2>
             {body.map((p, i) => (
-              <p key={i} className="text-body-lg text-pretty text-(--neutral-300)">{p}</p>
+              <p key={i} className="font-reading text-body-lg text-pretty text-(--neutral-300)">{p}</p>
             ))}
           </div>
         </Reveal>
@@ -243,7 +243,7 @@ export function CaseStudyResearch({ research }: { research: CaseStudyData["resea
             <Card variant="outlined" className="h-full">
               <CardBody>
                 <CardTitle className="text-lg">{insight.title}</CardTitle>
-                <CardDescription className="mt-1.5">{insight.description}</CardDescription>
+                <CardDescription className="font-reading mt-1.5">{insight.description}</CardDescription>
               </CardBody>
             </Card>
           </Reveal>
@@ -427,11 +427,11 @@ export function CaseStudyBeforeAfter({ beforeAfter }: { beforeAfter: NonNullable
       <Reveal className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-(--radius-container) border border-(--border-subtle) bg-(--background-subtle) p-8">
           <p className="text-overline text-(--text-tertiary) uppercase">{beforeAfter.before.label}</p>
-          <p className="mt-3 text-body-lg text-(--text-secondary)">{beforeAfter.before.description}</p>
+          <p className="font-reading mt-3 text-body-lg text-(--text-secondary)">{beforeAfter.before.description}</p>
         </div>
         <div className="rounded-(--radius-container) border border-(--border-brand) bg-(--background-brand-subtle) p-8">
           <p className="text-overline text-(--text-brand) uppercase">{beforeAfter.after.label}</p>
-          <p className="mt-3 text-body-lg text-(--text-primary)">{beforeAfter.after.description}</p>
+          <p className="font-reading mt-3 text-body-lg text-(--text-primary)">{beforeAfter.after.description}</p>
         </div>
       </Reveal>
     </Container>
