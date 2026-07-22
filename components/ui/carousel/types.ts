@@ -44,4 +44,11 @@ export interface ScrollCarouselProps {
    * ScrollCarousel doesn't assume a slide count per view itself.
    */
   slideClassName?: string;
+  /**
+   * Lets a mouse pointer click-and-drag the track to scroll it, in addition
+   * to native touch/trackpad scrolling (which already works regardless of
+   * this prop). Off by default since it changes the track's cursor and
+   * intercepts pointer events — opt in per consumer. @default false
+   */
+  draggable?: boolean;
 }

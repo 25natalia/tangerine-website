@@ -465,6 +465,7 @@ tal cual ya existían.
 ### Nota sobre el rediseño de Capabilities
 
 | `Carousel` — flechas alineadas al estilo de `ScrollCarousel` | 2026-07-21 | `bc4c537` | No es un prop nuevo, es un ajuste de estilo compartido. `Carousel` no tenía ningún consumidor real todavía en ninguno de los dos repos, así que no hay riesgo de regresión visual |
+| `ScrollCarousel` — prop nuevo `draggable` + `items-start` en el track | 2026-07-22 | `dcd712c` | `draggable` (default `false`) habilita arrastre con mouse; se acota a `pointerType === "mouse"` para no interferir con el scroll táctil nativo que ya funcionaba. `items-start` reemplaza el `stretch` por defecto de flex — necesario para que una card no infle la altura de sus vecinas al expandirse. Ver nota abajo |
 
 `Carousel` (el de un solo slide con crossfade, distinto de `ScrollCarousel`) se usa acá por
 primera vez en cualquiera de los dos repos — "una card por vista" es exactamente lo que ese
@@ -493,3 +494,82 @@ Las 7 cards del carrusel usan 7 combinaciones de color reales del DS, nunca dos 
 "Cream" se resolvió como `--gold-50` (el tono cálido y claro más cercano) porque el DS no tiene un
 primitivo cream propio. Ilustraciones: `Mascot` para Brand Systems y Creative Direction (las dos
 capacidades más "de identidad"), `geometry/`+`deco/` para el resto, sin repetir ningún archivo.
+
+### Nota sobre el rediseño de "Cómo trabajamos" (`home-process.tsx`)
+
+El pedido original traía nombres de pasos de proceso ("Descubrimos el problema", "Investigamos
+personas"...) que no son contenido del Brand OS — se le preguntó al usuario cómo resolver esa
+brecha y la respuesta fue mantener el contenido real: la sección sigue siendo un preview de las 7
+**Capabilities** (`lib/capabilities.ts`), solo con el lenguaje visual nuevo. Los nombres de cada
+capacidad (`Brand Systems`, `Digital Experiences`...) se mantienen tal cual están en el Brand
+OS — son el nombre propio de cada capacidad, no una palabra suelta en inglés que debiera
+traducirse.
+
+Las cards dejan de ser un `Accordion` (variant `card`) y pasan a ser un componente propio
+(`WorkCard`, dentro del mismo archivo) que usa `ScrollCarousel` para la navegación horizontal —
+mismo primitivo que Filosofía/Studio Values, ahora con `draggable` para el arrastre con mouse
+pedido explícitamente (ver el commit del DS arriba). Se decidió no reusar `Accordion` porque el
+resultado visual pedido (franja de color superior, sin descripción en el estado cerrado, bordes
+de 24-32px) se aleja bastante de cualquiera de sus variantes existentes — forzarlo dentro de
+`Accordion` habría significado, en la práctica, reescribir su render por completo. El
+expandir/colapsar se implementó a mano con Framer Motion (`height: "auto"` en el panel de
+descripción, que Framer mide automáticamente) en vez de la altura CSS-var que usa `Accordion`
+internamente, ya que se necesitaba control directo del layout circundante (franja, ilustración,
+indicador) que la API de `Accordion` no expone.
+
+Bordes de 24-32px: ningún token del DS cae en ese rango (`--radius-container` = 12px,
+`--radius-xl` ≈ 17px) — se usó un valor arbitrario (`rounded-[28px]`) directamente, documentado
+acá en vez de agregar un token nuevo al DS solo para este uso.
+
+Colores de franja: Lime, Orange (`--tangerine-500`), Purple, Blue (`--info-600`) y Green son
+tokens reales; "Pink" no existe como familia propia del DS (mismo caso que en Studio Values) y se
+sustituyó por `--gold-400`. Con 7 capacidades y 6 colores pedidos, uno se repite (lime, en las
+posiciones 1 y 7 — no consecutivas).
+
+Ilustraciones: el pedido nombraba familias de `geometry/` que no existen (`ribbon`, `burst`,
+`circle`, `wave`) — se alternaron las 6 familias reales (`destello`, `flor`, `hoja`, `leaf`,
+`semillas`, `spring`), sin repetir archivo entre las 7 cards.
+
+La franja de color tiene una altura fija (`h-28 sm:h-32`, no un porcentaje) calculada para rondar
+el 20-25% pedido sobre la altura del estado *cerrado* — como el expandido crece con la
+descripción, un porcentaje literal de "la card" habría estirado la franja junto con el contenido,
+en vez de mantenerla como un elemento de cabecera fijo.
+
+Verificado con build + `next start` + `curl` reales: las 7 franjas de color en el orden esperado,
+`rounded-[28px]` en las 7 cards, `cursor-grab` presente, y confirmé que Home Philosophy y Studio
+Values (los otros dos consumidores de `ScrollCarousel`) siguen renderizando sin cambios pese al
+`items-start` nuevo en el track compartido.
+
+### Segunda ronda sobre "Cómo trabajamos" — de Capabilities a contenido de proceso
+
+Esta ronda cambia la decisión de la nota anterior: el usuario confirmó reemplazar las 7
+Capabilities por un contenido nuevo de proceso/metodología en 6 pasos (`lib/process.ts`),
+redactado por mí a partir de los 6 títulos que dio como ejemplo. **Es contenido nuevo, no
+existente en el Brand OS** — queda marcado como borrador en el propio archivo hasta que el
+usuario lo revise o ajuste; las descripciones cortas de cada paso también son redacción propia,
+no citas.
+
+Cambios de estructura pedidos explícitamente: se eliminó el `ScrollCarousel` (ahora es un grid
+`grid-cols-1 sm:grid-cols-2`, sin scroll horizontal), se eliminó toda interacción de
+expandir/colapsar (la card ya no es un `<button>`, es un `div` estático — título + descripción
+visibles siempre, sin indicador `+`), y se eliminaron las ilustraciones de `geometry/` que la
+ronda anterior le había puesto a cada card. `home-process.tsx` ya no necesita `"use client"`: sin
+carrusel, sin estado de apertura y sin Framer Motion propio, vuelve a ser un componente de
+servidor (`Reveal`/`RevealGroup` ya son client components por su cuenta).
+
+Colores: con exactamente 6 pasos y 6 colores reales pedidos (Orange, Lime, Purple, Blue, Green,
+Yellow), esta vez no hizo falta sustituir ni repetir ninguno. De paso, corrijo una imprecisión de
+notas anteriores: `--gold-400` (`#FFCA00`) es un amarillo/dorado real, no un sustituto de "Pink" —
+en esta ronda se usa como Yellow, que es lo que su valor realmente representa. "Pink" sí se
+descartó sin sustituto: ninguna familia del DS cae en ese rango de matiz (el más cercano
+disponible es `--red-` en ~28° de tono, un rojo-anaranjado, no un rosa), y como esta vez la lista
+de colores pedidos traía 7 nombres para solo 6 cards, fue posible omitir "Pink" en vez de forzar
+una equivalencia poco honesta.
+
+La franja de encabezado bajó de `h-28/h-32` a `h-10 sm:h-12` (15-20% pedido esta vez, contra el
+20-25% de la ronda anterior) — con la card más corta (sin ilustración ni descripción expandible),
+una franja igual de alta que antes se habría comido una porción mucho mayor de la card.
+
+Verificado con build + `next start` + `curl` reales: los 6 títulos y descripciones nuevos
+presentes, las 6 franjas de color en el orden esperado, grid de 2 columnas confirmado, y sin
+ningún rastro de `aria-expanded`/botón dentro de las cards del proceso.
