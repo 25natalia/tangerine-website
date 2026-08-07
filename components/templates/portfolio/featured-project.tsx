@@ -8,6 +8,7 @@ import { Chip } from "@/components/ui/chip";
 import { buttonVariants } from "@/components/ui/button";
 import { VisualBlock } from "@/components/templates/shared/visual-block";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 import type { PortfolioProject } from "@/lib/templates/portfolio";
 
@@ -27,6 +28,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  */
 export function FeaturedProject({ project }: { project: PortfolioProject }) {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
   return (
     <Container size="wide" className="py-16 sm:py-20">
       <motion.div
@@ -78,7 +80,7 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
                   "group-hover/featured:shadow-(--shadow-elevation-4) pointer-events-none bg-white text-(--purple-700) shadow-(--shadow-elevation-2) transition-shadow duration-(--duration-base) hover:bg-white"
                 )}
               >
-                Explore Project
+                {t.portfolio.featured.exploreProjectLabel}
                 <ArrowUpRight className="size-4 transition-transform duration-(--duration-base) ease-(--ease-standard) group-hover/featured:translate-x-0.5 group-hover/featured:-translate-y-0.5" aria-hidden="true" />
               </span>
               <div className="hidden flex-wrap gap-1.5 sm:flex">

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import {
   Navbar,
@@ -8,17 +10,20 @@ import {
   NavbarThemeToggle,
   NavbarMobileMenu,
 } from "@/components/ui/navbar";
-
-// Contenido propio de la web (nunca del Design System) — la arquitectura de
-// información definida en el roadmap: Home, Studio, Capabilities, Work, Contact.
-const primaryLinks = [
-  { href: "/studio", label: "Studio" },
-  { href: "/capabilities", label: "Capabilities" },
-  { href: "/work", label: "Work" },
-  { href: "/contact", label: "Contact" },
-];
+import { LanguageToggle } from "@/components/language-toggle";
+import { useLanguage } from "@/lib/i18n/language-context";
 
 export function SiteNavbar() {
+  // Contenido propio de la web (nunca del Design System) — la arquitectura de
+  // información definida en el roadmap: Home, Studio, Capabilities, Work,
+  // Contact. Los labels vienen del diccionario ES/EN — todos idénticos en
+  // los dos idiomas (nombres de sección ya en inglés en el sitio en
+  // español), salvo "Home", que sí se traduce a "Inicio" en ES — ver
+  // lib/i18n/dictionaries/es.ts. Mismo array alimenta el menú desktop y el
+  // hamburguesa mobile, así que un solo link nuevo aparece en los dos.
+  const { t } = useLanguage();
+  const primaryLinks = t.nav.links;
+
   return (
     <Navbar variant="blur" position="sticky">
       <NavbarBrand href="/">
@@ -34,6 +39,7 @@ export function SiteNavbar() {
       </NavbarLinks>
 
       <NavbarActions>
+        <LanguageToggle />
         <NavbarThemeToggle />
         <NavbarMobileMenu>
           {primaryLinks.map((link) => (

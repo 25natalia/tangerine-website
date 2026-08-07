@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { ScrollCarousel } from "@/components/ui/carousel";
 import { Reveal } from "@/components/templates/reveal";
+import { useLanguage } from "@/lib/i18n/language-context";
+import type { Dictionary } from "@/lib/i18n/dictionaries/es";
 import { cn } from "@/lib/utils";
 
 // Mismos 6 valores reales (Volumen II), misma estructura y experiencia que
@@ -15,27 +17,32 @@ import { cn } from "@/lib/utils";
 // Combinaciones de color pedidas explícitamente por el usuario (lime+negro,
 // morado+blanco, naranja+blanco, azul+blanco, verde+blanco) más dorado+negro
 // en vez de "rosa" — el DS no tiene un primitivo rosa/rose, y agregar uno
-// solo para esto rompería justo la consistencia que se pidió mantener.
-const values: { name: string; meaning: string; bg: string; fg: string; geometry: string }[] = [
-  { name: "Honestidad", meaning: "Decir lo que se piensa, incluso cuando cuesta, en el momento en que hace falta decirlo.", bg: "bg-(--lime-400)", fg: "text-(--neutral-1000)", geometry: "/illustrations/geometry/destello-violet.svg" },
-  { name: "Curiosidad", meaning: "El impulso genuino de entender algo antes de opinar sobre eso.", bg: "bg-(--purple-600)", fg: "text-white", geometry: "/illustrations/geometry/flor-lime.svg" },
-  { name: "Empatía", meaning: "Diseñar para alguien real, no para un público abstracto ni para el propio gusto.", bg: "bg-(--tangerine-500)", fg: "text-white", geometry: "/illustrations/geometry/hoja-violet.svg" },
-  { name: "Cuidado", meaning: "La atención puesta en cada decisión, sin importar cuántas se tomen a la vez.", bg: "bg-(--gold-400)", fg: "text-(--neutral-1000)", geometry: "/illustrations/geometry/leaf-violet.svg" },
-  { name: "Coraje", meaning: "Sostener una idea propia incluso cuando la opción segura sería más fácil de defender.", bg: "bg-(--info-600)", fg: "text-white", geometry: "/illustrations/geometry/semillas-yellow.svg" },
-  { name: "Comunidad", meaning: "Entender que ningún resultado importante se construye completamente solo.", bg: "bg-(--green-600)", fg: "text-white", geometry: "/illustrations/geometry/spring-orange.svg" },
-];
+// solo para esto rompería justo la consistencia que se pidió mantener. El
+// texto vive en el diccionario ES/EN, asociado por `id` (estable entre
+// idiomas).
+const valueStyles: Record<string, { bg: string; fg: string; geometry: string }> = {
+  honesty: { bg: "bg-(--lime-400)", fg: "text-(--neutral-1000)", geometry: "/illustrations/geometry/destello-violet.svg" },
+  curiosity: { bg: "bg-(--purple-600)", fg: "text-white", geometry: "/illustrations/geometry/flor-lime.svg" },
+  empathy: { bg: "bg-(--tangerine-500)", fg: "text-white", geometry: "/illustrations/geometry/hoja-violet.svg" },
+  care: { bg: "bg-(--gold-400)", fg: "text-(--neutral-1000)", geometry: "/illustrations/geometry/leaf-violet.svg" },
+  courage: { bg: "bg-(--info-600)", fg: "text-white", geometry: "/illustrations/geometry/semillas-yellow.svg" },
+  community: { bg: "bg-(--green-600)", fg: "text-white", geometry: "/illustrations/geometry/spring-orange.svg" },
+};
 
-function ValueCard({ value }: { value: (typeof values)[number] }) {
+type StudioValue = Dictionary["studio"]["values"]["items"][number];
+
+function ValueCard({ value }: { value: StudioValue }) {
+  const style = valueStyles[value.id];
   return (
     <div
       className={cn(
         "relative isolate flex h-64 w-full flex-col justify-between overflow-visible rounded-(--radius-container) p-6 shadow-(--shadow-elevation-2) transition-shadow duration-(--duration-base) ease-(--ease-standard) hover:shadow-(--shadow-elevation-4) sm:h-72 sm:p-8",
-        value.bg,
-        value.fg
+        style.bg,
+        style.fg
       )}
     >
       <Image
-        src={value.geometry}
+        src={style.geometry}
         alt=""
         width={160}
         height={160}
@@ -52,23 +59,26 @@ function ValueCard({ value }: { value: (typeof values)[number] }) {
 }
 
 export function StudioValues() {
+  const { t } = useLanguage();
+  const copy = t.studio.values;
+
   return (
     <section>
       <Container size="wide" className="py-24 sm:py-32">
         <Reveal className="mb-10 max-w-xl sm:mb-14">
-          <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">Valores</p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">
-            Lo que guía cada decisión, grande o pequeña.
-          </h2>
+          <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
+            {copy.kicker}
+          </p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
         </Reveal>
 
         <ScrollCarousel
-          aria-label="Valores de Tangerine Studio"
+          aria-label={copy.ariaLabel}
           autoplay
           autoplayInterval={6000}
           slideClassName="w-[82%] sm:w-[56%] lg:w-[44%]"
-          slides={values.map((value) => (
-            <ValueCard key={value.name} value={value} />
+          slides={copy.items.map((value) => (
+            <ValueCard key={value.id} value={value} />
           ))}
         />
       </Container>

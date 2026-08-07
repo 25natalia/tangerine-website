@@ -4,6 +4,7 @@ import { useState, type MouseEvent } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Mascot } from "@/components/ui/mascot";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 
 /**
  * "Ya encontramos el camino" as a single arrival beat, not a multi-second
@@ -25,6 +26,7 @@ import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
  */
 export function NotFoundScene() {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
   const [echoKey, setEchoKey] = useState(0);
   const [sparkleKey, setSparkleKey] = useState(0);
 
@@ -67,7 +69,7 @@ export function NotFoundScene() {
       <motion.div
         role="button"
         tabIndex={0}
-        aria-label="Mascota de Tangerine Studio — hacé clic para un pequeño saludo"
+        aria-label={t.notFound.mascotAriaLabel}
         onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -105,7 +107,7 @@ export function NotFoundScene() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Mascot variant="1" alt="Mascota de Tangerine Studio" className="w-full" />
+              <Mascot variant="1" alt={t.notFound.mascotAlt} className="w-full" />
             </motion.div>
           </div>
         </motion.div>

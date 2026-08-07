@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
-import { NotFoundTemplate } from "@/components/templates/not-found";
+import { NotFoundContent } from "@/components/not-found-content";
 
 export const metadata: Metadata = {
   title: "Página no encontrada",
@@ -16,13 +16,7 @@ export default function NotFound() {
     <>
       <SiteNavbar />
       <main className="flex flex-1 flex-col">
-        <NotFoundTemplate
-          ctas={[
-            { label: "Volver al inicio", href: "/", icon: "home", variant: "primary" },
-            { label: "Ver el trabajo", href: "/work", icon: "grid", variant: "outline" },
-            { label: "Conocer el estudio", href: "/studio", icon: "compass", variant: "ghost" },
-          ]}
-        />
+        <NotFoundContent />
       </main>
       <SiteFooter />
     </>

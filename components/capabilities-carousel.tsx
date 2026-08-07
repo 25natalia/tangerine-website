@@ -6,8 +6,11 @@ import { Carousel } from "@/components/ui/carousel";
 import { Mascot } from "@/components/ui/mascot";
 import { Reveal } from "@/components/templates/reveal";
 import { FloatingElement } from "@/components/marketing/floating-element";
-import { capabilities, type Capability } from "@/lib/capabilities";
+import { useLanguage } from "@/lib/i18n/language-context";
+import type { Dictionary } from "@/lib/i18n/dictionaries/es";
 import { cn } from "@/lib/utils";
+
+type Capability = Dictionary["capabilities"]["list"][number];
 
 const kicker = "font-display text-xs font-semibold tracking-wide uppercase opacity-70";
 
@@ -50,7 +53,17 @@ function CapabilityIllustration({ slug }: { slug: string }) {
   }
 }
 
-function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
+function CapabilityCard({
+  cap,
+  index,
+  total,
+  copy,
+}: {
+  cap: Capability;
+  index: number;
+  total: number;
+  copy: Dictionary["capabilities"]["carousel"];
+}) {
   const style = styleBySlug[cap.slug];
   return (
     <div
@@ -62,17 +75,17 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
     >
       <div className="relative z-[1] flex max-w-xl flex-col gap-6">
         <span className={kicker}>
-          Capability {String(index + 1).padStart(2, "0")} / {String(capabilities.length).padStart(2, "0")}
+          {copy.cardLabel} {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
         <h2 className="font-display text-3xl font-bold text-balance sm:text-4xl">{cap.name}</h2>
         <p className="text-body-lg text-pretty opacity-90">{cap.resolves}</p>
         <div className="mt-2 grid gap-6 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
-            <p className={kicker}>Existe porque</p>
+            <p className={kicker}>{copy.existsBecauseLabel}</p>
             <p className="text-pretty opacity-80">{cap.existsBecause}</p>
           </div>
           <div className="flex flex-col gap-1.5">
-            <p className={kicker}>Genera valor</p>
+            <p className={kicker}>{copy.generatesValueLabel}</p>
             <p className="text-pretty opacity-80">{cap.generatesValue}</p>
           </div>
         </div>
@@ -88,16 +101,18 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
 }
 
 export function CapabilitiesCarousel() {
+  const { t } = useLanguage();
+  const copy = t.capabilities.carousel;
+  const capabilities = t.capabilities.list;
+
   return (
     <section>
       <Container size="wide" className="py-24 sm:py-32">
         <Reveal className="mb-12 max-w-xl sm:mb-16">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-            Siete capacidades
+            {copy.kicker}
           </p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">
-            La misma manera de pensar, aplicada a un problema distinto cada vez.
-          </h2>
+          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
         </Reveal>
 
         {/* El ancho de la card (75-85%) se aplica en este wrapper, no vía
@@ -108,11 +123,11 @@ export function CapabilitiesCarousel() {
            del Container completo. */}
         <div className="mx-auto w-[78%] sm:w-[82%] lg:w-[85%]">
           <Carousel
-            aria-label="Capacidades de Tangerine Studio"
+            aria-label={copy.ariaLabel}
             autoplay
             autoplayInterval={7000}
             slides={capabilities.map((cap, i) => (
-              <CapabilityCard key={cap.slug} cap={cap} index={i} />
+              <CapabilityCard key={cap.slug} cap={cap} index={i} total={capabilities.length} copy={copy} />
             ))}
           />
         </div>

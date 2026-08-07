@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: route.priority,
     })),
     ...caseStudies.map((cs) => ({
-      url: `${SITE_URL}/work/${cs.slug}`,
+      url: `${SITE_URL}/work/${cs.es.slug}`,
       lastModified: now,
       changeFrequency: "yearly" as const,
       priority: 0.8,

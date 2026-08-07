@@ -16,6 +16,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { MockupFrame } from "@/components/patterns/pattern-mockup";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 import type { CaseStudyData, CaseStudyMockupKind } from "@/lib/templates/case-study";
 import { VisualBlock } from "@/components/templates/shared/visual-block";
@@ -57,17 +58,19 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 
 export function CaseStudyHero({ data }: { data: CaseStudyData }) {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
+  const copy = t.caseStudy;
   return (
     <header className="relative">
       <Container size="wide" className="pt-6 pb-10 sm:pt-8">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">{copy.breadcrumbHome}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/work">Work</BreadcrumbLink>
+              <BreadcrumbLink href="/work">{copy.breadcrumbWork}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -93,16 +96,16 @@ export function CaseStudyHero({ data }: { data: CaseStudyData }) {
           </h1>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-(--text-tertiary)">
             <span className="text-body-sm">
-              <strong className="text-(--text-primary)">Servicios</strong> — {data.services.join(", ")}
+              <strong className="text-(--text-primary)">{copy.servicesLabel}</strong> — {data.services.join(", ")}
             </span>
             <span className="text-body-sm">
-              <strong className="text-(--text-primary)">Duración</strong> — {data.duration}
+              <strong className="text-(--text-primary)">{copy.durationLabel}</strong> — {data.duration}
             </span>
           </div>
           {data.liveUrl ? (
             <div className="mt-2">
               <a href={data.liveUrl} className={cn(buttonVariants({ size: "lg" }), "group/cta")}>
-                Visitar el proyecto
+                {copy.visitProjectCta}
                 <ArrowUpRight className="size-4 transition-transform duration-(--duration-base) ease-(--ease-standard) group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" aria-hidden="true" />
               </a>
             </div>
@@ -184,9 +187,11 @@ export function CaseStudyChallenge({ title, body }: { title: string; body: strin
 /* ================= OBJECTIVES ================= */
 
 export function CaseStudyObjectives({ objectives }: { objectives: string[] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.objectives;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Objetivos" title="Lo que este proyecto tenía que lograr" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {objectives.map((o, i) => (
           <Reveal key={o} delay={i * 0.05}>
@@ -206,10 +211,12 @@ export function CaseStudyObjectives({ objectives }: { objectives: string[] }) {
 /* ================= PROCESS ================= */
 
 export function CaseStudyProcess({ process }: { process: CaseStudyData["process"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.process;
   if (!process) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Cómo trabajamos" title="Proceso" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {process.map((step, i) => (
           <Reveal key={step.title} delay={i * 0.05}>
@@ -233,10 +240,12 @@ export function CaseStudyProcess({ process }: { process: CaseStudyData["process"
 /* ================= RESEARCH ================= */
 
 export function CaseStudyResearch({ research }: { research: CaseStudyData["research"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.research;
   if (!research) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Research" title="Lo que encontramos" description={research.intro} />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} description={research.intro} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {research.insights.map((insight, i) => (
           <Reveal key={insight.title} delay={i * 0.05}>
@@ -256,10 +265,12 @@ export function CaseStudyResearch({ research }: { research: CaseStudyData["resea
 /* ================= PRINCIPLES ================= */
 
 export function CaseStudyPrinciples({ principles }: { principles: CaseStudyData["principles"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.principles;
   if (!principles) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Design Principles" title="Los principios que guiaron cada decisión" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <div className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
         {principles.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.05} className="border-t border-(--border-subtle) pt-6">
@@ -275,9 +286,11 @@ export function CaseStudyPrinciples({ principles }: { principles: CaseStudyData[
 /* ================= VISUAL IDENTITY ================= */
 
 export function CaseStudyVisualIdentity({ data }: { data: NonNullable<CaseStudyData["visualIdentity"]> }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.visualIdentity;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Visual Identity" title="El sistema visual" description={data.intro} />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} description={data.intro} />
       {data.video ? (
         <Reveal className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
           <VisualBlock video={data.video} className="aspect-video w-full" />
@@ -288,11 +301,11 @@ export function CaseStudyVisualIdentity({ data }: { data: NonNullable<CaseStudyD
           className={cn("grid grid-cols-1 gap-4 sm:grid-cols-3", data.video && "mt-10")}
           delay={data.video ? 0.1 : 0}
         >
-          {data.typography.map((t) => (
-            <div key={t.role} className="rounded-(--radius-container) border border-(--border-subtle) p-6">
-              <span className="font-display block text-5xl">{t.sample}</span>
-              <p className="mt-3 text-body-sm font-semibold">{t.role}</p>
-              <p className="text-caption text-(--text-tertiary)">{t.family}</p>
+          {data.typography.map((type) => (
+            <div key={type.role} className="rounded-(--radius-container) border border-(--border-subtle) p-6">
+              <span className="font-display block text-5xl">{type.sample}</span>
+              <p className="mt-3 text-body-sm font-semibold">{type.role}</p>
+              <p className="text-caption text-(--text-tertiary)">{type.family}</p>
             </div>
           ))}
         </Reveal>
@@ -304,10 +317,12 @@ export function CaseStudyVisualIdentity({ data }: { data: NonNullable<CaseStudyD
 /* ================= GALLERY ================= */
 
 export function CaseStudyGallery({ gallery }: { gallery: CaseStudyData["gallery"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.gallery;
   if (!gallery) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Gallery" title="El trabajo, a resolución real" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {gallery.map((item, i) => (
           <Reveal key={item.pattern} delay={i * 0.05} className={i === 0 ? "sm:col-span-2" : undefined}>
@@ -330,22 +345,24 @@ export function CaseStudyGallery({ gallery }: { gallery: CaseStudyData["gallery"
 
 /* ================= MOCKUPS ================= */
 
-const mockupConfig: Record<CaseStudyMockupKind, { label: string; frameClassName: string; wrapperClassName?: string }> = {
-  desktop: { label: "Desktop", frameClassName: "aspect-video w-full" },
-  tablet: { label: "Tablet", frameClassName: "aspect-[4/3] w-64" },
-  mobile: { label: "Mobile", frameClassName: "aspect-[9/19] w-40" },
-  branding: { label: "Tarjeta", frameClassName: "aspect-[1.75/1] w-56" },
-  merch: { label: "Merch", frameClassName: "aspect-square w-40" },
-  packaging: { label: "Packaging", frameClassName: "aspect-square w-40" },
+const mockupFrameClassName: Record<CaseStudyMockupKind, string> = {
+  desktop: "aspect-video w-full",
+  tablet: "aspect-[4/3] w-64",
+  mobile: "aspect-[9/19] w-40",
+  branding: "aspect-[1.75/1] w-56",
+  merch: "aspect-square w-40",
+  packaging: "aspect-square w-40",
 };
 
 export function CaseStudyMockups({ mockups, data }: { mockups: CaseStudyMockupKind[]; data: CaseStudyData }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.mockups;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Aplicaciones" title="El sistema, en contexto real" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <Reveal className="flex flex-wrap items-end gap-8">
         {mockups.map((kind, i) => {
-          const config = mockupConfig[kind];
+          const config = { label: copy.labels[kind], frameClassName: mockupFrameClassName[kind] };
           const pattern = data.gallery?.[i % (data.gallery?.length || 1)]?.pattern ?? data.heroPattern;
           return (
             <MockupFrame key={kind} label={config.label} frameClassName={config.frameClassName}>
@@ -401,9 +418,11 @@ function ComponentDemo({ name }: { name: string }) {
 }
 
 export function CaseStudyComponents({ components }: { components: string[] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.components;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Components" title="Las mismas piezas, en producción" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <Reveal className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {components.map((name) => (
           <div key={name} className="flex min-h-32 flex-col justify-between rounded-(--radius-container) border border-(--border-subtle) p-5">
@@ -421,9 +440,11 @@ export function CaseStudyComponents({ components }: { components: string[] }) {
 /* ================= BEFORE / AFTER ================= */
 
 export function CaseStudyBeforeAfter({ beforeAfter }: { beforeAfter: NonNullable<CaseStudyData["beforeAfter"]> }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.beforeAfter;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Before / After" title="Lo que cambió" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <Reveal className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="rounded-(--radius-container) border border-(--border-subtle) bg-(--background-subtle) p-8">
           <p className="text-overline text-(--text-tertiary) uppercase">{beforeAfter.before.label}</p>
@@ -441,13 +462,15 @@ export function CaseStudyBeforeAfter({ beforeAfter }: { beforeAfter: NonNullable
 /* ================= IMPACT (inverse band, stat tiles) ================= */
 
 export function CaseStudyImpact({ impact }: { impact: CaseStudyData["impact"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.impact;
   if (!impact) return null;
   return (
     <section className="bg-(--neutral-1000) text-(--neutral-0)">
       <Container size="wide" className="py-20 sm:py-28">
         <Reveal className="mb-12 max-w-2xl">
-          <p className="text-overline text-(--tangerine-400) uppercase">Impact</p>
-          <h2 className="font-display mt-3 text-3xl font-bold sm:text-4xl">El resultado, en números</h2>
+          <p className="text-overline text-(--tangerine-400) uppercase">{copy.eyebrow}</p>
+          <h2 className="font-display mt-3 text-3xl font-bold sm:text-4xl">{copy.title}</h2>
         </Reveal>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {impact.map((stat, i) => (
@@ -465,10 +488,12 @@ export function CaseStudyImpact({ impact }: { impact: CaseStudyData["impact"] })
 /* ================= LEARNINGS ================= */
 
 export function CaseStudyLearnings({ learnings }: { learnings: CaseStudyData["learnings"] }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy.learnings;
   if (!learnings) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
-      <SectionHeading eyebrow="Learnings" title="Qué aprendimos" />
+      <SectionHeading eyebrow={copy.eyebrow} title={copy.title} />
       <Reveal className="max-w-3xl">
         <Accordion variant="ghost" defaultValue={[learnings[0]?.title]}>
           {learnings.map((l) => (
@@ -510,13 +535,15 @@ export function CaseStudyTestimonial({ testimonial }: { testimonial: NonNullable
 /* ================= LIVE SITE ================= */
 
 export function CaseStudyLiveSite({ data }: { data: CaseStudyData }) {
+  const { t } = useLanguage();
+  const copy = t.caseStudy;
   if (!data.liveSite || !data.liveUrl) return null;
   return (
     <Container size="wide" className="py-20 sm:py-28">
       <Reveal>
         <Card variant="flat" className="flex flex-col items-start gap-8 p-8 sm:flex-row sm:items-center sm:justify-between sm:p-12">
           <div className="max-w-xl">
-            <p className="text-overline text-(--text-brand) uppercase">Sitio web en producción</p>
+            <p className="text-overline text-(--text-brand) uppercase">{copy.liveSiteEyebrow}</p>
             <h2 className="font-display mt-3 text-3xl font-bold text-balance sm:text-4xl">{data.liveSite.title}</h2>
             <p className="mt-4 text-body-lg text-pretty text-(--text-secondary)">{data.liveSite.description}</p>
           </div>
@@ -526,7 +553,7 @@ export function CaseStudyLiveSite({ data }: { data: CaseStudyData }) {
             rel="noopener noreferrer"
             className={cn(buttonVariants({ size: "lg" }), "group/cta shrink-0")}
           >
-            Explora el sitio en vivo
+            {copy.liveSiteCta}
             <ArrowUpRight className="size-4 transition-transform duration-(--duration-base) ease-(--ease-standard) group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" aria-hidden="true" />
           </a>
         </Card>
@@ -538,6 +565,7 @@ export function CaseStudyLiveSite({ data }: { data: CaseStudyData }) {
 /* ================= NEXT PROJECT ================= */
 
 export function CaseStudyNextProject({ nextProject }: { nextProject: NonNullable<CaseStudyData["nextProject"]> }) {
+  const { t } = useLanguage();
   return (
     <Container size="wide" className="pb-20 sm:pb-28">
       <Reveal>
@@ -553,7 +581,7 @@ export function CaseStudyNextProject({ nextProject }: { nextProject: NonNullable
               <CardTitle className="text-2xl">{nextProject.title}</CardTitle>
               <CardDescription>{nextProject.category}</CardDescription>
               <span className="mt-2 inline-flex items-center gap-1.5 text-body-sm font-medium text-(--text-brand)">
-                Ver más
+                {t.caseStudy.nextProjectCta}
                 <ArrowRight className="size-4 transition-transform duration-(--duration-fast) ease-(--ease-standard) group-hover/next:translate-x-1" aria-hidden="true" />
               </span>
             </CardBody>

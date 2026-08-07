@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Footer,
 	FooterMascotShowcase,
@@ -9,9 +11,11 @@ import {
 	FooterTicker,
 	FooterLegal,
 } from '@/components/ui/footer';
+import { useLanguage } from '@/lib/i18n/language-context';
 
 // Las 7 capacidades reales del estudio (Brand OS, Volumen IV) — no una lista
-// de servicios genérica.
+// de servicios genérica. Ya están en inglés en la copia en español del
+// sitio, así que no cambian entre idiomas.
 const capabilities = [
 	'Brand Systems',
 	'Digital Experiences',
@@ -23,6 +27,8 @@ const capabilities = [
 ];
 
 export function SiteFooter() {
+	const { t } = useLanguage();
+
 	return (
 		<Footer variant='creative'>
 			<FooterTicker items={capabilities} />
@@ -30,15 +36,15 @@ export function SiteFooter() {
 			<div className='mt-16 grid gap-12 lg:grid-cols-[auto_1fr]'>
 				<div className='flex flex-col items-start gap-6'>
 					<FooterMascotShowcase />
-					<FooterMessage>Construyamos algo que solo pueda existir contigo. </FooterMessage>
+					<FooterMessage>{t.footer.message}</FooterMessage>
 				</div>
 
 				<div className='grid grid-cols-2 gap-8 sm:grid-cols-3'>
-					<FooterLinkGroup title='Estudio'>
+					<FooterLinkGroup title={t.footer.groups.studio}>
 						<FooterLink href='/studio'>Studio</FooterLink>
 						<FooterLink href='/capabilities'>Capabilities</FooterLink>
 					</FooterLinkGroup>
-					<FooterLinkGroup title='Trabajo'>
+					<FooterLinkGroup title={t.footer.groups.work}>
 						<FooterLink href='/work'>Work</FooterLink>
 						<FooterLink href='/contact'>Contact</FooterLink>
 					</FooterLinkGroup>
@@ -61,7 +67,7 @@ export function SiteFooter() {
 
 			<FooterLegal className='mt-10'>
 				<span>© {new Date().getFullYear()} Tangerine Studio.</span>
-				<span>No vendemos diseño, construimos identidad.</span>
+				<span>{t.footer.legal}</span>
 			</FooterLegal>
 		</Footer>
 	);

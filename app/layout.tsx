@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Plus_Jakarta_Sans, Roboto, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/lib/i18n/language-context";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { OrganizationJsonLd } from "@/components/json-ld";
 import "./globals.css";
@@ -79,7 +80,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

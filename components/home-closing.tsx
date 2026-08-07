@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { Reveal } from "@/components/templates/reveal";
 import { FloatingElement } from "@/components/marketing/floating-element";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 
 /**
@@ -24,6 +25,9 @@ import { cn } from "@/lib/utils";
  * least once instead of leaning on the same one or two files.
  */
 export function HomeClosing() {
+  const { t } = useLanguage();
+  const copy = t.home.closing;
+
   return (
     <section className="relative overflow-hidden">
       <Container size="content" className="py-32 sm:py-40 lg:py-48">
@@ -182,15 +186,14 @@ export function HomeClosing() {
           <div className="relative text-center">
             <Reveal>
               <p className="font-display text-3xl font-bold text-balance sm:text-4xl lg:text-5xl">
-                La posibilidad de construir algo que nadie más podría haber construido de esa
-                forma exacta.
+                {copy.title}
               </p>
               <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
                 <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
-                  Ver el trabajo
+                  {copy.ctaWork}
                 </Link>
                 <Link href="/contact" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
-                  Contacto
+                  {copy.ctaContact}
                 </Link>
               </div>
             </Reveal>
