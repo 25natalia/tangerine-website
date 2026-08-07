@@ -1,4 +1,7 @@
+"use client";
+
 import { Container } from "@/components/ui/container";
+import { useLanguage } from "@/lib/i18n/language-context";
 import type { PortfolioProject } from "@/lib/templates/portfolio";
 
 /**
@@ -9,12 +12,14 @@ import type { PortfolioProject } from "@/lib/templates/portfolio";
  * section's job is pure chronology, so it stays text-first and quiet.
  */
 export function PortfolioTimeline({ projects }: { projects: PortfolioProject[] }) {
+  const { t } = useLanguage();
+  const copy = t.portfolio.timeline;
   const years = Array.from(new Set(projects.map((p) => p.year))).sort((a, b) => Number(b) - Number(a));
 
   return (
     <Container size="wide" className="py-16 sm:py-20">
-      <p className="text-overline text-(--text-brand) uppercase">Timeline</p>
-      <h2 className="font-display mt-3 text-3xl font-bold sm:text-4xl">Proyectos por año</h2>
+      <p className="text-overline text-(--text-brand) uppercase">{copy.kicker}</p>
+      <h2 className="font-display mt-3 text-3xl font-bold sm:text-4xl">{copy.title}</h2>
       <div className="mt-10 flex flex-col gap-10">
         {years.map((year) => {
           const yearProjects = projects.filter((p) => p.year === year);

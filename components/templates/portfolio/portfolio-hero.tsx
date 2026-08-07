@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 import type { PortfolioData } from "@/lib/templates/portfolio";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -18,13 +19,14 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  */
 export function PortfolioHero({ data }: { data: PortfolioData }) {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
   return (
     <header>
       <Container size="wide" className="pt-6 pb-16 sm:pt-8 sm:pb-24">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">{t.portfolio.breadcrumbHome}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

@@ -15,9 +15,10 @@ export type PortfolioCategory =
   | "Research"
   | "Product Design"
   | "E-commerce"
-  | "Página web";
+  | "Página web"
+  | "Website";
 
-export type PortfolioProjectStatus = "Live" | "En proceso" | "Archivado";
+export type PortfolioProjectStatus = "Live" | "En proceso" | "In progress" | "Archivado" | "Archived";
 
 /**
  * Only three sizes — "large"/"medium"/"small" — not a free-form grid-span

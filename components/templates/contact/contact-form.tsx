@@ -25,17 +25,11 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/comp
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mascot } from "@/components/ui/mascot";
-import {
-  projectTypeOptions,
-  budgetOptions,
-  timelineOptions,
-  referralOptions,
-  type ProjectTypeOption,
-} from "@/lib/templates/contact-data";
+import { useLanguage } from "@/lib/i18n/language-context";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
-const projectTypeIcons: Record<ProjectTypeOption["icon"], LucideIcon> = {
+const projectTypeIcons: Record<string, LucideIcon> = {
   palette: Palette,
   layout: LayoutTemplate,
   smartphone: Smartphone,
@@ -72,6 +66,8 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
   const [submittedName, setSubmittedName] = useState("");
   const [formKey, setFormKey] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { t } = useLanguage();
+  const copy = t.contact.form;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -107,15 +103,12 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
         <Mascot variant="3" className="w-28 sm:w-32" alt="" />
         <div>
           <h2 className="font-display text-2xl font-bold sm:text-3xl">
-            {submittedName ? `Gracias, ${submittedName}.` : "Gracias por escribirnos."}
+            {submittedName ? copy.successThanksNamed(submittedName) : copy.successThanksGeneric}
           </h2>
-          <p className="text-body mt-3 max-w-md text-pretty text-(--text-secondary)">
-            Ya recibimos tu mensaje. Lo vamos a leer con calma y te respondemos en menos de 24
-            horas hábiles con los próximos pasos.
-          </p>
+          <p className="text-body mt-3 max-w-md text-pretty text-(--text-secondary)">{copy.successBody}</p>
         </div>
         <Button variant="outline" onClick={handleReset}>
-          Enviar otro mensaje
+          {copy.successCta}
         </Button>
       </Card>
     );
@@ -127,39 +120,39 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
         {/* ================= INFORMACIÓN BÁSICA ================= */}
         <section className="flex flex-col gap-5">
           <h2 className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">
-            Información básica
+            {copy.sectionBasic}
           </h2>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field validationMode="onChange">
-              <FieldLabel required>Nombre</FieldLabel>
-              <Input name="name" required placeholder="Tu nombre completo" autoComplete="name" />
-              <FieldError match="valueMissing">Contanos cómo te llamás.</FieldError>
+              <FieldLabel required>{copy.nameLabel}</FieldLabel>
+              <Input name="name" required placeholder={copy.namePlaceholder} autoComplete="name" />
+              <FieldError match="valueMissing">{copy.nameError}</FieldError>
             </Field>
             <Field validationMode="onChange">
-              <FieldLabel required>Empresa</FieldLabel>
-              <Input name="company" required placeholder="Nombre de tu empresa o proyecto" autoComplete="organization" />
-              <FieldError match="valueMissing">Este campo es obligatorio.</FieldError>
+              <FieldLabel required>{copy.companyLabel}</FieldLabel>
+              <Input name="company" required placeholder={copy.companyPlaceholder} autoComplete="organization" />
+              <FieldError match="valueMissing">{copy.companyError}</FieldError>
             </Field>
             <Field validationMode="onChange">
-              <FieldLabel required>Correo electrónico</FieldLabel>
-              <Input name="email" required type="email" placeholder="vos@empresa.com" autoComplete="email" />
-              <FieldError match="valueMissing">Necesitamos un correo para responderte.</FieldError>
-              <FieldError match="typeMismatch">Ese correo no parece válido.</FieldError>
+              <FieldLabel required>{copy.emailLabel}</FieldLabel>
+              <Input name="email" required type="email" placeholder={copy.emailPlaceholder} autoComplete="email" />
+              <FieldError match="valueMissing">{copy.emailErrorRequired}</FieldError>
+              <FieldError match="typeMismatch">{copy.emailErrorInvalid}</FieldError>
             </Field>
             <Field>
-              <FieldLabel>Teléfono</FieldLabel>
-              <Input name="phone" type="tel" placeholder="+57 300 1234567" autoComplete="tel" />
-              <FieldDescription>Opcional — útil si preferís que te escribamos por WhatsApp.</FieldDescription>
+              <FieldLabel>{copy.phoneLabel}</FieldLabel>
+              <Input name="phone" type="tel" placeholder={copy.phonePlaceholder} autoComplete="tel" />
+              <FieldDescription>{copy.phoneDescription}</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel>Sitio web</FieldLabel>
-              <Input name="website" type="url" placeholder="https://tuempresa.com" autoComplete="url" />
-              <FieldDescription>Opcional.</FieldDescription>
+              <FieldLabel>{copy.websiteLabel}</FieldLabel>
+              <Input name="website" type="url" placeholder={copy.websitePlaceholder} autoComplete="url" />
+              <FieldDescription>{copy.websiteDescription}</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel>LinkedIn</FieldLabel>
-              <Input name="linkedin" type="url" placeholder="https://linkedin.com/in/vos" />
-              <FieldDescription>Opcional — nos ayuda a conocerte antes de la primera llamada.</FieldDescription>
+              <FieldLabel>{copy.linkedinLabel}</FieldLabel>
+              <Input name="linkedin" type="url" placeholder={copy.linkedinPlaceholder} />
+              <FieldDescription>{copy.linkedinDescription}</FieldDescription>
             </Field>
           </div>
         </section>
@@ -167,12 +160,12 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
         {/* ================= PROYECTO ================= */}
         <section className="flex flex-col gap-5">
           <h2 className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">
-            Tu proyecto
+            {copy.sectionProject}
           </h2>
           <Field validationMode="onChange">
-            <FieldLabel required>¿Qué tipo de proyecto es?</FieldLabel>
+            <FieldLabel required>{copy.projectTypeLabel}</FieldLabel>
             <RadioGroup name="projectType" required orientation="horizontal" className="flex-wrap gap-3">
-              {projectTypeOptions.map((option) => {
+              {copy.projectTypeOptions.map((option) => {
                 const Icon = projectTypeIcons[option.icon];
                 return (
                   <RadioCard
@@ -189,31 +182,31 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
                 );
               })}
             </RadioGroup>
-            <FieldError match="valueMissing">Elegí la opción que más se acerque.</FieldError>
+            <FieldError match="valueMissing">{copy.projectTypeError}</FieldError>
           </Field>
         </section>
 
         {/* ================= PRESUPUESTO Y TIEMPOS ================= */}
         <section className="flex flex-col gap-5">
           <h2 className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">
-            Presupuesto y tiempos
+            {copy.sectionBudget}
           </h2>
           <Field validationMode="onChange">
             <div className="flex items-center gap-1.5">
-              <FieldLabel required>Presupuesto estimado</FieldLabel>
+              <FieldLabel required>{copy.budgetLabel}</FieldLabel>
               <Tooltip>
                 <TooltipTrigger
                   render={
-                    <button type="button" aria-label="Por qué preguntamos esto" className="text-(--icon-subtle)">
+                    <button type="button" aria-label={copy.budgetTooltipAriaLabel} className="text-(--icon-subtle)">
                       <Info className="size-3.5" />
                     </button>
                   }
                 />
-                <TooltipContent>Nos ayuda a proponer el alcance correcto desde el principio.</TooltipContent>
+                <TooltipContent>{copy.budgetTooltip}</TooltipContent>
               </Tooltip>
             </div>
             <RadioGroup name="budget" required className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {budgetOptions.map((option) => (
+              {copy.budgetOptions.map((option) => (
                 <RadioCard
                   key={option.value}
                   value={option.value}
@@ -234,13 +227,13 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
                 </RadioCard>
               ))}
             </RadioGroup>
-            <FieldError match="valueMissing">Elegí el rango más cercano — se puede ajustar después.</FieldError>
+            <FieldError match="valueMissing">{copy.budgetError}</FieldError>
           </Field>
 
           <Field>
-            <FieldLabel>Tiempo estimado</FieldLabel>
+            <FieldLabel>{copy.timelineLabel}</FieldLabel>
             <RadioGroup name="timeline" orientation="horizontal">
-              {timelineOptions.map((option) => (
+              {copy.timelineOptions.map((option) => (
                 <label key={option.value} className="flex cursor-pointer items-center gap-2 text-body-sm">
                   <RadioGroupItem value={option.value} aria-labelledby={`timeline-${option.value}-label`} />
                   <span id={`timeline-${option.value}-label`}>{option.label}</span>
@@ -253,10 +246,10 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
         {/* ================= EL PROYECTO EN TUS PALABRAS ================= */}
         <section className="flex flex-col gap-5">
           <h2 className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">
-            Contanos más
+            {copy.sectionMore}
           </h2>
           <Field validationMode="onChange">
-            <FieldLabel required>Contanos sobre tu proyecto</FieldLabel>
+            <FieldLabel required>{copy.messageLabel}</FieldLabel>
             <Textarea
               name="message"
               required
@@ -264,19 +257,19 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
               autoResize
               showCount
               maxLength={600}
-              placeholder="¿Qué problema estás tratando de resolver? ¿Qué existe hoy, si es que existe algo?"
+              placeholder={copy.messagePlaceholder}
             />
-            <FieldError match="valueMissing">Contanos aunque sea un poco — con eso alcanza para empezar.</FieldError>
+            <FieldError match="valueMissing">{copy.messageError}</FieldError>
           </Field>
 
           <Field>
-            <FieldLabel>¿Cómo nos conociste?</FieldLabel>
+            <FieldLabel>{copy.referralLabel}</FieldLabel>
             <Select name="referral">
               <SelectTrigger className="sm:max-w-xs">
-                <SelectValue placeholder="Elegí una opción" />
+                <SelectValue placeholder={copy.referralPlaceholder} />
               </SelectTrigger>
               <SelectContent>
-                {referralOptions.map((option) => (
+                {copy.referralOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -291,26 +284,24 @@ export function ContactForm({ onSubmit }: ContactFormProps = {}) {
           <Field validationMode="onChange">
             <label className="flex items-start gap-2.5">
               <Checkbox name="accepted" required className="mt-0.5" />
-              <span className="text-body-sm text-(--text-secondary)">
-                Acepto ser contactado por Tangerine Studio para conversar sobre este proyecto.
-              </span>
+              <span className="text-body-sm text-(--text-secondary)">{copy.acceptLabel}</span>
             </label>
-            <FieldError match="valueMissing">Necesitamos tu autorización antes de escribirte.</FieldError>
+            <FieldError match="valueMissing">{copy.acceptError}</FieldError>
           </Field>
 
           <div className="flex flex-col items-start gap-3">
             <Button type="submit" size="lg" loading={status === "submitting"} className="gap-2">
-              Demos el primer paso
+              {copy.submitCta}
             </Button>
             {status === "error" ? (
               <p role="alert" className="text-caption flex items-center gap-1.5 text-(--text-error)">
                 <AlertCircle className="size-3.5 shrink-0" aria-hidden="true" />
-                No pudimos enviar tu mensaje. Probá de nuevo en un momento.
+                {copy.submitError}
               </p>
             ) : (
               <p className="text-caption flex items-center gap-1.5 text-(--text-tertiary)">
                 <CheckCircle2 className="size-3.5" aria-hidden="true" />
-                Sin compromiso — la primera conversación es siempre gratuita.
+                {copy.disclaimerNoCommitment}
               </p>
             )}
           </div>

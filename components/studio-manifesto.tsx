@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/templates/reveal';
 import { FloatingElement } from '@/components/marketing/floating-element';
+import { useLanguage } from '@/lib/i18n/language-context';
 
 const kicker = 'font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase';
 
@@ -24,6 +25,9 @@ const kicker = 'font-display text-sm font-semibold tracking-wide text-(--text-br
  * arriesgar colisión con el z-index reservado de la Navbar.
  */
 export function StudioManifesto() {
+	const { t } = useLanguage();
+	const copy = t.studio.manifesto;
+
 	return (
 		<section className='relative overflow-hidden'>
 			<Container size='content' className='py-20 sm:py-28'>
@@ -93,22 +97,14 @@ export function StudioManifesto() {
 					</FloatingElement>
 
 					<Reveal className='relative flex flex-col gap-6'>
-						<p className={kicker}>Manifiesto</p>
+						<p className={kicker}>{copy.kicker}</p>
 						<p className='font-display text-xl leading-snug font-semibold text-balance sm:text-2xl'>
-							Hubo un tiempo, para cada persona que existe, en el que crear no pedía permiso.
+							{copy.lead}
 						</p>
 						<div className='font-reading flex flex-col gap-5 text-pretty text-(--text-secondary)'>
-							<p>
-								Tangerine no cree que la creatividad sea un talento reservado para pocos. Cree que es una memoria
-								compartida por todos, y que el trabajo de un lugar como este consiste, antes que nada, en ayudar a
-								recordarla.
-							</p>
-							<p className='font-display text-lg font-semibold text-(--text-primary)'>
-								Construyamos algo que solo pueda existir contigo.{' '}
-							</p>
-							<p className='text-(--text-primary)'>
-								Este es el punto exacto donde termina la reflexión y empieza el trabajo.
-							</p>
+							<p>{copy.body1}</p>
+							<p className='font-display text-lg font-semibold text-(--text-primary)'>{copy.emphasis}</p>
+							<p className='text-(--text-primary)'>{copy.body2}</p>
 						</div>
 					</Reveal>
 				</div>

@@ -11,6 +11,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -21,17 +22,20 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  */
 export function ContactHero() {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
+  const copy = t.contact.hero;
+
   return (
     <header className="border-b border-(--border-subtle)">
       <Container size="wide" className="pt-6 pb-12 sm:pt-8 sm:pb-16">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">{t.common.breadcrumbHome}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Contacto</BreadcrumbPage>
+              <BreadcrumbPage>{copy.breadcrumbCurrent}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -43,12 +47,9 @@ export function ContactHero() {
           className="mt-8 max-w-3xl sm:mt-10"
         >
           <h1 className="font-display text-4xl leading-[1.05] font-bold text-balance sm:text-5xl lg:text-6xl">
-            Construyamos algo con criterio.
+            {copy.title}
           </h1>
-          <p className="text-body-lg mt-5 max-w-xl text-pretty text-(--text-secondary)">
-            Antes de proponer una solución, queremos entender tu proyecto. Contanos qué estás
-            construyendo y te respondemos con los próximos pasos, no con un formulario genérico.
-          </p>
+          <p className="text-body-lg mt-5 max-w-xl text-pretty text-(--text-secondary)">{copy.body}</p>
         </motion.div>
       </Container>
     </header>

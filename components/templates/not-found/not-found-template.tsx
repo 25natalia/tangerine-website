@@ -6,6 +6,7 @@ import { Home, Compass, LayoutGrid } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 import { NotFoundScene } from "./not-found-scene";
 
@@ -37,6 +38,8 @@ const defaultCtas: NotFoundCta[] = [
  */
 export function NotFoundTemplate({ ctas = defaultCtas }: { ctas?: NotFoundCta[] }) {
   const reduceMotion = usePrefersReducedMotion();
+  const { t } = useLanguage();
+  const copy = t.notFound;
 
   return (
     <Container size="wide" className="flex min-h-[calc(100svh-8rem)] flex-col items-center justify-center gap-10 py-20 text-center sm:gap-12">
@@ -64,12 +67,9 @@ export function NotFoundTemplate({ ctas = defaultCtas }: { ctas?: NotFoundCta[] 
         className="flex max-w-xl flex-col gap-4"
       >
         <h1 className="font-display text-3xl leading-[1.15] font-bold text-balance sm:text-5xl">
-          Esta página se perdió. Nosotros ya encontramos el camino.
+          {copy.title}
         </h1>
-        <p className="text-body-lg text-pretty text-(--text-secondary)">
-          Puede que el link esté roto, o quizás buscabas algo que todavía no existe. Mientras
-          tanto, hay bastante para explorar por acá.
-        </p>
+        <p className="text-body-lg text-pretty text-(--text-secondary)">{copy.body}</p>
       </motion.div>
 
       <motion.div

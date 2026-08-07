@@ -12,6 +12,7 @@ import { MascotStage } from '@/components/marketing/mascot-stage';
 import { CursorTrail } from '@/components/marketing/cursor-trail';
 import { FloatingElement } from '@/components/marketing/floating-element';
 import { usePrefersReducedMotion } from '@/lib/use-prefers-reduced-motion';
+import { useLanguage } from '@/lib/i18n/language-context';
 import { cn } from '@/lib/utils';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -66,6 +67,8 @@ function SecondaryCTA({ href, children }: { href: string; children: ReactNode })
 export function HomeHero() {
 	const reduceMotion = usePrefersReducedMotion();
 	const sectionRef = React.useRef<HTMLElement>(null);
+	const { t } = useLanguage();
+	const copy = t.home.hero;
 
 	return (
 		<section ref={sectionRef} className='relative overflow-hidden'>
@@ -91,26 +94,26 @@ export function HomeHero() {
 				>
 					<motion.div variants={fadeUp}>
 						<p className='font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase'>
-							Tangerine Studio
+							{copy.eyebrow}
 						</p>
 					</motion.div>
 
 					<motion.div variants={fadeUp} className='mt-6'>
 						<h1 className='font-display text-4xl leading-[1.08] font-bold text-balance sm:text-5xl lg:text-6xl'>
-							Construimos marcas que no podrían pertenecerle a nadie más.{' '}
+							{copy.title}
 						</h1>
 					</motion.div>
 
 					<motion.div variants={fadeUp} className='mt-6'>
 						<p className='text-body-lg max-w-xl text-pretty text-(--text-secondary)'>
-							Cada marca cuenta una historia. Nuestro trabajo es hacer que alguien quiera escucharla.
+							{copy.subtitle}
 						</p>
 					</motion.div>
 
 					<motion.div variants={fadeUp} className='mt-10'>
 						<div className='flex flex-col gap-3 sm:flex-row'>
-							<PrimaryCTA href='/work'>Ver nuestro trabajo</PrimaryCTA>
-							<SecondaryCTA href='/contact'>Construyamos algo juntos</SecondaryCTA>
+							<PrimaryCTA href='/work'>{copy.primaryCta}</PrimaryCTA>
+							<SecondaryCTA href='/contact'>{copy.secondaryCta}</SecondaryCTA>
 						</div>
 					</motion.div>
 				</motion.div>

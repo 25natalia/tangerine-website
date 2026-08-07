@@ -1,9 +1,11 @@
+"use client";
+
 import { Clock, Users, ShieldCheck, Lightbulb, type LucideIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardBody } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { processSteps, benefits } from "@/lib/templates/contact-data";
+import { useLanguage } from "@/lib/i18n/language-context";
 
-const benefitIcons: Record<(typeof benefits)[number]["icon"], LucideIcon> = {
+const benefitIcons: Record<"users" | "shield" | "lightbulb", LucideIcon> = {
   users: Users,
   shield: ShieldCheck,
   lightbulb: Lightbulb,
@@ -15,30 +17,31 @@ const benefitIcons: Record<(typeof benefits)[number]["icon"], LucideIcon> = {
  * stays in view as the (longer) form scrolls past it.
  */
 export function ContactSidebar() {
+  const { t } = useLanguage();
+  const copy = t.contact.sidebar;
+
   return (
     <div className="flex flex-col gap-5 lg:sticky lg:top-24">
       <Card variant="outlined">
         <CardHeader className="items-center gap-2.5">
           <Clock className="size-4 text-(--icon-brand)" aria-hidden="true" />
-          <CardTitle className="text-body font-semibold">Tiempo de respuesta</CardTitle>
+          <CardTitle className="text-body font-semibold">{copy.responseTimeTitle}</CardTitle>
         </CardHeader>
         <CardBody>
-          <p className="text-body-sm text-(--text-secondary)">
-            Respondemos cada mensaje en menos de 24 horas hábiles.
-          </p>
+          <p className="text-body-sm text-(--text-secondary)">{copy.responseTimeBody}</p>
           <Badge variant="success" className="mt-1">
-            &lt; 24 horas hábiles
+            {copy.responseTimeBadge}
           </Badge>
         </CardBody>
       </Card>
 
       <Card variant="outlined">
         <CardHeader>
-          <CardTitle className="text-body font-semibold">Nuestro proceso</CardTitle>
+          <CardTitle className="text-body font-semibold">{copy.processTitle}</CardTitle>
         </CardHeader>
         <CardBody>
           <ol className="flex flex-col gap-4">
-            {processSteps.map((step, i) => (
+            {copy.steps.map((step, i) => (
               <li key={step.title} className="flex gap-3">
                 <span
                   aria-hidden="true"
@@ -58,12 +61,12 @@ export function ContactSidebar() {
 
       <Card variant="flat">
         <CardHeader>
-          <CardTitle className="text-body font-semibold">Por qué Tangerine</CardTitle>
+          <CardTitle className="text-body font-semibold">{copy.whyTitle}</CardTitle>
         </CardHeader>
         <CardBody>
           <ul className="flex flex-col gap-3">
-            {benefits.map((benefit) => {
-              const Icon = benefitIcons[benefit.icon];
+            {copy.benefits.map((benefit) => {
+              const Icon = benefitIcons[benefit.icon as "users" | "shield" | "lightbulb"];
               return (
                 <li key={benefit.title} className="flex items-center gap-2.5">
                   <Icon className="size-4 shrink-0 text-(--icon-brand)" aria-hidden="true" />

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { PortfolioTemplate } from "@/components/templates/portfolio";
+import { WorkPageContent } from "@/components/work-page-content";
 import { portfolio } from "@/content/portfolio";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Work",
-  description: portfolio.subtitle,
+  description: portfolio.es.subtitle,
   path: "/work",
 });
 
 export default function WorkPage() {
-  return <PortfolioTemplate data={portfolio} showFeatured={false} showStats={false} showTimeline={false} />;
+  return <WorkPageContent />;
 }

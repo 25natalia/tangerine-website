@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { buttonVariants } from "@/components/ui/button";
 import { Reveal } from "@/components/templates/reveal";
 import { FloatingElement } from "@/components/marketing/floating-element";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 
 const kicker = "font-display text-sm font-semibold tracking-wide text-primary-foreground/60 uppercase";
@@ -20,6 +21,9 @@ const kicker = "font-display text-sm font-semibold tracking-wide text-primary-fo
  * en los dos temas sin fijar un color a mano.
  */
 export function CapabilitiesHero() {
+  const { t } = useLanguage();
+  const copy = t.capabilities.hero;
+
   return (
     <section className="relative overflow-hidden bg-primary text-primary-foreground">
       <Container
@@ -27,20 +31,16 @@ export function CapabilitiesHero() {
         className="relative grid items-center gap-y-16 py-20 sm:py-28 md:grid-cols-[1fr_1fr] md:gap-x-12 lg:gap-x-16 lg:py-32"
       >
         <Reveal className="flex flex-col items-start text-left">
-          <p className={kicker}>Capabilities</p>
+          <p className={kicker}>{copy.kicker}</p>
           <h1 className="mt-6 max-w-xl font-display text-4xl leading-[1.08] font-bold text-balance sm:text-5xl lg:text-6xl">
-            No ofrecemos una lista de servicios sueltos.
+            {copy.title}
           </h1>
-          <p className="text-body-lg mt-6 max-w-lg text-pretty text-primary-foreground/85">
-            Del tipo que cualquiera podría contratar por separado sin que se note la diferencia.
-            Ofrecemos capacidades: formas distintas de aplicar la misma manera de pensar a un
-            problema distinto.
-          </p>
+          <p className="text-body-lg mt-6 max-w-lg text-pretty text-primary-foreground/85">{copy.body}</p>
           <Link
             href="/contact"
             className={cn(buttonVariants({ size: "lg" }), "mt-10 bg-primary-foreground text-primary hover:bg-primary-foreground/90")}
           >
-            Construyamos algo juntos
+            {copy.cta}
           </Link>
         </Reveal>
 

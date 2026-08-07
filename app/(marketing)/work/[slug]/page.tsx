@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 import { CreativeWorkJsonLd, BreadcrumbListJsonLd } from "@/components/json-ld";
 
 export function generateStaticParams() {
-  return caseStudies.map((cs) => ({ slug: cs.slug }));
+  return caseStudies.map((cs) => ({ slug: cs.es.slug }));
 }
 
 export async function generateMetadata({
@@ -17,9 +17,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = getCaseStudy(slug);
   if (!data) return {};
+  // La metadata se renderiza en el servidor, antes de que el cliente elija
+  // idioma — usa siempre la versión ES (idioma por defecto del sitio, ver
+  // LanguageProvider). El toggle ES/EN solo cambia el contenido ya
+  // hidratado en el navegador, nunca esta metadata estática.
   return buildMetadata({
-    title: `${data.title} — ${data.client}`,
-    description: data.summary[0],
+    title: `${data.es.title} — ${data.es.client}`,
+    description: data.es.summary[0],
     path: `/work/${slug}`,
   });
 }
@@ -36,25 +40,25 @@ export default async function CaseStudyPage({
   // El año de origen puede venir como rango ("2025–2026") — para
   // datePublished (ISO 8601) solo el primer año es válido como valor de
   // precisión truncada.
-  const firstYear = data.year.match(/\d{4}/)?.[0] ?? data.year;
+  const firstYear = data.es.year.match(/\d{4}/)?.[0] ?? data.es.year;
 
   return (
     <>
       <CreativeWorkJsonLd
-        name={data.title}
-        description={data.summary[0]}
+        name={data.es.title}
+        description={data.es.summary[0]}
         path={`/work/${slug}`}
-        client={data.client}
+        client={data.es.client}
         datePublished={firstYear}
       />
       <BreadcrumbListJsonLd
         items={[
           { name: "Home", path: "/" },
           { name: "Work", path: "/work" },
-          { name: data.title, path: `/work/${slug}` },
+          { name: data.es.title, path: `/work/${slug}` },
         ]}
       />
-      <CaseStudyTemplate data={data} />
+      <CaseStudyTemplate dataByLocale={data} />
     </>
   );
 }

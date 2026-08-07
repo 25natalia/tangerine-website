@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Chip } from "@/components/ui/chip";
 import { VisualBlock } from "@/components/templates/shared/visual-block";
+import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 import type { PortfolioProject } from "@/lib/templates/portfolio";
 
@@ -30,6 +33,7 @@ const sizeConfig = {
  */
 export function ProjectCard({ project }: { project: PortfolioProject }) {
   const config = sizeConfig[project.size];
+  const { t } = useLanguage();
 
   return (
     <a
@@ -57,7 +61,7 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
           aria-hidden="true"
           className="absolute right-3 bottom-3 inline-flex translate-y-1 items-center gap-1 rounded-(--radius-pill) bg-white px-3 py-1.5 text-caption font-semibold text-(--purple-700) opacity-0 shadow-(--shadow-elevation-2) transition-[opacity,transform] duration-(--duration-base) ease-(--ease-standard) group-hover/card:translate-y-0 group-hover/card:opacity-100"
         >
-          View Case Study
+          {t.portfolio.gallery.viewCaseStudyLabel}
           <ArrowUpRight className="size-3.5" />
         </span>
       </div>

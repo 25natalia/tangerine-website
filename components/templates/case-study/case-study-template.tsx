@@ -1,4 +1,8 @@
+"use client";
+
 import type { CaseStudyData } from "@/lib/templates/case-study";
+import type { Localized } from "@/lib/i18n/types";
+import { useLanguage } from "@/lib/i18n/language-context";
 import {
   CaseStudyHero,
   CaseStudySummary,
@@ -29,12 +33,19 @@ import {
  * questions ("what is it, why does it exist, who was involved") any case
  * study owes a reader before it earns the right to skip anything else.
  *
+ * `dataByLocale` (no plain `data`) porque este template necesita elegir el
+ * idioma activo en el cliente — content/case-studies/*.ts trae ambas
+ * versiones (`{ es, en }`) y acá se selecciona la que corresponde.
+ *
  * Doesn't render Navbar/Footer itself — those are page-level chrome a
  * consumer already has an opinion about, composed around this component
  * (see app/(templates)/preview/case-study/page.tsx for the reference
  * composition), not something a content template should own.
  */
-export function CaseStudyTemplate({ data }: { data: CaseStudyData }) {
+export function CaseStudyTemplate({ dataByLocale }: { dataByLocale: Localized<CaseStudyData> }) {
+  const { locale } = useLanguage();
+  const data = dataByLocale[locale];
+
   return (
     <article>
       <CaseStudyHero data={data} />
