@@ -12,14 +12,20 @@ import { useLanguage } from "@/lib/i18n/language-context";
 // que no se le agrega otra tarjeta de color detrás — eso duplicaría el
 // recurso en vez de reforzarlo. Sin decoraciones adicionales alrededor esta
 // vez — pedido explícito: la fotografía es la única protagonista del banner.
-const kicker = "font-display text-sm font-semibold tracking-wide text-(--neutral-1000)/60 uppercase";
+//
+// `bg-(--purple-600)`/`text-white` fijos — no `bg-primary`/
+// `text-primary-foreground`: esos tokens semánticos cambian con el tema
+// (`--primary` pasa a `--purple-400` y `--primary-foreground` a casi-negro
+// en oscuro), y acá el pedido explícito es que los banners no cambien con
+// el modo oscuro. Mismo color en los cuatro banners del sitio a propósito.
+const kicker = "font-display text-sm font-semibold tracking-wide text-white/60 uppercase";
 
 export function StudioIntro() {
   const { t } = useLanguage();
   const copy = t.studio.intro;
 
   return (
-    <section className="relative overflow-hidden bg-(--lime-400) text-(--neutral-1000)">
+    <section className="relative overflow-hidden bg-(--purple-600) text-white">
       <Container
         size="wide"
         className="relative grid items-center gap-y-16 py-20 sm:py-28 md:grid-cols-[1fr_1fr] md:gap-x-12 lg:gap-x-20 lg:py-32"

@@ -29,7 +29,10 @@ export function ContactTemplate({ onSubmit, showSocialProof = true }: ContactTem
   return (
     <article>
       <ContactHero />
-      <Container size="wide" className="py-16 sm:py-20">
+      {/* id + scroll-mt: destino del CTA "Completá el formulario" del Hero
+         (href="#contact-form") — el scroll-mt compensa el Navbar sticky
+         (h-16) para que el ancla no quede tapada debajo de él. */}
+      <Container id="contact-form" size="wide" className="scroll-mt-24 py-16 sm:py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_360px] lg:gap-16">
           <ContactForm onSubmit={onSubmit} />
           <ContactSidebar />

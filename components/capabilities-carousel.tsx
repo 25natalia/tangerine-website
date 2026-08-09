@@ -3,9 +3,7 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Carousel } from "@/components/ui/carousel";
-import { Mascot } from "@/components/ui/mascot";
 import { Reveal } from "@/components/templates/reveal";
-import { FloatingElement } from "@/components/marketing/floating-element";
 import { useLanguage } from "@/lib/i18n/language-context";
 import type { Dictionary } from "@/lib/i18n/dictionaries/es";
 import { cn } from "@/lib/utils";
@@ -14,43 +12,65 @@ type Capability = Dictionary["capabilities"]["list"][number];
 
 const kicker = "font-display text-xs font-semibold tracking-wide uppercase opacity-70";
 
-// Una combinación de color distinta por capability — nunca dos seguidas
-// iguales — usando tokens reales del DS. "Cream" se resolvió como
-// --gold-50 (el tono cálido y claro más cercano que existe); el DS no tiene
-// un primitivo "cream" propio.
+// Misma paleta cromática y vibrante que las cards de Filosofía del Home
+// (components/home-philosophy.tsx: purple-600, tangerine-500, green-600,
+// lime, gold, purple-800) — con dos ajustes deliberados frente a esa
+// referencia, porque acá el pedido explícito es texto blanco en las siete
+// cards sin excepción:
+//   1. Ningún `bg-primary`/`text-primary-foreground`: ese par semántico
+//      cambia con el tema (en oscuro, `--primary-foreground` se resuelve
+//      casi negro) — mismo motivo por el que los banners ya quedaron en
+//      tokens fijos. `brand-systems` pasa a `--purple-600` fijo.
+//   2. `lime-400`/`gold-50` — los tonos exactos que usa el Home para sus
+//      dos cards de texto oscuro — no sostienen blanco encima (muy claros).
+//      Se usa la misma familia de color un escalón más oscuro (`-600`) en
+//      vez de cambiar de paleta: sigue siendo el lime/gold de marca, ahora
+//      con el contraste que blanco necesita.
+// Un color extra (`info-600`, azul) cubre la séptima card que el Home no
+// tiene. Nunca dos cards seguidas con el mismo color, tampoco de la última
+// a la primera.
 const styleBySlug: Record<string, { bg: string; fg: string }> = {
-  "brand-systems": { bg: "bg-primary", fg: "text-primary-foreground" },
+  "brand-systems": { bg: "bg-(--purple-600)", fg: "text-white" },
   "digital-experiences": { bg: "bg-(--tangerine-500)", fg: "text-white" },
-  "product-design": { bg: "bg-(--lime-400)", fg: "text-(--neutral-1000)" },
+  "product-design": { bg: "bg-(--green-600)", fg: "text-white" },
   "creative-direction": { bg: "bg-(--purple-800)", fg: "text-white" },
   "content-systems": { bg: "bg-(--info-600)", fg: "text-white" },
-  growth: { bg: "bg-(--gold-50)", fg: "text-(--neutral-1000)" },
-  automation: { bg: "bg-(--green-600)", fg: "text-white" },
+  growth: { bg: "bg-(--gold-600)", fg: "text-white" },
+  automation: { bg: "bg-(--lime-600)", fg: "text-white" },
 };
 
-// Cada capability con una ilustración distinta del universo Tangerine —
-// mascota donde tiene sentido narrativo (Brand Systems, Creative Direction:
-// las dos capacidades más "de identidad"), geometry/deco en el resto, sin
-// repetir ningún archivo.
+// Una figura geométrica de marca por capability (public/illustrations/geometry/
+// — la misma familia destello/flor/hoja/leaf/semillas/spring que usan las
+// cards de Filosofía en el Home, components/home-philosophy.tsx), en vez de
+// mezclar mascota y deco/ como antes — mismo lenguaje visual que el Home,
+// tal como pide el ajuste. Motivo distinto en cada posición consecutiva
+// (nunca se repite de una card a la siguiente, tampoco de la última a la
+// primera), color elegido para contrastar con el fondo propio de esa card
+// (ver `styleBySlug`). Completamente estática — sin FloatingElement, a
+// diferencia del resto del sitio: pedido explícito de este ajuste.
+const illustrationBySlug: Record<string, { src: string; width: number; height: number }> = {
+  "brand-systems": { src: "/illustrations/geometry/destello-yellow.svg", width: 180, height: 180 },
+  "digital-experiences": { src: "/illustrations/geometry/flor-violet.svg", width: 153, height: 160 },
+  "product-design": { src: "/illustrations/geometry/hoja-orange.svg", width: 130, height: 123 },
+  "creative-direction": { src: "/illustrations/geometry/leaf-yellow.svg", width: 132, height: 132 },
+  "content-systems": { src: "/illustrations/geometry/semillas-orange.svg", width: 174, height: 174 },
+  growth: { src: "/illustrations/geometry/spring-green.svg", width: 160, height: 174 },
+  automation: { src: "/illustrations/geometry/leaf-violet.svg", width: 132, height: 132 },
+};
+
 function CapabilityIllustration({ slug }: { slug: string }) {
-  switch (slug) {
-    case "brand-systems":
-      return <Mascot variant="default" alt="" className="w-40 sm:w-48" />;
-    case "creative-direction":
-      return <Mascot variant="2" alt="" className="w-40 sm:w-48" />;
-    case "digital-experiences":
-      return <Image src="/illustrations/deco/window-tangerine-lime.svg" alt="" width={500} height={500} className="w-32 sm:w-40" />;
-    case "product-design":
-      return <Image src="/illustrations/geometry/leaf-orange.svg" alt="" width={130} height={123} className="w-24 sm:w-28" />;
-    case "content-systems":
-      return <Image src="/illustrations/geometry/semillas-yellow.svg" alt="" width={174} height={174} className="w-24 sm:w-28" />;
-    case "growth":
-      return <Image src="/illustrations/geometry/destello-orange.svg" alt="" width={180} height={180} className="w-24 sm:w-28" />;
-    case "automation":
-      return <Image src="/illustrations/deco/star-violet.svg" alt="" width={130} height={130} className="w-20 sm:w-24" />;
-    default:
-      return null;
-  }
+  const illustration = illustrationBySlug[slug];
+  if (!illustration) return null;
+  return (
+    <Image
+      src={illustration.src}
+      alt=""
+      aria-hidden="true"
+      width={illustration.width}
+      height={illustration.height}
+      className="h-auto w-40 sm:w-48 lg:w-56"
+    />
+  );
 }
 
 function CapabilityCard({
@@ -91,10 +111,8 @@ function CapabilityCard({
         </div>
       </div>
 
-      <div className="relative flex shrink-0 items-center justify-center lg:ml-auto">
-        <FloatingElement floatY={8} floatDuration={5 + (index % 3)} floatRotate={4} repelStrength={0.9}>
-          <CapabilityIllustration slug={cap.slug} />
-        </FloatingElement>
+      <div className="relative flex shrink-0 items-center justify-center lg:ml-auto lg:size-56">
+        <CapabilityIllustration slug={cap.slug} />
       </div>
     </div>
   );

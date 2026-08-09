@@ -6,6 +6,7 @@
 export const es = {
 	common: {
 		breadcrumbHome: 'Home',
+		ctaBuildTogether: 'Construyamos algo juntos',
 	},
 
 	nav: {
@@ -284,9 +285,11 @@ export const es = {
 
 	contact: {
 		hero: {
+			kicker: 'Contact',
 			breadcrumbCurrent: 'Contacto',
 			title: 'Construyamos algo con criterio.',
 			body: 'Antes de proponer una solución, queremos entender tu proyecto. Contanos qué estás construyendo y te respondemos con los próximos pasos, no con un formulario genérico.',
+			cta: 'Completá el formulario',
 		},
 		sidebar: {
 			responseTimeTitle: 'Tiempo de respuesta',
