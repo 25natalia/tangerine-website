@@ -1,65 +1,68 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { buttonVariants } from "@/components/ui/button";
+import { Reveal } from "@/components/templates/reveal";
+import { FloatingElement } from "@/components/marketing/floating-element";
 import { useLanguage } from "@/lib/i18n/language-context";
+import { cn } from "@/lib/utils";
 import type { PortfolioData } from "@/lib/templates/portfolio";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const kicker = "font-display text-sm font-semibold tracking-wide text-white/60 uppercase";
 
 /**
- * A dedicated Hero, not the Home page's — the brief is explicit about this,
- * and the two have genuinely different jobs: Home's Hero introduces the
- * Design System itself (mascot, product framing); this one introduces a
- * body of work and needs to get out of the way fast, since the gallery
- * below is the actual point of the page. Exactly 3 stats, on purpose —
- * more starts reading as a dashboard, not an editorial opener.
+ * Mismo esqueleto que `CapabilitiesHero` (components/capabilities-hero.tsx,
+ * la referencia explícita del pedido) — banner a página completa, kicker +
+ * título + descripción + CTA a la izquierda, una sola ilustración
+ * protagonista a la derecha. `bg-(--purple-600)`/`text-white` fijos — no
+ * `bg-primary`/`text-primary-foreground`: esos tokens semánticos cambian
+ * con el tema, y acá el pedido explícito es que los banners no cambien con
+ * el modo oscuro. Mismo color en los cuatro banners del sitio a propósito.
  */
 export function PortfolioHero({ data }: { data: PortfolioData }) {
-  const reduceMotion = usePrefersReducedMotion();
   const { t } = useLanguage();
-  return (
-    <header>
-      <Container size="wide" className="pt-6 pb-16 sm:pt-8 sm:pb-24">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">{t.portfolio.breadcrumbHome}</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{data.eyebrow}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
-          className="mt-8 max-w-4xl sm:mt-10"
-        >
-          <h1 className="font-display text-4xl leading-[1.05] font-bold text-balance sm:text-6xl lg:text-7xl">
+  return (
+    <header className="relative overflow-hidden bg-(--purple-600) text-white">
+      <Container
+        size="wide"
+        className="relative grid items-center gap-y-16 py-20 sm:py-28 md:grid-cols-[1fr_1fr] md:gap-x-12 lg:gap-x-16 lg:py-32"
+      >
+        <Reveal className="flex flex-col items-start text-left">
+          <p className={kicker}>{data.eyebrow}</p>
+          <h1 className="mt-6 max-w-xl font-display text-4xl leading-[1.08] font-bold text-balance sm:text-5xl lg:text-6xl">
             {data.title}
           </h1>
-          <p className="text-body-lg mt-6 max-w-2xl text-pretty text-(--text-secondary)">{data.subtitle}</p>
-        </motion.div>
+          <p className="text-body-lg mt-6 max-w-lg text-pretty text-white/85">{data.subtitle}</p>
+          <Link
+            href="/contact"
+            className={cn(buttonVariants({ size: "lg" }), "mt-10 bg-white text-(--purple-600) hover:bg-white/90")}
+          >
+            {t.common.ctaBuildTogether}
+          </Link>
+        </Reveal>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
-          className="mt-12 flex flex-wrap items-center gap-x-12 gap-y-6 sm:mt-16"
-        >
-          {data.heroStats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-0.5">
-              <span className="font-display text-3xl font-bold text-(--text-primary) sm:text-4xl">{stat.value}</span>
-              <span className="text-caption tracking-wide text-(--text-tertiary) uppercase">{stat.label}</span>
-            </div>
-          ))}
-        </motion.div>
+        <div className="relative flex justify-center md:justify-end">
+          <FloatingElement
+            className="w-full max-w-md md:max-w-none md:w-[85%]"
+            floatY={10}
+            floatDuration={6}
+            floatRotate={2}
+            repelStrength={0.4}
+          >
+            <Image
+              src="/illustrations/banner/banner-work.svg"
+              alt=""
+              aria-hidden="true"
+              width={1706}
+              height={1471}
+              className="h-auto w-full"
+              priority
+            />
+          </FloatingElement>
+        </div>
       </Container>
     </header>
   );

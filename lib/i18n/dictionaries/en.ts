@@ -10,6 +10,7 @@ import type { Dictionary } from "./es";
 export const en: Dictionary = {
   common: {
     breadcrumbHome: "Home",
+    ctaBuildTogether: "Let's build something together",
   },
 
   nav: {
@@ -255,9 +256,11 @@ export const en: Dictionary = {
 
   contact: {
     hero: {
+      kicker: "Contact",
       breadcrumbCurrent: "Contact",
       title: "Let's build something with judgment.",
       body: "Before proposing a solution, we want to understand your project. Tell us what you're building and we'll get back to you with next steps, not a generic form response.",
+      cta: "Fill out the form",
     },
     sidebar: {
       responseTimeTitle: "Response time",

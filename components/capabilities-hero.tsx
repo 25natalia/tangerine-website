@@ -9,23 +9,24 @@ import { FloatingElement } from "@/components/marketing/floating-element";
 import { useLanguage } from "@/lib/i18n/language-context";
 import { cn } from "@/lib/utils";
 
-const kicker = "font-display text-sm font-semibold tracking-wide text-primary-foreground/60 uppercase";
+const kicker = "font-display text-sm font-semibold tracking-wide text-white/60 uppercase";
 
 /**
  * Mismo esqueleto de dos columnas que `StudioIntro` (mismo componente al
  * que el pedido apunta como referencia) — no el mismo contenido: eyebrow +
  * título + descripción + CTA a la izquierda, ilustración protagonista a la
- * derecha. Fondo `bg-primary` (el token semántico real del DS, no un
- * "primary" inventado) con `text-primary-foreground`, que ya resuelve
- * blanco en claro / casi-negro en oscuro automáticamente — AA garantizado
- * en los dos temas sin fijar un color a mano.
+ * derecha. `bg-(--purple-600)`/`text-white` fijos — no `bg-primary`/
+ * `text-primary-foreground`: esos tokens semánticos cambian con el tema
+ * (`--primary` pasa a `--purple-400` y `--primary-foreground` a casi-negro
+ * en oscuro), y acá el pedido explícito es que los banners no cambien con
+ * el modo oscuro — mismo color, mismo texto blanco, siempre.
  */
 export function CapabilitiesHero() {
   const { t } = useLanguage();
   const copy = t.capabilities.hero;
 
   return (
-    <section className="relative overflow-hidden bg-primary text-primary-foreground">
+    <section className="relative overflow-hidden bg-(--purple-600) text-white">
       <Container
         size="wide"
         className="relative grid items-center gap-y-16 py-20 sm:py-28 md:grid-cols-[1fr_1fr] md:gap-x-12 lg:gap-x-16 lg:py-32"
@@ -35,10 +36,10 @@ export function CapabilitiesHero() {
           <h1 className="mt-6 max-w-xl font-display text-4xl leading-[1.08] font-bold text-balance sm:text-5xl lg:text-6xl">
             {copy.title}
           </h1>
-          <p className="text-body-lg mt-6 max-w-lg text-pretty text-primary-foreground/85">{copy.body}</p>
+          <p className="text-body-lg mt-6 max-w-lg text-pretty text-white/85">{copy.body}</p>
           <Link
             href="/contact"
-            className={cn(buttonVariants({ size: "lg" }), "mt-10 bg-primary-foreground text-primary hover:bg-primary-foreground/90")}
+            className={cn(buttonVariants({ size: "lg" }), "mt-10 bg-white text-(--purple-600) hover:bg-white/90")}
           >
             {copy.cta}
           </Link>
@@ -59,11 +60,11 @@ export function CapabilitiesHero() {
             repelStrength={0.4}
           >
             <Image
-              src="/illustrations/deco/tangerine-bana-strawy.svg"
+              src="/illustrations/banner/banner-capabilities.svg"
               alt=""
               aria-hidden="true"
-              width={1377}
-              height={927}
+              width={1706}
+              height={1471}
               className="h-auto w-full"
               priority
             />
