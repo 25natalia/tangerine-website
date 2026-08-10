@@ -11,14 +11,20 @@ import { useLanguage } from "@/lib/i18n/language-context";
 // propósito (py-24/32 simétrico daba ~192-256px de separación real hasta
 // Filosofía, que también arranca con su propio padding superior) — el
 // superior queda igual, relativo al Ticker de arriba.
+//
+// `size="wide"` para el padding lateral del sitio, pero el contenido en sí
+// vive en un bloque angosto centrado (`mx-auto max-w-3xl`) — mismo ancho y
+// mismo criterio que StudioOrigin/StudioManifesto: el bloque flota en el
+// medio de la pantalla, el texto adentro arranca left-aligned sobre el
+// propio borde izquierdo del bloque, no sobre el de la página completa.
 export function HomeWhyExists() {
   const { t } = useLanguage();
   const copy = t.home.whyExists;
 
   return (
     <section>
-      <Container size="content" className="pt-24 pb-16 sm:pt-32 sm:pb-20">
-        <Reveal>
+      <Container size="wide" className="pt-24 pb-16 sm:pt-32 sm:pb-20">
+        <Reveal className="mx-auto max-w-3xl">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
             {copy.eyebrow}
           </p>

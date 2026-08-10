@@ -1,8 +1,8 @@
 // Los dos idiomas soportados por el toggle ES/EN — español es el idioma por
 // defecto del sitio (ver LanguageProvider). Cualquier contenido bilingüe del
 // proyecto (diccionarios de UI, content/case-studies, content/portfolio,
-// lib/capabilities, lib/process, lib/templates/contact-data) se tipa contra
-// este único Locale en vez de que cada archivo invente el suyo.
+// lib/process, lib/templates/contact-data) se tipa contra este único Locale
+// en vez de que cada archivo invente el suyo.
 
 export type Locale = "es" | "en";
 

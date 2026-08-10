@@ -15,8 +15,10 @@ import { useLanguage } from "@/lib/i18n/language-context";
 
 export function SiteNavbar() {
   // Contenido propio de la web (nunca del Design System) — la arquitectura de
-  // información definida en el roadmap: Home, Studio, Capabilities, Work,
-  // Contact. Los labels vienen del diccionario ES/EN — todos idénticos en
+  // información definida en el roadmap: Home, Studio, Work, Contact
+  // ("Capabilities" se dio de baja como sección propia — ver Home Closing,
+  // que ahora integra su ilustración). Los labels vienen del diccionario
+  // ES/EN — todos idénticos en
   // los dos idiomas (nombres de sección ya en inglés en el sitio en
   // español), salvo "Home", que sí se traduce a "Inicio" en ES — ver
   // lib/i18n/dictionaries/es.ts. Mismo array alimenta el menú desktop y el

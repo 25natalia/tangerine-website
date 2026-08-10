@@ -28,6 +28,7 @@ const capabilities = [
 
 export function SiteFooter() {
 	const { t } = useLanguage();
+	const navLabel = (href: string) => t.nav.links.find((link) => link.href === href)?.label ?? href;
 
 	return (
 		<Footer variant='creative'>
@@ -41,12 +42,11 @@ export function SiteFooter() {
 
 				<div className='grid grid-cols-2 gap-8 sm:grid-cols-3'>
 					<FooterLinkGroup title={t.footer.groups.studio}>
-						<FooterLink href='/studio'>Studio</FooterLink>
-						<FooterLink href='/capabilities'>Capabilities</FooterLink>
+						<FooterLink href='/studio'>{navLabel('/studio')}</FooterLink>
 					</FooterLinkGroup>
 					<FooterLinkGroup title={t.footer.groups.work}>
-						<FooterLink href='/work'>Work</FooterLink>
-						<FooterLink href='/contact'>Contact</FooterLink>
+						<FooterLink href='/work'>{navLabel('/work')}</FooterLink>
+						<FooterLink href='/contact'>{navLabel('/contact')}</FooterLink>
 					</FooterLinkGroup>
 				</div>
 			</div>

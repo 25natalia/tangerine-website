@@ -13,13 +13,13 @@ import type { PortfolioData } from "@/lib/templates/portfolio";
 const kicker = "font-display text-sm font-semibold tracking-wide text-white/60 uppercase";
 
 /**
- * Mismo esqueleto que `CapabilitiesHero` (components/capabilities-hero.tsx,
- * la referencia explícita del pedido) — banner a página completa, kicker +
- * título + descripción + CTA a la izquierda, una sola ilustración
- * protagonista a la derecha. `bg-(--purple-600)`/`text-white` fijos — no
- * `bg-primary`/`text-primary-foreground`: esos tokens semánticos cambian
- * con el tema, y acá el pedido explícito es que los banners no cambien con
- * el modo oscuro. Mismo color en los cuatro banners del sitio a propósito.
+ * Mismo esqueleto que `StudioIntro`/`ContactHero` — banner a página
+ * completa, kicker + título + descripción + CTA a la izquierda, una sola
+ * ilustración protagonista a la derecha. `bg-(--purple-600)`/`text-white`
+ * fijos — no `bg-primary`/`text-primary-foreground`: esos tokens semánticos
+ * cambian con el tema, y acá el pedido explícito es que los banners no
+ * cambien con el modo oscuro. Mismo color en los tres banners del sitio
+ * (Studio, Work, Contact) a propósito.
  */
 export function PortfolioHero({ data }: { data: PortfolioData }) {
   const { t } = useLanguage();
