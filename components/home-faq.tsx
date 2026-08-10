@@ -12,9 +12,10 @@ import { cn } from "@/lib/utils";
 
 // Preguntas reales de un cliente evaluando contratar una agencia de diseño
 // digital, no genéricas de plantilla. Respuestas ancladas en contenido ya
-// real del sitio (capabilities.ts, el flujo real de Contact) — deliberadamente
-// sin inventar nombres de herramientas, tarifas o plazos específicos que no
-// están confirmados en el Brand OS todavía. Texto en lib/i18n/dictionaries.
+// real del sitio (las siete capacidades del estudio, el flujo real de
+// Contact) — deliberadamente sin inventar nombres de herramientas, tarifas o
+// plazos específicos que no están confirmados en el Brand OS todavía. Texto
+// en lib/i18n/dictionaries.
 
 interface DecoSpec {
   src: string;
@@ -122,24 +123,26 @@ export function HomeFaq() {
          decorations) in DOM order, at the same default stacking tier —
          same visual result, without ever holding a z-index value that could
          collide with page-level chrome. */}
-      <Container size="content" className="relative py-24 sm:py-32">
-        <Reveal className="mb-12 max-w-xl sm:mb-16">
-          <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-            {copy.eyebrow}
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
-        </Reveal>
+      <Container size="wide" className="relative py-24 sm:py-32">
+        <div className="mx-auto max-w-3xl">
+          <Reveal className="mb-12 sm:mb-16">
+            <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
+              {copy.eyebrow}
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
+          </Reveal>
 
-        <Reveal>
-          <Accordion variant="faq" size="md" icon="plus-minus" hiddenUntilFound>
-            {copy.items.map((faq) => (
-              <AccordionItem key={faq.id} value={faq.id}>
-                <AccordionTrigger title={faq.question} />
-                <AccordionContent>{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </Reveal>
+          <Reveal>
+            <Accordion variant="faq" size="md" icon="plus-minus" hiddenUntilFound>
+              {copy.items.map((faq) => (
+                <AccordionItem key={faq.id} value={faq.id}>
+                  <AccordionTrigger title={faq.question} />
+                  <AccordionContent>{faq.answer}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+        </div>
       </Container>
     </section>
   );

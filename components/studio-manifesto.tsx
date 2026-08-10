@@ -15,14 +15,21 @@ const kicker = 'font-display text-sm font-semibold tracking-wide text-(--text-br
  * incluyen, no se reescribió ninguna — sin cambios de contenido esta ronda,
  * solo se le agregó el marco visual.
  *
+ * La referencia del "bloque Manifiesto" para todo el sitio: el wrapper
+ * exterior se centra en la página (`mx-auto max-w-3xl`) pero nada adentro
+ * está centrado individualmente — kicker, frase de apertura, cuerpo y las
+ * dos líneas de énfasis arrancan todas sobre el mismo borde izquierdo del
+ * bloque. `HomeClosing` replica exactamente este mismo ancho y el mismo
+ * criterio de alineación.
+ *
  * Las 4 ilustraciones son `FloatingElement` (mismo componente que ya usa el
  * Cierre del Home) — mismo mecanismo: reposo con loop ambiental, y un
  * desplazamiento con resorte al pasar el cursor cerca, "como si fueran
- * piezas físicas livianas". Posicionadas relativas al mismo wrapper
- * `max-w-2xl` que envuelve el texto (no la sección completa) y sin
- * z-index — un `position:relative` sin z explícito ya pinta después de los
- * hermanos `absolute z-0` anteriores en el DOM, mismo resultado visual sin
- * arriesgar colisión con el z-index reservado de la Navbar.
+ * piezas físicas livianas". Posicionadas relativas al wrapper que envuelve
+ * el texto (no la sección completa) y sin z-index — un `position:relative`
+ * sin z explícito ya pinta después de los hermanos `absolute z-0` anteriores
+ * en el DOM, mismo resultado visual sin arriesgar colisión con el z-index
+ * reservado de la Navbar.
  */
 export function StudioManifesto() {
 	const { t } = useLanguage();
@@ -30,8 +37,8 @@ export function StudioManifesto() {
 
 	return (
 		<section className='relative overflow-hidden'>
-			<Container size='content' className='py-20 sm:py-28'>
-				<div className='relative mx-auto max-w-2xl'>
+			<Container size='wide' className='py-20 sm:py-28'>
+				<div className='relative mx-auto max-w-3xl'>
 					<FloatingElement
 						className='absolute -top-10 -left-14 z-0 hidden w-9 sm:block sm:w-11'
 						floatY={9}

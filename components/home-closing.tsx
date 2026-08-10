@@ -12,17 +12,34 @@ import { cn } from "@/lib/utils";
 /**
  * The Home's closing moment — same phrase and CTAs as always (Misión,
  * Volumen I, citada literalmente, sin tocar), staged as a deliberate pause.
- * Every illustration here is decorative (empty alt, aria-hidden) and sits
- * behind the phrase — via DOM order, not z-index (see the phrase wrapper
- * below for why no `z-10` lives here).
+ * Every decorative illustration here (empty alt, aria-hidden) sits behind
+ * the phrase — via DOM order, not z-index (see the phrase wrapper below for
+ * why no `z-10` lives here).
  *
- * Eight pieces, one per compass position around the `max-w-2xl` text
- * wrapper (NW/NE/N/E/SE/S/SW/W) — never two sharing the same corner, which
- * is what caused the previous pass to read as clumped. Distance from the
- * text varies on purpose (the two `deco/window-*` anchors and the N/S pair
- * sit farther out; the smaller pieces sit closer), and every family
- * (deco, geometry/flor, geometry/leaf, geometry/spring) is represented at
- * least once instead of leaning on the same one or two files.
+ * Deliberately centered — text-center, every element mx-auto'd — unlike the
+ * left-aligned "Manifiesto block" pattern (`StudioManifesto`, `StudioOrigin`):
+ * this is Home's one fully symmetric closing statement, framed by decorative
+ * pieces on all eight compass points around it, and centering is what makes
+ * that symmetry read as deliberate instead of accidental. Same
+ * `mx-auto max-w-3xl` outer width as the Manifiesto pattern regardless, so
+ * the block itself still sits inset the same amount from the page edges.
+ *
+ * Six small decorative pieces around the text wrapper (NE/N/E/S/SW/W) —
+ * never two sharing the same corner. The two `deco/window-*` "ancla grande"
+ * pieces (NW/SE) that used to sit here are gone: with the real
+ * `banner-capabilities.svg` illustration now sized up in the middle of this
+ * same block, two more big illustrations competed with it instead of
+ * framing it — only the small geometry/deco accents stay.
+ *
+ * Below the phrase (and above the CTAs) sits the illustration that used to
+ * open the now-retired Capabilities page (`/illustrations/banner/
+ * banner-capabilities.svg`) — Capabilities stopped being its own section, so
+ * its illustration moved here instead of being deleted along with the page.
+ * Same `FloatingElement` ambient float as every other banner illustration
+ * on the site (slow loop + subtle cursor repel, both off under
+ * prefers-reduced-motion), centered like everything else in this block and
+ * sized up for real visual weight — the second thing on screen after the
+ * phrase, not a footnote to it.
  */
 export function HomeClosing() {
   const { t } = useLanguage();
@@ -30,26 +47,8 @@ export function HomeClosing() {
 
   return (
     <section className="relative overflow-hidden">
-      <Container size="content" className="py-32 sm:py-40 lg:py-48">
-        <div className="relative mx-auto max-w-2xl">
-          {/* NW — ancla grande, la más alejada del texto */}
-          <FloatingElement
-            className="absolute -top-12 -left-16 z-0 w-20 sm:-top-16 sm:-left-24 sm:w-28 lg:w-32"
-            floatY={7}
-            floatDuration={7}
-            floatRotate={3}
-            repelStrength={0.6}
-          >
-            <Image
-              src="/illustrations/deco/window-tangerine-lime.svg"
-              alt=""
-              aria-hidden="true"
-              width={500}
-              height={500}
-              className="h-auto w-full"
-            />
-          </FloatingElement>
-
+      <Container size="wide" className="py-32 sm:py-40 lg:py-48">
+        <div className="relative mx-auto max-w-3xl">
           {/* NE — chica, cerca */}
           <FloatingElement
             className="absolute -top-8 -right-10 z-0 w-7 sm:-right-14 sm:w-9"
@@ -100,24 +99,6 @@ export function HomeClosing() {
               aria-hidden="true"
               width={130}
               height={130}
-              className="h-auto w-full"
-            />
-          </FloatingElement>
-
-          {/* SE — ancla grande, alejada */}
-          <FloatingElement
-            className="absolute -bottom-14 -right-16 z-0 hidden w-24 sm:-right-24 sm:block sm:w-32 lg:w-36"
-            floatY={9}
-            floatDuration={8}
-            floatRotate={-3}
-            repelStrength={0.6}
-          >
-            <Image
-              src="/illustrations/deco/window-sandy-green.svg"
-              alt=""
-              aria-hidden="true"
-              width={500}
-              height={500}
               className="h-auto w-full"
             />
           </FloatingElement>
@@ -188,7 +169,27 @@ export function HomeClosing() {
               <p className="font-display text-3xl font-bold text-balance sm:text-4xl lg:text-5xl">
                 {copy.title}
               </p>
-              <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+
+              <div className="mt-10 flex justify-center">
+                <FloatingElement
+                  className="w-full max-w-[20rem] sm:max-w-[26rem]"
+                  floatY={8}
+                  floatDuration={6}
+                  floatRotate={2}
+                  repelStrength={0.5}
+                >
+                  <Image
+                    src="/illustrations/banner/banner-capabilities.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width={1706}
+                    height={1471}
+                    className="h-auto w-full"
+                  />
+                </FloatingElement>
+              </div>
+
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                 <Link href="/work" className={cn(buttonVariants({ size: "lg" }))}>
                   {copy.ctaWork}
                 </Link>

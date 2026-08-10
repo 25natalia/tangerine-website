@@ -41,6 +41,10 @@ function ProcessCard({ step }: { step: ProcessStep }) {
   );
 }
 
+// Mismo bloque angosto centrado (`mx-auto max-w-3xl`) que el resto de las
+// secciones de texto del Home — kicker, título y la grilla de cards
+// comparten un único borde izquierdo, en vez de que las cards se extiendan
+// a todo el ancho "wide" de la página.
 export function HomeProcess() {
   const { t } = useLanguage();
   const copy = t.home.process;
@@ -48,18 +52,20 @@ export function HomeProcess() {
   return (
     <section>
       <Container size="wide" className="py-24 sm:py-32">
-        <Reveal className="mb-8 max-w-xl sm:mb-10">
-          <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
-            {copy.eyebrow}
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
-        </Reveal>
+        <div className="mx-auto max-w-3xl">
+          <Reveal className="mb-8 sm:mb-10">
+            <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
+              {copy.eyebrow}
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-bold text-balance sm:text-4xl">{copy.title}</h2>
+          </Reveal>
 
-        <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
-          {t.process.steps.map((step) => (
-            <ProcessCard key={step.slug} step={step} />
-          ))}
-        </RevealGroup>
+          <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+            {t.process.steps.map((step) => (
+              <ProcessCard key={step.slug} step={step} />
+            ))}
+          </RevealGroup>
+        </div>
       </Container>
     </section>
   );

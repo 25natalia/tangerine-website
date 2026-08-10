@@ -11,15 +11,15 @@ export const en: Dictionary = {
   common: {
     breadcrumbHome: "Home",
     ctaBuildTogether: "Let's build something together",
+    close: "Close",
   },
 
   nav: {
     links: [
       { href: "/", label: "Home" },
-      { href: "/studio", label: "Studio" },
-      { href: "/capabilities", label: "Capabilities" },
-      { href: "/work", label: "Work" },
-      { href: "/contact", label: "Contact" },
+      { href: "/studio", label: "About us" },
+      { href: "/work", label: "Our work" },
+      { href: "/contact", label: "Get in touch" },
     ],
   },
 
@@ -142,81 +142,6 @@ export const en: Dictionary = {
         { id: "community", name: "Community", meaning: "Understanding that no result that matters gets built completely alone." },
       ],
     },
-  },
-
-  capabilities: {
-    hero: {
-      kicker: "Capabilities",
-      title: "We don't offer a list of separate services.",
-      body: "The kind anyone could hire out one by one without noticing the difference. We offer capabilities: distinct ways of applying the same way of thinking to a different problem.",
-      cta: "Let's build something together",
-    },
-    carousel: {
-      kicker: "Seven capabilities",
-      title: "The same way of thinking, applied to a different problem every time.",
-      ariaLabel: "Tangerine Studio's capabilities",
-      cardLabel: "Capability",
-      existsBecauseLabel: "Exists because",
-      generatesValueLabel: "Generates value",
-    },
-    list: [
-      {
-        slug: "brand-systems",
-        name: "Brand Systems",
-        resolves:
-          "Fragmentation: brands that say something different everywhere they show up because they never had a complete identity, only loose pieces made at different moments.",
-        existsBecause:
-          "An identity can't live in a logo alone: it needs a complete system —verbal, visual, behavioral— that holds up over time without depending on who's applying it that day.",
-        generatesValue:
-          "By making every new piece of communication start from a clear foundation, instead of being invented from scratch every time.",
-      },
-      {
-        slug: "digital-experiences",
-        name: "Digital Experiences",
-        resolves: "Any brand's most fragile moment: the first few seconds when someone decides, without fully realizing it, whether to trust or leave.",
-        existsBecause: "A well-designed site isn't a storefront, it's a quiet conversation between a brand and whoever's visiting.",
-        generatesValue: "By turning the first digital impression into the best possible version of that conversation.",
-      },
-      {
-        slug: "product-design",
-        name: "Product Design",
-        resolves: "The distance between what a product promises and what it actually delivers to whoever uses it.",
-        existsBecause:
-          "Functionality and identity should never compete with each other: a product can be, at the same time, easy to use and deeply its own.",
-        generatesValue:
-          "In the quiet retention a well-thought-out experience produces, the kind no one notices because it never causes friction.",
-      },
-      {
-        slug: "creative-direction",
-        name: "Creative Direction",
-        resolves: "The problem of brands that work with many different vendors and end up, without realizing it, speaking with several voices at once.",
-        existsBecause:
-          "Consistency doesn't happen on its own: someone has to actively sustain it, decision after decision, long after the initial project ends.",
-        generatesValue: "By protecting, over time, the identity that took so much work to build.",
-      },
-      {
-        slug: "content-systems",
-        name: "Content Systems",
-        resolves: "The inconsistency of voice that shows up when content gets produced fast and without criteria behind it to sustain it.",
-        existsBecause: "A brand isn't built once: it's repeated, with discipline, in every piece of content it produces.",
-        generatesValue:
-          "In the accumulation: every post consistent with the ones before it builds more identity than one isolated post, no matter how viral.",
-      },
-      {
-        slug: "growth",
-        name: "Growth",
-        resolves: "The stagnation that shows up when a brand already has a solid identity but doesn't know how to translate it into measurable results.",
-        existsBecause: "Good design, with no channel to reach the right people, ends up talking to itself.",
-        generatesValue: "By connecting creative work with real data, without sacrificing identity for conversion.",
-      },
-      {
-        slug: "automation",
-        name: "Automation",
-        resolves: "The time lost to repetitive tasks that eat into the hours that actually require human judgment.",
-        existsBecause: "Every hour freed from a mechanical task is an hour that can go toward thinking better.",
-        generatesValue: "By freeing, not replacing, the judgment of the people doing the work that matters.",
-      },
-    ],
   },
 
   process: {
