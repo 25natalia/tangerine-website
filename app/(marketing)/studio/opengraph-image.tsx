@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return new ImageResponse(
-    <OgCard eyebrow="Studio" title="Natalia García y Emy Dorado notaron esto: que el mundo se había llenado de cosas bien hechas y vacías." />,
+    <OgCard eyebrow="Sobre nosotras" title="Dos personas que notaron algo que a nadie más parecía molestarle." />,
     { ...size }
   );
 }

@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return new ImageResponse(
-    <OgCard eyebrow="Work" title="Cada caso documenta el proceso completo detrás de una decisión de diseño." />,
+    <OgCard eyebrow="Nuestro trabajo" title="Cinco proyectos, una misma manera de pensar." />,
     { ...size }
   );
 }

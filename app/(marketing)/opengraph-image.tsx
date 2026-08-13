@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return new ImageResponse(
-    <OgCard eyebrow="Tangerine Studio" title="No vendemos diseño. Construimos identidad." />,
+    <OgCard eyebrow="Ey, somos Tangerine" title="Hacemos que las buenas ideas cobren vida." />,
     { ...size }
   );
 }
