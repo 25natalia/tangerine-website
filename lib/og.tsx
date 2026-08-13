@@ -22,21 +22,70 @@ export const ACCENT_HEX: Record<"purple" | "green" | "tangerine" | "info" | "gol
 };
 
 const NEUTRAL_0 = "#FCFBFF";
+// Mismos hex que usa `logo-extended.svg` para "The"/"studio" y "tangerine" —
+// se reusa la paleta del logo real aunque acá se dibuje como texto, no SVG.
+const WORDMARK_PURPLE = "#8C77EC";
+const WORDMARK_TANGERINE = "#FF7401";
+
+let fontPromise: Promise<ArrayBuffer> | null = null;
+
+/**
+ * Plus Jakarta Sans Bold real, traída de Google Fonts en tiempo de
+ * request — `next/font/google` (lo que usa `app/layout.tsx`) es una
+ * optimización específica de páginas renderizadas normalmente, Satori no
+ * tiene acceso a eso y necesita el archivo de fuente posta vía la opción
+ * `fonts` de `ImageResponse`. Se pide con un User-Agent viejo a propósito:
+ * así Google Fonts devuelve TTF en vez de WOFF2, que Satori no soporta de
+ * forma confiable. Cacheada a nivel de módulo — un solo fetch, reusado por
+ * las 5 rutas de OG image del sitio dentro de la misma instancia.
+ *
+ * Se usa texto real (no el SVG `logo-extended.svg`) para el wordmark: ese
+ * archivo tiene `<rect>`s con `transform="matrix(...)"` que Satori/resvg no
+ * rasteriza de forma confiable al traerlo como `<img>` — a diferencia de
+ * las geometrías (paths simples) y la mascota, que sí se renderizan bien
+ * por ese camino. Texto real vía `fonts` no tiene ese riesgo.
+ */
+async function getPlusJakartaSansBold(): Promise<ArrayBuffer> {
+  if (!fontPromise) {
+    fontPromise = (async (): Promise<ArrayBuffer> => {
+      const cssRes = await fetch(
+        "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&display=swap",
+        {
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+          },
+        }
+      );
+      const css = await cssRes.text();
+      const fontUrl = css.match(/src: url\(([^)]+)\)/)?.[1];
+      if (!fontUrl) throw new Error("No se pudo resolver la URL de Plus Jakarta Sans desde Google Fonts.");
+      const fontRes = await fetch(fontUrl);
+      return fontRes.arrayBuffer();
+    })();
+  }
+  return fontPromise;
+}
+
+/** Se pasa como `fonts` al segundo argumento de `ImageResponse` en cada ruta. */
+export async function getOgFonts() {
+  const data = await getPlusJakartaSansBold();
+  return [{ name: "Plus Jakarta Sans", data, style: "normal" as const, weight: 800 as const }];
+}
 
 /**
  * Composición a dos columnas: wordmark a la izquierda, mascota grande a la
  * derecha, geometrías reales alrededor de ambas — misma disposición que la
- * imagen de referencia del brand. `logo-extended.svg` ya es el logo con
- * texto ("The tangerine studio") resuelto como arte, así que no hace falta
- * cargar ninguna fuente para Satori: el "texto" de la imagen es en
- * realidad una ilustración más, coherente con el resto de la composición.
+ * imagen de referencia del brand. El wordmark ("The" / "tangerine" /
+ * "studio") es texto real en Plus Jakarta Sans Extrabold, con los mismos
+ * dos colores del logo real (`logo-extended.svg`), no el SVG en sí — ver
+ * el comentario en `getPlusJakartaSansBold` sobre por qué.
  *
- * Cada `<img>` usa el ancho/alto en la proporción exacta de su `viewBox`
- * (`logo-extended` 318:222, mascota `Tangerine-2` 1069:990, geometrías
- * ídem) — sin eso Satori estira el bitmap al tamaño declarado sin
- * mantener el aspect ratio y sale deformado.
+ * Cada `<img>` de geometría/mascota usa el ancho/alto en la proporción
+ * exacta de su `viewBox` — sin eso Satori estira el bitmap al tamaño
+ * declarado sin mantener el aspect ratio y sale deformado.
  *
- * `accent` (case studies) tiñe un punto chico junto al logo, el único
+ * `accent` (case studies) tiñe un punto chico junto al wordmark, el único
  * lugar donde ese color entra.
  */
 export function OgCard({ accent }: { accent?: string }) {
@@ -49,26 +98,26 @@ export function OgCard({ accent }: { accent?: string }) {
         alignItems: "center",
         justifyContent: "space-between",
         background: NEUTRAL_0,
+        fontFamily: "Plus Jakarta Sans",
         padding: "0 70px",
         position: "relative",
       }}
     >
-      <div style={{ display: "flex", position: "relative", flexShrink: 0 }}>
-        <img src={`${SITE_URL}/brand/logo-extended.svg`} width={430} height={300} style={{ display: "flex" }} />
-        {accent ? (
-          <div
-            style={{
-              display: "flex",
-              position: "absolute",
-              top: 60,
-              right: -26,
-              width: 14,
-              height: 14,
-              borderRadius: 999,
-              background: accent,
-            }}
-          />
-        ) : null}
+      <div style={{ display: "flex", flexDirection: "column", position: "relative", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_PURPLE }}>
+            The
+          </div>
+          {accent ? (
+            <div style={{ display: "flex", width: 16, height: 16, borderRadius: 999, background: accent }} />
+          ) : null}
+        </div>
+        <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_TANGERINE }}>
+          tangerine
+        </div>
+        <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_PURPLE }}>
+          studio
+        </div>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative", width: 560, height: 520, flexShrink: 0 }}>
