@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
-import { OgCard, OG_SIZE, ACCENT_HEX } from "@/lib/og";
+import { OgCard, OG_SIZE, ACCENT_HEX, getOgFonts } from "@/lib/og";
 
 export const size = OG_SIZE;
 export const contentType = "image/png";
@@ -16,13 +16,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const data = getCaseStudy(slug)?.es;
 
   return new ImageResponse(
-    (
-      <OgCard
-        eyebrow={data?.client ?? "Tangerine Studio"}
-        title={data?.title ?? "Work"}
-        accent={data ? ACCENT_HEX[data.accent] : undefined}
-      />
-    ),
-    { ...size }
+    <OgCard accent={data ? ACCENT_HEX[data.accent] : undefined} />,
+    { ...size, fonts: await getOgFonts() }
   );
 }

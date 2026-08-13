@@ -1,12 +1,9 @@
 import { ImageResponse } from "next/og";
-import { OgCard, OG_SIZE } from "@/lib/og";
+import { OgCard, OG_SIZE, getOgFonts } from "@/lib/og";
 
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
-export default function Image() {
-  return new ImageResponse(
-    <OgCard eyebrow="Contáctanos" title="Construyamos algo con criterio." />,
-    { ...size }
-  );
+export default async function Image() {
+  return new ImageResponse(<OgCard />, { ...size, fonts: await getOgFonts() });
 }
