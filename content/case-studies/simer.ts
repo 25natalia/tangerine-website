@@ -25,6 +25,8 @@ export const simer: Localized<CaseStudyData> = {
     heroPattern: "hoja",
     accent: "green",
     bannerVideo: { src: "/animations/banner-SIMER.mp4", poster: "/animations/banner-SIMER-poster.jpg" },
+    heroImage: "/recursos-proyectos/simer/Portada.svg",
+    intent: "Una identidad visual para acercar la medicina de emergencias a una nueva generación.",
 
     summary: [
       "SIMER es el Semillero de Medicina de Emergencias y Reanimación de la Universidad Icesi. Necesitaba una identidad visual reconocible, capaz de diferenciarlo del resto de los semilleros universitarios, y de transmitir cercanía, profesionalismo y juventud sin caer en la imagen fría que suele asociarse a la medicina de emergencias.",
@@ -33,14 +35,13 @@ export const simer: Localized<CaseStudyData> = {
 
     info: [
       { label: "Cliente", value: "SIMER, Universidad Icesi" },
-      { label: "Año", value: "2025" },
       { label: "Duración", value: "2 semanas" },
-      { label: "Equipo", value: "Natalia García, Emy Dorado" },
-      { label: "Forma de trabajo", value: "Colaborativa, sin roles fijos" },
-      { label: "Herramientas", value: "Figma → Canva" },
+      { label: "Herramientas", value: "Figma, Illustrator, Canva" },
     ],
 
     challenge: {
+      color: "#3B5BFF",
+      colorDark: "#A8C7FF",
       title: "El problema no era solo visual",
       body: [
         "La inconsistencia visual del semillero, además de costar tiempo en cada publicación, estaba perdiendo la oportunidad de corregir una percepción equivocada: la de que la medicina de emergencias es únicamente urgencia y carga emocional, sin lugar para el aprendizaje y la comunidad.",
@@ -60,8 +61,10 @@ export const simer: Localized<CaseStudyData> = {
       { icon: "Palette", title: "Sistema visual", description: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional: blancos clínicos, cruces, señalética hospitalaria." },
       { icon: "Layers", title: "Plantillas y entrega", description: "Adaptación completa a Canva para que el equipo de SIMER pudiera seguir usando el sistema sin depender de Tangerine." },
     ],
+    processLabel: { eyebrow: "Concepto" },
 
     research: {
+      eyebrow: "Percepción",
       intro: "El hallazgo más importante de la etapa de inmersión fue que el problema de SIMER no era únicamente de consistencia visual, sino de percepción de la especialidad misma.",
       insights: [
         { title: "Percepción antes que estética", description: "Muchos estudiantes asocian la medicina de emergencias con una carga emocional intensa antes de descubrir su costado formativo y comunitario." },
@@ -70,25 +73,43 @@ export const simer: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "La identidad",
       intro: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional: blancos clínicos, cruces, señalética hospitalaria.",
       colors: [
-        { name: "Azul eléctrico", hex: "#3B5BFF", role: "Color primario" },
-        { name: "Blanco grisáceo", hex: "#F4F6FA", role: "Color secundario" },
+        { name: "Azul pulso", hex: "#3B5BFF", role: "Color primario" },
+        { name: "Blanco calma", hex: "#F4F6FA", role: "Color secundario" },
         { name: "Negro carbón", hex: "#1E1E1E", role: "Color neutro" },
-        { name: "Azul claro", hex: "#A8C7FF", role: "Color complemento" },
-        { name: "Rojo coral", hex: "#FF4E4E", role: "Color acento" },
-        { name: "Verde lima", hex: "#C7FF4E", role: "Color complemento" },
+        { name: "Azul aire", hex: "#A8C7FF", role: "Color complemento" },
+        { name: "Rojo vital", hex: "#FF4E4E", role: "Color acento" },
+        { name: "Verde alerta", hex: "#C7FF4E", role: "Color complemento" },
       ],
-      typography: [],
-      video: { src: "/animations/paleta-SIMER.mp4", poster: "/animations/paleta-SIMER-poster.jpg" },
+      typography: [
+        { role: "Tipografía principal", family: "Tipografía de marca", sample: "Aa", image: "/recursos-proyectos/simer/tipografia-principal.svg" },
+        { role: "Tipografía secundaria", family: "Tipografía de marca", sample: "Aa", image: "/recursos-proyectos/simer/tipografia-secundaria.svg" },
+      ],
+      marks: [
+        { src: "/recursos-proyectos/simer/iso-1.svg", label: "Isologo, en blanco calma" },
+        { src: "/recursos-proyectos/simer/isso-2.svg", label: "Isologo, en azul pulso" },
+        { src: "/recursos-proyectos/simer/iso-3.svg", label: "Isologo, en verde alerta" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/simer/pattern-1.svg", label: "Pulso en movimiento" },
+        { src: "/recursos-proyectos/simer/pattern-2.svg", label: "Aire fresco" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/simer/mockup-1.svg", label: "Sello de confianza" },
+        { src: "/recursos-proyectos/simer/mockup-2.svg", label: "Marca en movimiento" },
+        { src: "/recursos-proyectos/simer/mockup-3.svg", label: "Presencia real" },
+      ],
     },
-
-    mockups: ["branding", "merch"],
 
     beforeAfter: {
       before: { label: "Antes", description: "Comunicación sin ningún sistema visual, cada pieza diseñada desde cero." },
       after: { label: "Después", description: "Identidad completa, documentada y lista para ser mantenida por el propio equipo del semillero, en un plazo de dos semanas." },
     },
+
+    outcome:
+      "Construimos una identidad visual reconocible, flexible y cercana, documentada y lista para que el propio equipo de SIMER la mantenga en el tiempo.",
 
     learnings: [
       {
@@ -122,6 +143,8 @@ export const simer: Localized<CaseStudyData> = {
     heroPattern: "hoja",
     accent: "green",
     bannerVideo: { src: "/animations/banner-SIMER.mp4", poster: "/animations/banner-SIMER-poster.jpg" },
+    heroImage: "/recursos-proyectos/simer/Portada.svg",
+    intent: "A visual identity to bring emergency medicine closer to a new generation.",
 
     summary: [
       "SIMER is Icesi University's Emergency Medicine and Resuscitation student group. It needed a recognizable visual identity, able to set it apart from other university student groups, and to convey warmth, professionalism and youth without falling into the cold image usually associated with emergency medicine.",
@@ -130,14 +153,13 @@ export const simer: Localized<CaseStudyData> = {
 
     info: [
       { label: "Client", value: "SIMER, Icesi University" },
-      { label: "Year", value: "2025" },
       { label: "Duration", value: "2 weeks" },
-      { label: "Team", value: "Natalia García, Emy Dorado" },
-      { label: "Way of working", value: "Collaborative, no fixed roles" },
-      { label: "Tools", value: "Figma → Canva" },
+      { label: "Tools", value: "Figma, Illustrator, Canva" },
     ],
 
     challenge: {
+      color: "#3B5BFF",
+      colorDark: "#A8C7FF",
       title: "The problem wasn't only visual",
       body: [
         "The student group's visual inconsistency, besides costing time on every post, was missing the chance to correct a mistaken perception: that emergency medicine is only urgency and emotional weight, with no room for learning and community.",
@@ -157,8 +179,10 @@ export const simer: Localized<CaseStudyData> = {
       { icon: "Palette", title: "Visual system", description: "A language deliberately distanced from traditional medical iconography: clinical whites, crosses, hospital signage." },
       { icon: "Layers", title: "Templates & delivery", description: "Full adaptation to Canva so SIMER's team could keep using the system without depending on Tangerine." },
     ],
+    processLabel: { eyebrow: "Concept" },
 
     research: {
+      eyebrow: "Perception",
       intro: "The most important finding of the immersion stage was that SIMER's problem wasn't only visual consistency, but perception of the specialty itself.",
       insights: [
         { title: "Perception before aesthetics", description: "Many students associate emergency medicine with intense emotional weight before discovering its educational and community side." },
@@ -167,25 +191,43 @@ export const simer: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "The identity",
       intro: "A language deliberately distanced from traditional medical iconography: clinical whites, crosses, hospital signage.",
       colors: [
-        { name: "Electric blue", hex: "#3B5BFF", role: "Primary color" },
-        { name: "Grayish white", hex: "#F4F6FA", role: "Secondary color" },
+        { name: "Pulse blue", hex: "#3B5BFF", role: "Primary color" },
+        { name: "Calm white", hex: "#F4F6FA", role: "Secondary color" },
         { name: "Carbon black", hex: "#1E1E1E", role: "Neutral color" },
-        { name: "Light blue", hex: "#A8C7FF", role: "Complementary color" },
-        { name: "Coral red", hex: "#FF4E4E", role: "Accent color" },
-        { name: "Lime green", hex: "#C7FF4E", role: "Complementary color" },
+        { name: "Airy blue", hex: "#A8C7FF", role: "Complementary color" },
+        { name: "Vital red", hex: "#FF4E4E", role: "Accent color" },
+        { name: "Alert green", hex: "#C7FF4E", role: "Complementary color" },
       ],
-      typography: [],
-      video: { src: "/animations/paleta-SIMER.mp4", poster: "/animations/paleta-SIMER-poster.jpg" },
+      typography: [
+        { role: "Primary typeface", family: "Brand typeface", sample: "Aa", image: "/recursos-proyectos/simer/tipografia-principal.svg" },
+        { role: "Secondary typeface", family: "Brand typeface", sample: "Aa", image: "/recursos-proyectos/simer/tipografia-secundaria.svg" },
+      ],
+      marks: [
+        { src: "/recursos-proyectos/simer/iso-1.svg", label: "Mark, in calm white" },
+        { src: "/recursos-proyectos/simer/isso-2.svg", label: "Mark, in pulse blue" },
+        { src: "/recursos-proyectos/simer/iso-3.svg", label: "Mark, in alert green" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/simer/pattern-1.svg", label: "Pulse in motion" },
+        { src: "/recursos-proyectos/simer/pattern-2.svg", label: "Fresh air" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/simer/mockup-1.svg", label: "Seal of trust" },
+        { src: "/recursos-proyectos/simer/mockup-2.svg", label: "Brand in motion" },
+        { src: "/recursos-proyectos/simer/mockup-3.svg", label: "Real presence" },
+      ],
     },
-
-    mockups: ["branding", "merch"],
 
     beforeAfter: {
       before: { label: "Before", description: "Communication with no visual system at all, every piece designed from scratch." },
       after: { label: "After", description: "A complete identity, documented and ready to be maintained by the student group's own team, within a two-week timeframe." },
     },
+
+    outcome:
+      "We built a recognizable, flexible and approachable visual identity, documented and ready for SIMER's own team to maintain over time.",
 
     learnings: [
       {

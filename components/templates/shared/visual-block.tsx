@@ -20,8 +20,9 @@ const accentBg: Record<TemplateAccent, string> = {
 };
 
 type VisualBlockProps =
-  | { pattern: PatternId; accent?: TemplateAccent; animate?: boolean; video?: undefined; className?: string }
-  | { video: VisualBlockVideo; pattern?: undefined; accent?: undefined; animate?: undefined; className?: string };
+  | { pattern: PatternId; accent?: TemplateAccent; animate?: boolean; video?: undefined; image?: undefined; className?: string }
+  | { video: VisualBlockVideo; pattern?: undefined; accent?: undefined; animate?: undefined; image?: undefined; className?: string }
+  | { image: string; fit?: "cover" | "contain"; pattern?: undefined; accent?: undefined; animate?: undefined; video?: undefined; className?: string };
 
 /**
  * Shared across every content template (Case Study, Portfolio, ...) as the
@@ -29,13 +30,13 @@ type VisualBlockProps =
  * photos, and a fabricated stock-photo look would be worse than an honest,
  * deliberate use of the Design System's own pattern library as imagery.
  *
- * `video` is the other mode a real consumer reaches for once it has actual
- * project footage: same container (rounded corners/overflow come from
- * whatever `className` the consumer already passes for the pattern case),
- * `LazyVideo` underneath instead of `PatternImage`. The two modes are a
- * discriminated union, not two independent optional props — a caller can't
- * accidentally pass both `pattern` and `video` and have one silently
- * ignored.
+ * `video` and `image` are the other two modes a real consumer reaches for
+ * once it has actual project footage/assets: same container (rounded
+ * corners/overflow come from whatever `className` the consumer already
+ * passes for the pattern case), `LazyVideo`/a plain `<img>` underneath
+ * instead of `PatternImage`. The three modes are a discriminated union, not
+ * independent optional props — a caller can't accidentally pass two and
+ * have one silently ignored.
  */
 export function VisualBlock(props: VisualBlockProps) {
   if (props.video) {
@@ -46,7 +47,15 @@ export function VisualBlock(props: VisualBlockProps) {
     );
   }
 
-  const { pattern, accent = "purple", animate, className } = props;
+  if (props.image) {
+    return (
+      <div className={cn("relative overflow-hidden", props.className)}>
+        <img src={props.image} alt="" className={cn("size-full", props.fit === "contain" ? "object-contain" : "object-cover")} />
+      </div>
+    );
+  }
+
+  const { pattern, accent = "purple", animate, className } = props as Extract<VisualBlockProps, { pattern: PatternId }>;
   return (
     <div className={cn("relative overflow-hidden", accentBg[accent], className)}>
       <PatternImage pattern={getPattern(pattern)} animate={animate} className="size-full opacity-80" />

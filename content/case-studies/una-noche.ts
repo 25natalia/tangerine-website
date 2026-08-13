@@ -11,10 +11,12 @@ export const unaNoche: Localized<CaseStudyData> = {
     category: "Brand Identity",
     year: "2025",
     services: ["Brand Identity"],
-    duration: "No especificada en la documentación original",
+    duration: "3 semanas",
     heroPattern: "semillas",
     accent: "tangerine",
     bannerVideo: { src: "/animations/banner-UNA-NOCHE.mp4", poster: "/animations/banner-UNA-NOCHE-poster.jpg" },
+    heroImage: "/recursos-proyectos/una-noche/Portada.svg",
+    intent: "Una identidad construida desde cero alrededor de un símbolo propio: el dado.",
 
     summary: [
       "Una Noche llegó a Tangerine sin ninguna identidad previa que heredar: una marca todavía por nacer visualmente, con una ambición mucho más grande que la de organizar eventos. Su intención real es construir una comunidad alrededor de la música, la creatividad, la cultura y el estilo de vida, no solo vender entradas.",
@@ -23,14 +25,13 @@ export const unaNoche: Localized<CaseStudyData> = {
 
     info: [
       { label: "Cliente", value: "Una Noche" },
-      { label: "Año", value: "2025" },
-      { label: "Servicios", value: "Brand Identity" },
-      { label: "Equipo", value: "Natalia García, Emy Dorado" },
-      { label: "Herramientas", value: "Figma → Canva" },
-      { label: "Estado", value: "Entregado" },
+      { label: "Duración", value: "3 semanas" },
+      { label: "Herramientas", value: "Figma, Illustrator, Canva" },
     ],
 
     challenge: {
+      color: "#A41414",
+      colorDark: "#FFF5E6",
       title: "Inspirarse en el mecanismo, no en el resultado",
       body: [
         "El punto de partida de la estrategia fue una pregunta, no una respuesta: ¿qué es, exactamente, lo que hace que una comunidad como la de Nude Project se sienta real? La respuesta no estaba en su paleta de colores ni en su tipografía. Estaba en tener un símbolo compartido, algo reconocible y apropiable que sus miembros pudieran llevar puesto, mostrar y usar como señal de pertenencia.",
@@ -51,8 +52,10 @@ export const unaNoche: Localized<CaseStudyData> = {
       { icon: "Palette", title: "El dado como concepto", description: "Un elemento capaz de encarnar incertidumbre, movimiento y juego: coherente con lo que el propio nombre de la marca ya sugiere." },
       { icon: "Layers", title: "Sistema y entrega", description: "Logos, patrones, mockups y templates adaptados a Canva, organizados para que un recurso nuevo se incorpore sin reconstruir el sistema." },
     ],
+    processLabel: { eyebrow: "Concepto" },
 
     research: {
+      eyebrow: "Percepción",
       intro: "La fuerza de una marca como Nude Project no está en lo que vende, sino en lo que sus miembros pueden mostrar.",
       insights: [
         { title: "Objeto, no solo imagen", description: "Una identidad puramente digital, sin un elemento capaz de trascender la pantalla, difícilmente iba a construir el mismo sentido de pertenencia que Una Noche buscaba." },
@@ -61,23 +64,42 @@ export const unaNoche: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "La identidad",
       intro: "Rojo vino profundo como color primario, acompañado de un crema cálido y un neutro casi negro: la misma tensión entre seriedad y calidez que sostiene al dado como símbolo.",
       colors: [
-        { name: "Rojo vino", hex: "#A41414", role: "Color primario" },
-        { name: "Crema cálido", hex: "#FFF5E6", role: "Color secundario" },
-        { name: "Negro", hex: "#0C0C0C", role: "Color neutro" },
-        { name: "Gris cálido", hex: "#9D918C", role: "Color complemento" },
+        { name: "Rojo medianoche", hex: "#A41414", role: "Color primario" },
+        { name: "Crema secreta", hex: "#FFF5E6", role: "Color secundario" },
+        { name: "Negro total", hex: "#0C0C0C", role: "Color neutro" },
+        { name: "Gris cómplice", hex: "#9D918C", role: "Color complemento" },
       ],
-      typography: [],
-      video: { src: "/animations/paleta-UNA-NOCHE.mp4", poster: "/animations/paleta-UNA-NOCHE-poster.jpg" },
+      typography: [
+        { role: "Tipografía principal", family: "Tipografía de marca", sample: "Aa", image: "/recursos-proyectos/una-noche/tipografia-principal.svg" },
+        { role: "Tipografía secundaria", family: "Tipografía de marca", sample: "Aa", image: "/recursos-proyectos/una-noche/tipografia-secundaria.svg" },
+      ],
+      marks: [
+        { src: "/recursos-proyectos/una-noche/logo-negro.svg", label: "Logo, en negro", fit: "contain" },
+        { src: "/recursos-proyectos/una-noche/logo-rojo.svg", label: "Logo, en rojo vino", fit: "contain" },
+        { src: "/recursos-proyectos/una-noche/iso-1.svg", label: "Isologo, en rojo vino" },
+        { src: "/recursos-proyectos/una-noche/iso-3.svg", label: "Isologo, en negro" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/una-noche/pattern-1.svg", label: "Ritmo nocturno" },
+        { src: "/recursos-proyectos/una-noche/pattern-2.svg", label: "Noche texturizada" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/una-noche/mockup-1.svg", label: "Estilo que se lleva puesto" },
+        { src: "/recursos-proyectos/una-noche/mockup-2.svg", label: "La marca en la calle" },
+        { src: "/recursos-proyectos/una-noche/mockup-3.svg", label: "Presencia que se nota" },
+      ],
     },
-
-    mockups: ["merch", "branding"],
 
     beforeAfter: {
       before: { label: "Antes", description: "Ningún activo visual: sin logo previo que evolucionar, sin paleta instalada en la memoria de ninguna audiencia." },
       after: { label: "Después", description: "Un sistema de identidad completo, flexible, con un símbolo propio y defendible, el dado, capaz de sostener la marca a través de eventos, contenido digital y futuras aplicaciones físicas." },
     },
+
+    outcome:
+      "Construimos un sistema de identidad flexible alrededor de un símbolo propio, el dado, capaz de sostener a Una Noche a través de eventos, contenido y futuras aplicaciones físicas.",
 
     learnings: [
       {
@@ -103,10 +125,12 @@ export const unaNoche: Localized<CaseStudyData> = {
     category: "Brand Identity",
     year: "2025",
     services: ["Brand Identity"],
-    duration: "Not specified in the original documentation",
+    duration: "3 weeks",
     heroPattern: "semillas",
     accent: "tangerine",
     bannerVideo: { src: "/animations/banner-UNA-NOCHE.mp4", poster: "/animations/banner-UNA-NOCHE-poster.jpg" },
+    heroImage: "/recursos-proyectos/una-noche/Portada.svg",
+    intent: "An identity built from scratch around a symbol of its own: the die.",
 
     summary: [
       "Una Noche came to Tangerine with no prior identity to inherit: a brand still to be born visually, with an ambition far bigger than organizing events. Its real intent is to build a community around music, creativity, culture and lifestyle, not just sell tickets.",
@@ -115,14 +139,13 @@ export const unaNoche: Localized<CaseStudyData> = {
 
     info: [
       { label: "Client", value: "Una Noche" },
-      { label: "Year", value: "2025" },
-      { label: "Services", value: "Brand Identity" },
-      { label: "Team", value: "Natalia García, Emy Dorado" },
-      { label: "Tools", value: "Figma → Canva" },
-      { label: "Status", value: "Delivered" },
+      { label: "Duration", value: "3 weeks" },
+      { label: "Tools", value: "Figma, Illustrator, Canva" },
     ],
 
     challenge: {
+      color: "#A41414",
+      colorDark: "#FFF5E6",
       title: "Draw from the mechanism, not the result",
       body: [
         "The strategy's starting point was a question, not an answer: what is it, exactly, that makes a community like Nude Project's feel real? The answer wasn't in its color palette or its typography. It was in having a shared symbol, something recognizable and appropriable that its members could wear, show and use as a sign of belonging.",
@@ -143,8 +166,10 @@ export const unaNoche: Localized<CaseStudyData> = {
       { icon: "Palette", title: "The die as concept", description: "An element able to embody uncertainty, movement and play: consistent with what the brand's own name already suggests." },
       { icon: "Layers", title: "System & delivery", description: "Logos, patterns, mockups and templates adapted to Canva, organized so a new asset can be added without rebuilding the system." },
     ],
+    processLabel: { eyebrow: "Concept" },
 
     research: {
+      eyebrow: "Perception",
       intro: "The strength of a brand like Nude Project isn't in what it sells, but in what its members can show.",
       insights: [
         { title: "An object, not just an image", description: "A purely digital identity, with no element able to transcend the screen, was unlikely to build the same sense of belonging Una Noche was after." },
@@ -153,23 +178,42 @@ export const unaNoche: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "The identity",
       intro: "Deep wine red as the primary color, paired with a warm cream and an almost-black neutral: the same tension between seriousness and warmth that holds up the die as a symbol.",
       colors: [
-        { name: "Wine red", hex: "#A41414", role: "Primary color" },
-        { name: "Warm cream", hex: "#FFF5E6", role: "Secondary color" },
-        { name: "Black", hex: "#0C0C0C", role: "Neutral color" },
-        { name: "Warm gray", hex: "#9D918C", role: "Complementary color" },
+        { name: "Midnight red", hex: "#A41414", role: "Primary color" },
+        { name: "Secret cream", hex: "#FFF5E6", role: "Secondary color" },
+        { name: "Total black", hex: "#0C0C0C", role: "Neutral color" },
+        { name: "Accomplice gray", hex: "#9D918C", role: "Complementary color" },
       ],
-      typography: [],
-      video: { src: "/animations/paleta-UNA-NOCHE.mp4", poster: "/animations/paleta-UNA-NOCHE-poster.jpg" },
+      typography: [
+        { role: "Primary typeface", family: "Brand typeface", sample: "Aa", image: "/recursos-proyectos/una-noche/tipografia-principal.svg" },
+        { role: "Secondary typeface", family: "Brand typeface", sample: "Aa", image: "/recursos-proyectos/una-noche/tipografia-secundaria.svg" },
+      ],
+      marks: [
+        { src: "/recursos-proyectos/una-noche/logo-negro.svg", label: "Logo, in black", fit: "contain" },
+        { src: "/recursos-proyectos/una-noche/logo-rojo.svg", label: "Logo, in wine red", fit: "contain" },
+        { src: "/recursos-proyectos/una-noche/iso-1.svg", label: "Mark, in wine red" },
+        { src: "/recursos-proyectos/una-noche/iso-3.svg", label: "Mark, in black" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/una-noche/pattern-1.svg", label: "Night rhythm" },
+        { src: "/recursos-proyectos/una-noche/pattern-2.svg", label: "Textured night" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/una-noche/mockup-1.svg", label: "Style you wear" },
+        { src: "/recursos-proyectos/una-noche/mockup-2.svg", label: "Brand on the street" },
+        { src: "/recursos-proyectos/una-noche/mockup-3.svg", label: "Presence that stands out" },
+      ],
     },
-
-    mockups: ["merch", "branding"],
 
     beforeAfter: {
       before: { label: "Before", description: "No visual assets at all: no prior logo to evolve, no palette installed in any audience's memory." },
       after: { label: "After", description: "A complete, flexible identity system, with an original and defensible symbol, the die, able to carry the brand across events, digital content and future physical applications." },
     },
+
+    outcome:
+      "We built a flexible identity system around a symbol of its own, the die, able to carry Una Noche across events, content and future physical applications.",
 
     learnings: [
       {

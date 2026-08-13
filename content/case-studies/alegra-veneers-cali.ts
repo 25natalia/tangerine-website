@@ -17,7 +17,8 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     heroPattern: "destello",
     accent: "info",
     liveUrl: "https://alegraveneerscali.com/",
-    bannerVideo: { src: "/animations/banner-ALEGRA.mp4", poster: "/animations/banner-ALEGRA-poster.jpg" },
+    heroImage: "/recursos-proyectos/alegra/Portada.svg",
+    intent: "Un sitio bilingüe pensado para convertir visitantes internacionales en pacientes.",
 
     summary: [
       "El proyecto consistió en el rediseño, estructuración y desarrollo completo de una nueva página web para la clínica odontológica Alegra, con un enfoque orientado a la captación de pacientes internacionales, principalmente de Estados Unidos, sin dejar de atender el mercado colombiano.",
@@ -26,14 +27,13 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
 
     info: [
       { label: "Cliente", value: "Alegra Veneers Cali" },
-      { label: "Año", value: "2026" },
       { label: "Duración", value: "4 semanas" },
-      { label: "Equipo", value: "Natalia García, Emy Dorado" },
-      { label: "Herramientas", value: "Framer → Google Sheets" },
-      { label: "Estado", value: "Entregado, sitio en producción" },
+      { label: "Herramientas", value: "Framer, Google Ads, Soro, Clarity" },
     ],
 
     challenge: {
+      color: "#001321",
+      colorDark: "#1F95DE",
       title: "Vender una transformación, no un tratamiento",
       body: [
         "La página anterior de la clínica presentaba información básica pensada para un público local y no reflejaba la propuesta de valor real de Alegra frente al mercado internacional.",
@@ -56,6 +56,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     ],
 
     research: {
+      eyebrow: "Investigación",
       intro: "El 80% del público es de Estados Unidos, compara precios y revisa reseñas antes de viajar; el 20% restante es colombiano.",
       insights: [
         { title: "La seguridad como objeción principal", description: "La seguridad de viajar a Cali surgió como una de las principales objeciones del paciente extranjero, lo que llevó a dedicarle contenido propio dentro del sitio." },
@@ -63,23 +64,37 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
       ],
     },
 
-    visualIdentity: {
-      intro: "Fondo oscuro como base de toda la interfaz; el azul brillante funciona como color de acento en CTAs e íconos.",
-      colors: [
-        { name: "Azul marino oscuro", hex: "#001321", role: "Fondo principal" },
-        { name: "Azul brillante", hex: "#1F95DE", role: "Acento / CTAs" },
-        { name: "Blanco azulado", hex: "#F7FDFF", role: "Superficie clara" },
-      ],
-      typography: [{ role: "Título y cuerpo", family: "Urbanist", sample: "Aa" }],
-      video: { src: "/animations/paleta-ALEGRA.mp4", poster: "/animations/paleta-ALEGRA-poster.jpg" },
-    },
-
-    mockups: ["desktop", "tablet", "mobile"],
+    galleryLabel: { eyebrow: "El website" },
+    gallery: [
+      {
+        image: "/recursos-proyectos/alegra/desktop-1.png",
+        fit: "contain",
+        caption: "La home, en escritorio.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/tablet-1.png",
+        fit: "contain",
+        caption: "Antes y después, en tablet.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/phone-1.png",
+        fit: "contain",
+        caption: "Historias reales, en celular.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/phone-2.png",
+        fit: "contain",
+        caption: "La home, en celular.",
+      },
+    ],
 
     beforeAfter: {
       before: { label: "Antes", description: "Página con información básica pensada para un público local, sin enfoque en captación internacional." },
       after: { label: "Después", description: "Sitio bilingüe completo, en producción, con cinco secciones (Home, Testimonies, Services, Dental Experience, Book a videocall) diseñadas para convertir visitantes internacionales en pacientes." },
     },
+
+    outcome:
+      "Un sitio bilingüe en producción, con cinco secciones diseñadas para convertir visitantes internacionales en pacientes.",
 
     learnings: [
       {
@@ -115,7 +130,8 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     heroPattern: "destello",
     accent: "info",
     liveUrl: "https://alegraveneerscali.com/",
-    bannerVideo: { src: "/animations/banner-ALEGRA.mp4", poster: "/animations/banner-ALEGRA-poster.jpg" },
+    heroImage: "/recursos-proyectos/alegra/Portada.svg",
+    intent: "A bilingual site built to turn international visitors into patients.",
 
     summary: [
       "The project consisted of the redesign, restructuring and complete development of a new website for Alegra dental clinic, focused on attracting international patients, mainly from the United States, while still serving the Colombian market.",
@@ -124,14 +140,13 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
 
     info: [
       { label: "Client", value: "Alegra Veneers Cali" },
-      { label: "Year", value: "2026" },
       { label: "Duration", value: "4 weeks" },
-      { label: "Team", value: "Natalia García, Emy Dorado" },
-      { label: "Tools", value: "Framer → Google Sheets" },
-      { label: "Status", value: "Delivered, live production site" },
+      { label: "Tools", value: "Framer, Google Ads, Soro, Clarity" },
     ],
 
     challenge: {
+      color: "#001321",
+      colorDark: "#1F95DE",
       title: "Sell a transformation, not a treatment",
       body: [
         "The clinic's previous page presented basic information aimed at a local audience and didn't reflect Alegra's real value proposition for the international market.",
@@ -154,6 +169,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     ],
 
     research: {
+      eyebrow: "Research",
       intro: "80% of the audience is from the United States, compares prices and checks reviews before traveling; the remaining 20% is Colombian.",
       insights: [
         { title: "Safety as the main objection", description: "The safety of traveling to Cali came up as one of the main objections from international patients, which led to dedicating its own content to it within the site." },
@@ -161,23 +177,37 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
       ],
     },
 
-    visualIdentity: {
-      intro: "A dark background as the base of the whole interface; bright blue works as the accent color on CTAs and icons.",
-      colors: [
-        { name: "Dark navy", hex: "#001321", role: "Primary background" },
-        { name: "Bright blue", hex: "#1F95DE", role: "Accent / CTAs" },
-        { name: "Bluish white", hex: "#F7FDFF", role: "Light surface" },
-      ],
-      typography: [{ role: "Heading & body", family: "Urbanist", sample: "Aa" }],
-      video: { src: "/animations/paleta-ALEGRA.mp4", poster: "/animations/paleta-ALEGRA-poster.jpg" },
-    },
-
-    mockups: ["desktop", "tablet", "mobile"],
+    galleryLabel: { eyebrow: "The website" },
+    gallery: [
+      {
+        image: "/recursos-proyectos/alegra/desktop-1.png",
+        fit: "contain",
+        caption: "The homepage, on desktop.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/tablet-1.png",
+        fit: "contain",
+        caption: "Before and after, on tablet.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/phone-1.png",
+        fit: "contain",
+        caption: "Real stories, on mobile.",
+      },
+      {
+        image: "/recursos-proyectos/alegra/phone-2.png",
+        fit: "contain",
+        caption: "The homepage, on mobile.",
+      },
+    ],
 
     beforeAfter: {
       before: { label: "Before", description: "A page with basic information aimed at a local audience, with no focus on international acquisition." },
       after: { label: "After", description: "A complete bilingual site, in production, with five sections (Home, Testimonies, Services, Dental Experience, Book a videocall) designed to convert international visitors into patients." },
     },
+
+    outcome:
+      "A complete bilingual site in production, with five sections designed to convert international visitors into patients.",
 
     learnings: [
       {

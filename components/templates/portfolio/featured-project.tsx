@@ -66,8 +66,6 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
                 <Badge key={c} variant="primary">{c}</Badge>
               ))}
               <span className="text-body-sm text-white/80">{project.client}</span>
-              <span aria-hidden="true" className="text-white/50">·</span>
-              <span className="text-body-sm text-white/80">{project.year}</span>
             </div>
             <h2 className="font-display max-w-3xl text-3xl leading-[1.1] font-bold text-balance text-white sm:text-5xl">
               {project.title}

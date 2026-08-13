@@ -9,16 +9,17 @@ import type { Localized } from "@/lib/i18n/types";
 export const quickbite: Localized<CaseStudyData> = {
   es: {
     slug: "quickbite",
-    client: "QuickBite (proyecto conceptual)",
+    client: "QuickBite",
     title: "Comprar saludable no debería tomar más tiempo",
     category: "Concept Proposal: Identidad + E-commerce",
     year: "2026",
     services: ["Brand Identity", "UX/UI", "E-commerce"],
-    duration: "8 sprints",
+    duration: "6 semanas",
     heroPattern: "hoja",
     accent: "tangerine",
     liveUrl: "https://quickbite-ecommerce.vercel.app/",
-    bannerVideo: { src: "/animations/banner-QUICKBITE.mp4", poster: "/animations/banner-QUICKBITE-poster.jpg" },
+    heroImage: "/recursos-proyectos/quick-bite/Portada.svg",
+    intent: "Una marca y una experiencia de compra pensadas para simplificar lo saludable.",
 
     summary: [
       "QuickBite nace como un proyecto conceptual desarrollado por Tangerine Studio para explorar cómo una experiencia de compra digital puede simplificar el acceso a alimentos saludables sin sacrificar comodidad, velocidad ni calidad.",
@@ -26,15 +27,14 @@ export const quickbite: Localized<CaseStudyData> = {
     ],
 
     info: [
-      { label: "Cliente", value: "QuickBite (concepto propio)" },
-      { label: "Año", value: "2026" },
-      { label: "Duración", value: "8 sprints" },
-      { label: "Equipo", value: "Natalia García, Emy Dorado" },
-      { label: "Herramientas", value: "Figma → Shopify" },
-      { label: "Estado", value: "Concept Proposal" },
+      { label: "Cliente", value: "QuickBite" },
+      { label: "Duración", value: "6 semanas" },
+      { label: "Herramientas", value: "Next.js" },
     ],
 
     challenge: {
+      color: "#003324",
+      colorDark: "#8BC652",
       title: "Menos tiempo, no más variedad",
       body: [
         "Aunque el interés por la alimentación saludable continúa creciendo, la experiencia de compra permanece altamente fragmentada: frutas y verduras en un establecimiento, suplementos en otro, snacks saludables en tiendas especializadas.",
@@ -55,8 +55,10 @@ export const quickbite: Localized<CaseStudyData> = {
       { icon: "Layers", title: "Arquitectura y UX", description: "Organización del catálogo, wireframes y jerarquía de contenidos para móvil y escritorio." },
       { icon: "Rocket", title: "Interfaz y prototipo", description: "Pantallas de alta fidelidad, design system y prototipo navegable preparado para Shopify." },
     ],
+    processLabel: { eyebrow: "Identidad y UX" },
 
     research: {
+      eyebrow: "Investigación",
       intro: "El público objetivo son profesionales de 23 a 38 años que entrenan regularmente y valoran encontrar productos confiables rápido, más que la mayor variedad posible.",
       insights: [
         { title: "La experiencia también comunica marca", description: "La organización de la información, la claridad de la navegación y la jerarquía visual construyen percepción de marca tanto como el logotipo o la paleta cromática." },
@@ -65,22 +67,41 @@ export const quickbite: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "Construyendo la identidad",
       intro: "La paleta evita el exceso de tonos verdes del sector: el contraste entre verde profundo, crema cálido y acentos en lima y naranja aporta una personalidad contemporánea.",
       colors: [
-        { name: "Verde oscuro", hex: "#003324", role: "Color primario" },
-        { name: "Crema", hex: "#FFFAF5", role: "Color secundario" },
-        { name: "Negro", hex: "#00150F", role: "Color neutro" },
-        { name: "Verde lima", hex: "#8BC652", role: "Color complementario" },
-        { name: "Naranja", hex: "#F76711", role: "Color complementario" },
+        { name: "Verde bosque", hex: "#003324", role: "Color primario" },
+        { name: "Crema fresca", hex: "#FFFAF5", role: "Color secundario" },
+        { name: "Negro intenso", hex: "#00150F", role: "Color neutro" },
+        { name: "Lima fresca", hex: "#8BC652", role: "Color complementario" },
+        { name: "Naranja energía", hex: "#F76711", role: "Color complementario" },
       ],
       typography: [
-        { role: "Interfaz y cuerpo", family: "DM Sans", sample: "Aa" },
-        { role: "Titulares", family: "Radio Canada", sample: "Aa" },
+        { role: "Interfaz y cuerpo", family: "DM Sans", sample: "Aa", image: "/recursos-proyectos/quick-bite/tipografia-principal.svg" },
+        { role: "Titulares", family: "Radio Canada", sample: "Aa", image: "/recursos-proyectos/quick-bite/tipografia-secundaria.svg" },
       ],
-      video: { src: "/animations/paleta-QUICKBITE.mp4", poster: "/animations/paleta-QUICKBITE-poster.jpg" },
+      marks: [
+        { src: "/recursos-proyectos/quick-bite/logo-principal.svg", label: "Logo principal" },
+        { src: "/recursos-proyectos/quick-bite/logo-secundario.svg", label: "Logo secundario" },
+        { src: "/recursos-proyectos/quick-bite/iso-principal.svg", label: "Isologo principal" },
+        { src: "/recursos-proyectos/quick-bite/iso-secundario.svg", label: "Isologo secundario" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/quick-bite/pattern-1.svg", label: "Estallido cítrico" },
+        { src: "/recursos-proyectos/quick-bite/pattern-2.svg", label: "Brote fresco" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/quick-bite/mockup-bolsa.svg", label: "Bolsa a la mano" },
+        { src: "/recursos-proyectos/quick-bite/mockup-box.svg", label: "Caja fresca" },
+        { src: "/recursos-proyectos/quick-bite/mockup-sticker.svg", label: "Sello verde" },
+      ],
     },
 
-    mockups: ["desktop", "mobile", "packaging"],
+    bridge:
+      "El verde profundo y los acentos en lima y naranja de la identidad se trasladan directamente a la interfaz: la misma paleta que comunica cercanía y bienestar en el logotipo organiza categorías y guía la navegación en el ecommerce, pensado para decisiones de compra rápidas desde el celular.",
+
+    outcome:
+      "Una marca y una experiencia de compra pensadas para Shopify desde el día uno, listas para pasar de concepto a producción.",
 
     learnings: [
       {
@@ -107,16 +128,17 @@ export const quickbite: Localized<CaseStudyData> = {
 
   en: {
     slug: "quickbite",
-    client: "QuickBite (concept project)",
+    client: "QuickBite",
     title: "Buying healthy shouldn't take more time",
     category: "Concept Proposal: Identity + E-commerce",
     year: "2026",
     services: ["Brand Identity", "UX/UI", "E-commerce"],
-    duration: "8 sprints",
+    duration: "6 weeks",
     heroPattern: "hoja",
     accent: "tangerine",
     liveUrl: "https://quickbite-ecommerce.vercel.app/",
-    bannerVideo: { src: "/animations/banner-QUICKBITE.mp4", poster: "/animations/banner-QUICKBITE-poster.jpg" },
+    heroImage: "/recursos-proyectos/quick-bite/Portada.svg",
+    intent: "A brand and a shopping experience designed to make healthy simple.",
 
     summary: [
       "QuickBite began as a concept project developed by Tangerine Studio to explore how a digital shopping experience can simplify access to healthy food without sacrificing convenience, speed or quality.",
@@ -124,15 +146,14 @@ export const quickbite: Localized<CaseStudyData> = {
     ],
 
     info: [
-      { label: "Client", value: "QuickBite (in-house concept)" },
-      { label: "Year", value: "2026" },
-      { label: "Duration", value: "8 sprints" },
-      { label: "Team", value: "Natalia García, Emy Dorado" },
-      { label: "Tools", value: "Figma → Shopify" },
-      { label: "Status", value: "Concept Proposal" },
+      { label: "Client", value: "QuickBite" },
+      { label: "Duration", value: "6 weeks" },
+      { label: "Tools", value: "Next.js" },
     ],
 
     challenge: {
+      color: "#003324",
+      colorDark: "#8BC652",
       title: "Less time, not more variety",
       body: [
         "Even as interest in healthy eating keeps growing, the shopping experience remains highly fragmented: fruits and vegetables in one store, supplements in another, healthy snacks in specialty shops.",
@@ -153,8 +174,10 @@ export const quickbite: Localized<CaseStudyData> = {
       { icon: "Layers", title: "Architecture & UX", description: "Catalog organization, wireframes and content hierarchy for mobile and desktop." },
       { icon: "Rocket", title: "Interface & prototype", description: "High-fidelity screens, design system and a navigable prototype ready for Shopify." },
     ],
+    processLabel: { eyebrow: "Identity & UX" },
 
     research: {
+      eyebrow: "Research",
       intro: "The target audience is professionals aged 23 to 38 who train regularly and value finding reliable products fast, more than the widest possible variety.",
       insights: [
         { title: "The experience communicates brand too", description: "Information organization, navigation clarity and visual hierarchy build brand perception as much as the logo or color palette do." },
@@ -163,22 +186,41 @@ export const quickbite: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "Building the identity",
       intro: "The palette avoids the sector's excess of green tones: the contrast between deep green, warm cream and lime and orange accents brings a contemporary personality.",
       colors: [
-        { name: "Dark green", hex: "#003324", role: "Primary color" },
-        { name: "Cream", hex: "#FFFAF5", role: "Secondary color" },
-        { name: "Black", hex: "#00150F", role: "Neutral color" },
-        { name: "Lime green", hex: "#8BC652", role: "Complementary color" },
-        { name: "Orange", hex: "#F76711", role: "Complementary color" },
+        { name: "Forest green", hex: "#003324", role: "Primary color" },
+        { name: "Fresh cream", hex: "#FFFAF5", role: "Secondary color" },
+        { name: "Deep black", hex: "#00150F", role: "Neutral color" },
+        { name: "Fresh lime", hex: "#8BC652", role: "Complementary color" },
+        { name: "Energy orange", hex: "#F76711", role: "Complementary color" },
       ],
       typography: [
-        { role: "Interface & body", family: "DM Sans", sample: "Aa" },
-        { role: "Headlines", family: "Radio Canada", sample: "Aa" },
+        { role: "Interface & body", family: "DM Sans", sample: "Aa", image: "/recursos-proyectos/quick-bite/tipografia-principal.svg" },
+        { role: "Headlines", family: "Radio Canada", sample: "Aa", image: "/recursos-proyectos/quick-bite/tipografia-secundaria.svg" },
       ],
-      video: { src: "/animations/paleta-QUICKBITE.mp4", poster: "/animations/paleta-QUICKBITE-poster.jpg" },
+      marks: [
+        { src: "/recursos-proyectos/quick-bite/logo-principal.svg", label: "Primary logo" },
+        { src: "/recursos-proyectos/quick-bite/logo-secundario.svg", label: "Secondary logo" },
+        { src: "/recursos-proyectos/quick-bite/iso-principal.svg", label: "Primary mark" },
+        { src: "/recursos-proyectos/quick-bite/iso-secundario.svg", label: "Secondary mark" },
+      ],
+      patterns: [
+        { src: "/recursos-proyectos/quick-bite/pattern-1.svg", label: "Citrus burst" },
+        { src: "/recursos-proyectos/quick-bite/pattern-2.svg", label: "Fresh sprout" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/quick-bite/mockup-bolsa.svg", label: "Grab-and-go bag" },
+        { src: "/recursos-proyectos/quick-bite/mockup-box.svg", label: "Fresh box" },
+        { src: "/recursos-proyectos/quick-bite/mockup-sticker.svg", label: "Green seal" },
+      ],
     },
 
-    mockups: ["desktop", "mobile", "packaging"],
+    bridge:
+      "The deep green and lime/orange accents from the identity carry straight into the interface: the same palette that communicates warmth and wellbeing in the logo organizes categories and guides navigation in the ecommerce, built for fast buying decisions from mobile.",
+
+    outcome:
+      "A brand and a shopping experience designed for Shopify from day one, ready to move from concept to production.",
 
     learnings: [
       {

@@ -1,0 +1,19 @@
+<svg width="960" height="1080" viewBox="0 0 960 1080" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_1_3393)">
+<rect width="960" height="1080" fill="white"/>
+<rect width="960" height="1080" fill="#A8C7FF"/>
+<rect width="960" height="1080" fill="url(#pattern0_1_3393)"/>
+</g>
+<defs>
+<clipPath id="clip0_1_3393">
+<rect width="960" height="1080" fill="white"/>
+</clipPath>
+<pattern id="pattern0_1_3393" patternUnits="userSpaceOnUse" patternTransform="matrix(242.667 0 0 121.307 0 0)" preserveAspectRatio="none" viewBox="0 0 933.336 466.566" width="1" height="1">
+<use xlink:href="#pattern0_1_3393_inner" transform="translate(0 -466.566)"/>
+<use xlink:href="#pattern0_1_3393_inner" transform="translate(466.668 -233.283)"/>
+<g id="pattern0_1_3393_inner">
+<path d="M233.334 0.000976562H466.668V233.335H233.334L226.609 233.334C100.923 236.971 0.150454 340 0.150391 466.566V233.334H0C0 104.467 104.467 0 233.334 0V0.000976562ZM116.668 99.167C107.003 99.167 99.168 107.002 99.168 116.667C99.168 126.332 107.003 134.167 116.668 134.167C126.333 134.167 134.168 126.332 134.168 116.667C134.168 107.002 126.333 99.167 116.668 99.167Z" fill="#3B5BFF"/>
+</g>
+<use xlink:href="#pattern0_1_3393_inner" transform="translate(466.668 233.283)"/>
+</pattern></defs>
+</svg>

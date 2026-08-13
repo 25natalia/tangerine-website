@@ -1,0 +1,15 @@
+<svg width="1920" height="1954" viewBox="0 0 1920 1954" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="1920" height="1954" fill="#A41414"/>
+<rect width="1920" height="1954" fill="url(#pattern0_1_3915)"/>
+<defs>
+<pattern id="pattern0_1_3915" patternUnits="userSpaceOnUse" patternTransform="matrix(77.0997 0 0 115.393 9.13401 0)" preserveAspectRatio="none" viewBox="18.268 0 154.199 230.786" width="1" height="1">
+<use xlink:href="#pattern0_1_3915_inner" transform="translate(-77.0997 -115.393)"/>
+<use xlink:href="#pattern0_1_3915_inner" transform="translate(77.0997 -115.393)"/>
+<use xlink:href="#pattern0_1_3915_inner" transform="translate(-154.199 0)"/>
+<g id="pattern0_1_3915_inner">
+<path d="M67.6313 0C73.802 37.0244 79.9757 61.7131 123.17 67.8838C79.9757 74.0546 73.802 98.7318 67.6313 135.756C61.4606 98.7318 55.2928 74.0546 18.2684 67.8839C55.2928 61.7131 61.4606 37.0244 67.6313 0Z" fill="#FFF5E6"/>
+</g>
+<use xlink:href="#pattern0_1_3915_inner" transform="translate(-77.0997 115.393)"/>
+<use xlink:href="#pattern0_1_3915_inner" transform="translate(77.0997 115.393)"/>
+</pattern></defs>
+</svg>

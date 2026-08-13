@@ -14,10 +14,11 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     category: "Personal Branding + Ecosistema Digital",
     year: "2025–2026",
     services: ["Personal Branding", "Automatización"],
-    duration: "6 sprints + acompañamiento",
+    duration: "10 semanas",
     heroPattern: "flor",
     accent: "purple",
-    bannerVideo: { src: "/animations/banner-MB.mp4", poster: "/animations/banner-MB-poster.jpg" },
+    heroImage: "/recursos-proyectos/margarita-burgos/Portada.svg",
+    intent: "Una marca personal que transmite la sabiduría detrás de una buena asesoría.",
 
     summary: [
       "Margarita Burgos llegó a Tangerine con la necesidad de construir una marca personal sólida que representara su experiencia como asesora de seguros y la diferenciara en un sector caracterizado por una comunicación altamente estandarizada.",
@@ -26,14 +27,13 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
 
     info: [
       { label: "Cliente", value: "Margarita Burgos, Asesora de Seguros" },
-      { label: "Año", value: "2025 – 2026" },
-      { label: "Duración", value: "6 sprints + acompañamiento" },
-      { label: "Equipo", value: "Natalia García, Emy Dorado" },
-      { label: "Herramientas", value: "Figma → Framer → n8n → Google Sheets" },
-      { label: "Estado", value: "En curso" },
+      { label: "Duración", value: "10 semanas" },
+      { label: "Herramientas", value: "Figma, Illustrator, Canva, Next.js, React" },
     ],
 
     challenge: {
+      color: "#3A22B2",
+      colorDark: "#5E5DF6",
       title: "Alejarse del azul de todo el sector",
       body: [
         "Aunque Margarita contaba con experiencia y conocimiento del sector asegurador, su comunicación no reflejaba el valor real de su asesoría ni construía una percepción diferenciada frente a otros profesionales que ofrecen servicios similares.",
@@ -49,13 +49,15 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     ],
 
     process: [
-      { icon: "Search", title: "Sprint 01: Hallazgos y marca personal", description: "Informe de investigación, briefing y selección de moodboard." },
-      { icon: "Lightbulb", title: "Sprint 02: Estrategia y marca", description: "Flujo de automatización, manual de marca, brandboard y piezas gráficas." },
-      { icon: "Layers", title: "Sprint 03: Marketing y contenido", description: "Plan de contenido para redes y guía de la primera versión de la automatización." },
-      { icon: "Rocket", title: "Sprint 04: Entrega y puesta en marcha", description: "Entrega final de marca, capacitación y lanzamiento de las primeras publicaciones." },
+      { icon: "Search", title: "Hallazgos y marca personal", description: "Informe de investigación, briefing y selección de moodboard." },
+      { icon: "Lightbulb", title: "Estrategia y marca", description: "Flujo de automatización, manual de marca, brandboard y piezas gráficas." },
+      { icon: "Layers", title: "Marketing y contenido", description: "Plan de contenido para redes y guía de la primera versión de la automatización." },
+      { icon: "Rocket", title: "Entrega y puesta en marcha", description: "Entrega final de marca, capacitación y lanzamiento de las primeras publicaciones." },
     ],
+    processLabel: { eyebrow: "Concepto" },
 
     research: {
+      eyebrow: "Percepción",
       intro: "El mercado colombiano de seguros generales es atendido por cerca de 40 compañías; las 10 mayores concentran el 75% de las primas emitidas.",
       insights: [
         { title: "Un sector que compite por precio, no por claridad", description: "Los clientes de productos personales y voluntarios buscan claridad y confianza más que precio, una oportunidad frente a competidores que solo compiten en tarifa." },
@@ -64,22 +66,36 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "Construyendo la identidad",
       intro: "La paleta se aleja deliberadamente de los tonos azules tradicionales del sector: el violeta profundo transmite sofisticación y diferenciación.",
       colors: [
-        { name: "Violeta profundo", hex: "#3A22B2", role: "Color primario" },
-        { name: "Gris azulado claro", hex: "#E7ECF2", role: "Color secundario" },
-        { name: "Negro", hex: "#2C2C2C", role: "Color neutro" },
-        { name: "Azul-violeta", hex: "#5E5DF6", role: "Color complemento" },
-        { name: "Verde lima", hex: "#C7FF4E", role: "Color complemento" },
+        { name: "Violeta sabiduría", hex: "#3A22B2", role: "Color primario" },
+        { name: "Gris confianza", hex: "#E7ECF2", role: "Color secundario" },
+        { name: "Negro autoridad", hex: "#2C2C2C", role: "Color neutro" },
+        { name: "Azul cercanía", hex: "#5E5DF6", role: "Color complemento" },
+        { name: "Verde claridad", hex: "#17E593", role: "Color complemento" },
       ],
       typography: [
-        { role: "Título", family: "Champagne & Limousines, Bold", sample: "Mg" },
-        { role: "Cuerpo", family: "Champagne & Limousines, Regular", sample: "Mg" },
+        { role: "Título", family: "Champagne & Limousines, Bold", sample: "Mg", image: "/recursos-proyectos/margarita-burgos/tipografia-principal.svg" },
+        { role: "Cuerpo", family: "Champagne & Limousines, Regular", sample: "Mg", image: "/recursos-proyectos/margarita-burgos/tipografia-secundaria.svg" },
       ],
-      video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
+      marks: [
+        { src: "/recursos-proyectos/margarita-burgos/iso-1.svg", label: "Isologo, en gris azulado" },
+        { src: "/recursos-proyectos/margarita-burgos/iso-2.svg", label: "Isologo, en azul-violeta" },
+        { src: "/recursos-proyectos/margarita-burgos/iso-3.svg", label: "Isologo, en verde" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/margarita-burgos/mockup-2.svg", label: "Marca con carácter" },
+        { src: "/recursos-proyectos/margarita-burgos/mockup-3.svg", label: "Presencia profesional" },
+        { src: "/recursos-proyectos/margarita-burgos/mockup-4.svg", label: "Lista para asesorar", fit: "contain" },
+      ],
     },
 
-    mockups: ["desktop", "branding"],
+    bridge:
+      "El violeta profundo que diferencia la marca del resto del sector se convierte en el hilo conductor del portafolio web y del flujo de automatización: la misma identidad que rompe con los códigos visuales tradicionales del sector asegurador organiza cómo Margarita se comunica y capta clientes en un solo ecosistema digital.",
+
+    outcome:
+      "La identidad de marca está terminada y lista para usarse: violeta profundo, tipografía propia y un sistema de aplicaciones reales. El portafolio web y el flujo de automatización siguen en desarrollo, como la siguiente etapa del mismo ecosistema.",
 
     learnings: [
       {
@@ -105,10 +121,11 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     category: "Personal Branding + Digital Ecosystem",
     year: "2025–2026",
     services: ["Personal Branding", "Automation"],
-    duration: "6 sprints + ongoing support",
+    duration: "10 weeks",
     heroPattern: "flor",
     accent: "purple",
-    bannerVideo: { src: "/animations/banner-MB.mp4", poster: "/animations/banner-MB-poster.jpg" },
+    heroImage: "/recursos-proyectos/margarita-burgos/Portada.svg",
+    intent: "A personal brand that conveys the wisdom behind good advice.",
 
     summary: [
       "Margarita Burgos came to Tangerine needing to build a solid personal brand that represented her experience as an insurance advisor and set her apart in a sector marked by highly standardized communication.",
@@ -117,14 +134,13 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
 
     info: [
       { label: "Client", value: "Margarita Burgos, Insurance Advisor" },
-      { label: "Year", value: "2025 – 2026" },
-      { label: "Duration", value: "6 sprints + ongoing support" },
-      { label: "Team", value: "Natalia García, Emy Dorado" },
-      { label: "Tools", value: "Figma → Framer → n8n → Google Sheets" },
-      { label: "Status", value: "In progress" },
+      { label: "Duration", value: "10 weeks" },
+      { label: "Tools", value: "Figma, Illustrator, Canva, Next.js, React" },
     ],
 
     challenge: {
+      color: "#3A22B2",
+      colorDark: "#5E5DF6",
       title: "Step away from the whole sector's blue",
       body: [
         "Although Margarita had experience and knowledge of the insurance sector, her communication didn't reflect the real value of her advisory work, nor did it build a differentiated perception against other professionals offering similar services.",
@@ -140,13 +156,15 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     ],
 
     process: [
-      { icon: "Search", title: "Sprint 01: Findings & personal brand", description: "Research report, briefing and moodboard selection." },
-      { icon: "Lightbulb", title: "Sprint 02: Strategy & brand", description: "Automation flow, brand manual, brandboard and graphic pieces." },
-      { icon: "Layers", title: "Sprint 03: Marketing & content", description: "Social content plan and a guide for the automation's first version." },
-      { icon: "Rocket", title: "Sprint 04: Delivery & launch", description: "Final brand delivery, training, and launch of the first posts." },
+      { icon: "Search", title: "Findings & personal brand", description: "Research report, briefing and moodboard selection." },
+      { icon: "Lightbulb", title: "Strategy & brand", description: "Automation flow, brand manual, brandboard and graphic pieces." },
+      { icon: "Layers", title: "Marketing & content", description: "Social content plan and a guide for the automation's first version." },
+      { icon: "Rocket", title: "Delivery & launch", description: "Final brand delivery, training, and launch of the first posts." },
     ],
+    processLabel: { eyebrow: "Concept" },
 
     research: {
+      eyebrow: "Perception",
       intro: "The Colombian general insurance market is served by around 40 companies; the top 10 concentrate 75% of premiums issued.",
       insights: [
         { title: "A sector that competes on price, not clarity", description: "Clients of personal and voluntary products look for clarity and trust more than price, an opportunity against competitors who only compete on rate." },
@@ -155,22 +173,36 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     },
 
     visualIdentity: {
+      eyebrow: "Building the identity",
       intro: "The palette deliberately steps away from the sector's traditional blue tones: deep violet conveys sophistication and differentiation.",
       colors: [
-        { name: "Deep violet", hex: "#3A22B2", role: "Primary color" },
-        { name: "Light blue-gray", hex: "#E7ECF2", role: "Secondary color" },
-        { name: "Black", hex: "#2C2C2C", role: "Neutral color" },
-        { name: "Blue-violet", hex: "#5E5DF6", role: "Complementary color" },
-        { name: "Lime green", hex: "#C7FF4E", role: "Complementary color" },
+        { name: "Wisdom violet", hex: "#3A22B2", role: "Primary color" },
+        { name: "Trust gray", hex: "#E7ECF2", role: "Secondary color" },
+        { name: "Authority black", hex: "#2C2C2C", role: "Neutral color" },
+        { name: "Closeness blue", hex: "#5E5DF6", role: "Complementary color" },
+        { name: "Clarity green", hex: "#17E593", role: "Complementary color" },
       ],
       typography: [
-        { role: "Heading", family: "Champagne & Limousines, Bold", sample: "Mg" },
-        { role: "Body", family: "Champagne & Limousines, Regular", sample: "Mg" },
+        { role: "Heading", family: "Champagne & Limousines, Bold", sample: "Mg", image: "/recursos-proyectos/margarita-burgos/tipografia-principal.svg" },
+        { role: "Body", family: "Champagne & Limousines, Regular", sample: "Mg", image: "/recursos-proyectos/margarita-burgos/tipografia-secundaria.svg" },
       ],
-      video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
+      marks: [
+        { src: "/recursos-proyectos/margarita-burgos/iso-1.svg", label: "Mark, in blue-gray" },
+        { src: "/recursos-proyectos/margarita-burgos/iso-2.svg", label: "Mark, in blue-violet" },
+        { src: "/recursos-proyectos/margarita-burgos/iso-3.svg", label: "Mark, in green" },
+      ],
+      identityMockups: [
+        { src: "/recursos-proyectos/margarita-burgos/mockup-2.svg", label: "Brand with character" },
+        { src: "/recursos-proyectos/margarita-burgos/mockup-3.svg", label: "Professional presence" },
+        { src: "/recursos-proyectos/margarita-burgos/mockup-4.svg", label: "Ready to advise", fit: "contain" },
+      ],
     },
 
-    mockups: ["desktop", "branding"],
+    bridge:
+      "The deep violet that sets the brand apart from the rest of the sector becomes the connecting thread of the web portfolio and the automation flow: the same identity that breaks from the insurance sector's traditional visual codes shapes how Margarita communicates and attracts clients across a single digital ecosystem.",
+
+    outcome:
+      "The brand identity is finished and ready to use: deep violet, a typeface of its own, and a system of real applications. The web portfolio and the automation flow are still in development, as the next stage of the same ecosystem.",
 
     learnings: [
       {

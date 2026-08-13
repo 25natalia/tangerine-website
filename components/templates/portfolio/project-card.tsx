@@ -71,7 +71,6 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
           {project.categories.map((c) => (
             <Badge key={c} variant="outline">{c}</Badge>
           ))}
-          <span className="text-caption text-(--text-tertiary)">{project.year}</span>
         </div>
         <h3 className={cn("font-display font-bold text-balance text-(--text-primary) transition-colors duration-(--duration-fast) ease-(--ease-standard) group-hover/card:text-(--text-brand)", config.title)}>
           {project.client}
