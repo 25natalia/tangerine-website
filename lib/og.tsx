@@ -10,86 +10,83 @@ import { SITE_URL } from "@/lib/seo";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-/** Hex reales de tokens/color/primitive.tokens.json — CaseStudyAccent no
- * tiene una versión "para renderizar fuera de Tailwind", así que se repite
- * acá el valor concreto en vez de intentar resolver un var(--token). */
-export const ACCENT_HEX: Record<"purple" | "green" | "tangerine" | "info" | "gold", string> = {
-  purple: "#5434e2",
-  green: "#00a254",
-  tangerine: "#ff7401",
-  info: "#2f7de1",
-  gold: "#ffca00",
-};
-
 const NEUTRAL_0 = "#FCFBFF";
-const PURPLE_600 = "#5434E2";
 
 /**
- * Sin texto: la mascota y las geometrías (ilustración pura) arriba sobre
- * fondo claro, una franja plana de color de marca abajo. Nada escrito en
- * la franja, es puramente un bloque de color, como referencia de diseño
- * pidió — la franja usa `accent` en case studies (mismo color que ya
- * identifica a cada proyecto en el resto del sitio) o el violeta de marca
- * por default en el resto de páginas.
+ * Sin texto ni franja de color: pura ilustración sobre fondo claro. La
+ * mascota grande y centrada, siete geometrías reales alrededor en tamaños
+ * bien variados (de 40 a 130px) para que la composición no se sienta
+ * repetitiva — mismo set de motivos que ya usa el Home Hero
+ * (`home-hero.tsx`: flor-lime, star-green, hoja-orange, destello-violet,
+ * semillas-orange, leaf-lime), más un séptimo (destello-yellow) para sumar
+ * densidad sin salirse del vocabulario visual del sitio.
  *
  * Cada `<img>` usa el ancho/alto en la proporción exacta de su `viewBox`
  * — sin eso Satori estira el bitmap al tamaño declarado sin mantener el
  * aspect ratio y sale deformado.
  */
-export function OgCard({ accent }: { accent?: string }) {
+export function OgCard() {
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
         background: NEUTRAL_0,
+        position: "relative",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-        }}
-      >
-        <img
-          src={`${SITE_URL}/illustrations/geometry/flor-lime.svg`}
-          width={92}
-          height={96}
-          style={{ position: "absolute", top: 46, left: 270 }}
-        />
-        <img
-          src={`${SITE_URL}/illustrations/geometry/hoja-orange.svg`}
-          width={78}
-          height={74}
-          style={{ position: "absolute", top: 34, right: 270 }}
-        />
-        <img
-          src={`${SITE_URL}/illustrations/deco/star-violet.svg`}
-          width={70}
-          height={70}
-          style={{ position: "absolute", bottom: 46, left: 320 }}
-        />
-        <img
-          src={`${SITE_URL}/illustrations/geometry/destello-violet.svg`}
-          width={82}
-          height={82}
-          style={{ position: "absolute", bottom: 34, right: 320 }}
-        />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/flor-lime.svg`}
+        width={108}
+        height={113}
+        style={{ position: "absolute", top: 40, left: 150 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/deco/star-green.svg`}
+        width={46}
+        height={46}
+        style={{ position: "absolute", top: 280, left: 60 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/hoja-orange.svg`}
+        width={88}
+        height={84}
+        style={{ position: "absolute", top: 30, right: 150 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/leaf-lime.svg`}
+        width={40}
+        height={40}
+        style={{ position: "absolute", top: 150, right: 60 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/semillas-orange.svg`}
+        width={120}
+        height={120}
+        style={{ position: "absolute", bottom: 40, left: 90 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/destello-violet.svg`}
+        width={70}
+        height={70}
+        style={{ position: "absolute", bottom: 90, right: 80 }}
+      />
+      <img
+        src={`${SITE_URL}/illustrations/geometry/destello-yellow.svg`}
+        width={56}
+        height={56}
+        style={{ position: "absolute", bottom: 150, right: 280 }}
+      />
 
-        <img
-          src={`${SITE_URL}/brand/mascot/lightmode/Tangerine-2.svg`}
-          width={410}
-          height={380}
-          style={{ display: "flex" }}
-        />
-      </div>
-
-      <div style={{ display: "flex", height: 190, flexShrink: 0, background: accent ?? PURPLE_600 }} />
+      <img
+        src={`${SITE_URL}/brand/mascot/lightmode/Tangerine-2.svg`}
+        width={497}
+        height={460}
+        style={{ display: "flex" }}
+      />
     </div>
   );
 }
