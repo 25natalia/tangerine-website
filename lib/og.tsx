@@ -22,71 +22,19 @@ export const ACCENT_HEX: Record<"purple" | "green" | "tangerine" | "info" | "gol
 };
 
 const NEUTRAL_0 = "#FCFBFF";
-// Mismos hex que usa `logo-extended.svg` para "The"/"studio" y "tangerine" —
-// se reusa la paleta del logo real aunque acá se dibuje como texto, no SVG.
-const WORDMARK_PURPLE = "#8C77EC";
-const WORDMARK_TANGERINE = "#FF7401";
-
-let fontPromise: Promise<ArrayBuffer> | null = null;
+const PURPLE_600 = "#5434E2";
 
 /**
- * Plus Jakarta Sans Bold real, traída de Google Fonts en tiempo de
- * request — `next/font/google` (lo que usa `app/layout.tsx`) es una
- * optimización específica de páginas renderizadas normalmente, Satori no
- * tiene acceso a eso y necesita el archivo de fuente posta vía la opción
- * `fonts` de `ImageResponse`. Se pide con un User-Agent viejo a propósito:
- * así Google Fonts devuelve TTF en vez de WOFF2, que Satori no soporta de
- * forma confiable. Cacheada a nivel de módulo — un solo fetch, reusado por
- * las 5 rutas de OG image del sitio dentro de la misma instancia.
+ * Sin texto: la mascota y las geometrías (ilustración pura) arriba sobre
+ * fondo claro, una franja plana de color de marca abajo. Nada escrito en
+ * la franja, es puramente un bloque de color, como referencia de diseño
+ * pidió — la franja usa `accent` en case studies (mismo color que ya
+ * identifica a cada proyecto en el resto del sitio) o el violeta de marca
+ * por default en el resto de páginas.
  *
- * Se usa texto real (no el SVG `logo-extended.svg`) para el wordmark: ese
- * archivo tiene `<rect>`s con `transform="matrix(...)"` que Satori/resvg no
- * rasteriza de forma confiable al traerlo como `<img>` — a diferencia de
- * las geometrías (paths simples) y la mascota, que sí se renderizan bien
- * por ese camino. Texto real vía `fonts` no tiene ese riesgo.
- */
-async function getPlusJakartaSansBold(): Promise<ArrayBuffer> {
-  if (!fontPromise) {
-    fontPromise = (async (): Promise<ArrayBuffer> => {
-      const cssRes = await fetch(
-        "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&display=swap",
-        {
-          headers: {
-            "User-Agent":
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
-          },
-        }
-      );
-      const css = await cssRes.text();
-      const fontUrl = css.match(/src: url\(([^)]+)\)/)?.[1];
-      if (!fontUrl) throw new Error("No se pudo resolver la URL de Plus Jakarta Sans desde Google Fonts.");
-      const fontRes = await fetch(fontUrl);
-      return fontRes.arrayBuffer();
-    })();
-  }
-  return fontPromise;
-}
-
-/** Se pasa como `fonts` al segundo argumento de `ImageResponse` en cada ruta. */
-export async function getOgFonts() {
-  const data = await getPlusJakartaSansBold();
-  return [{ name: "Plus Jakarta Sans", data, style: "normal" as const, weight: 800 as const }];
-}
-
-/**
- * Composición a dos columnas: wordmark a la izquierda, mascota grande a la
- * derecha, geometrías reales alrededor de ambas — misma disposición que la
- * imagen de referencia del brand. El wordmark ("The" / "tangerine" /
- * "studio") es texto real en Plus Jakarta Sans Extrabold, con los mismos
- * dos colores del logo real (`logo-extended.svg`), no el SVG en sí — ver
- * el comentario en `getPlusJakartaSansBold` sobre por qué.
- *
- * Cada `<img>` de geometría/mascota usa el ancho/alto en la proporción
- * exacta de su `viewBox` — sin eso Satori estira el bitmap al tamaño
- * declarado sin mantener el aspect ratio y sale deformado.
- *
- * `accent` (case studies) tiñe un punto chico junto al wordmark, el único
- * lugar donde ese color entra.
+ * Cada `<img>` usa el ancho/alto en la proporción exacta de su `viewBox`
+ * — sin eso Satori estira el bitmap al tamaño declarado sin mantener el
+ * aspect ratio y sale deformado.
  */
 export function OgCard({ accent }: { accent?: string }) {
   return (
@@ -95,64 +43,53 @@ export function OgCard({ accent }: { accent?: string }) {
         width: "100%",
         height: "100%",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: "column",
         background: NEUTRAL_0,
-        fontFamily: "Plus Jakarta Sans",
-        padding: "0 70px",
-        position: "relative",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", position: "relative", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_PURPLE }}>
-            The
-          </div>
-          {accent ? (
-            <div style={{ display: "flex", width: 16, height: 16, borderRadius: 999, background: accent }} />
-          ) : null}
-        </div>
-        <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_TANGERINE }}>
-          tangerine
-        </div>
-        <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1.05, color: WORDMARK_PURPLE }}>
-          studio
-        </div>
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative", width: 560, height: 520, flexShrink: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
         <img
           src={`${SITE_URL}/illustrations/geometry/flor-lime.svg`}
-          width={78}
-          height={82}
-          style={{ position: "absolute", top: 34, left: 8 }}
+          width={92}
+          height={96}
+          style={{ position: "absolute", top: 46, left: 270 }}
         />
         <img
           src={`${SITE_URL}/illustrations/geometry/hoja-orange.svg`}
-          width={70}
-          height={66}
-          style={{ position: "absolute", top: 14, right: 30 }}
+          width={78}
+          height={74}
+          style={{ position: "absolute", top: 34, right: 270 }}
         />
         <img
           src={`${SITE_URL}/illustrations/deco/star-violet.svg`}
-          width={62}
-          height={62}
-          style={{ position: "absolute", bottom: 70, left: 0 }}
+          width={70}
+          height={70}
+          style={{ position: "absolute", bottom: 46, left: 320 }}
         />
         <img
           src={`${SITE_URL}/illustrations/geometry/destello-violet.svg`}
-          width={72}
-          height={72}
-          style={{ position: "absolute", bottom: 30, right: 20 }}
+          width={82}
+          height={82}
+          style={{ position: "absolute", bottom: 34, right: 320 }}
         />
 
         <img
           src={`${SITE_URL}/brand/mascot/lightmode/Tangerine-2.svg`}
-          width={475}
-          height={440}
+          width={410}
+          height={380}
           style={{ display: "flex" }}
         />
       </div>
+
+      <div style={{ display: "flex", height: 190, flexShrink: 0, background: accent ?? PURPLE_600 }} />
     </div>
   );
 }
