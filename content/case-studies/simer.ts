@@ -32,7 +32,7 @@ export const simer: Localized<CaseStudyData> = {
     ],
 
     info: [
-      { label: "Cliente", value: "SIMER — Universidad Icesi" },
+      { label: "Cliente", value: "SIMER, Universidad Icesi" },
       { label: "Año", value: "2025" },
       { label: "Duración", value: "2 semanas" },
       { label: "Equipo", value: "Natalia García, Emy Dorado" },
@@ -57,7 +57,7 @@ export const simer: Localized<CaseStudyData> = {
     process: [
       { icon: "Search", title: "Descubrimiento e inmersión", description: "Trabajados en conjunto, en sesiones cortas y sucesivas, en vez de como fases separadas por días de diferencia." },
       { icon: "Lightbulb", title: "Exploración y concepto", description: "Ambas fundadoras proponiendo y debatiendo direcciones en tiempo real, en vez de dividir el trabajo por especialidad." },
-      { icon: "Palette", title: "Sistema visual", description: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional — blancos clínicos, cruces, señalética hospitalaria." },
+      { icon: "Palette", title: "Sistema visual", description: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional: blancos clínicos, cruces, señalética hospitalaria." },
       { icon: "Layers", title: "Plantillas y entrega", description: "Adaptación completa a Canva para que el equipo de SIMER pudiera seguir usando el sistema sin depender de Tangerine." },
     ],
 
@@ -65,12 +65,12 @@ export const simer: Localized<CaseStudyData> = {
       intro: "El hallazgo más importante de la etapa de inmersión fue que el problema de SIMER no era únicamente de consistencia visual, sino de percepción de la especialidad misma.",
       insights: [
         { title: "Percepción antes que estética", description: "Muchos estudiantes asocian la medicina de emergencias con una carga emocional intensa antes de descubrir su costado formativo y comunitario." },
-        { title: "El costo de la inconsistencia", description: "Cada publicación sin sistema no solo tomaba más tiempo — perdía la oportunidad de corregir esa percepción." },
+        { title: "El costo de la inconsistencia", description: "Cada publicación sin sistema no solo tomaba más tiempo, perdía la oportunidad de corregir esa percepción." },
       ],
     },
 
     visualIdentity: {
-      intro: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional — blancos clínicos, cruces, señalética hospitalaria.",
+      intro: "Un lenguaje deliberadamente alejado de la iconografía médica tradicional: blancos clínicos, cruces, señalética hospitalaria.",
       colors: [
         { name: "Azul eléctrico", hex: "#3B5BFF", role: "Color primario" },
         { name: "Blanco grisáceo", hex: "#F4F6FA", role: "Color secundario" },
@@ -93,7 +93,7 @@ export const simer: Localized<CaseStudyData> = {
     learnings: [
       {
         title: "Trabajar sin roles fijos",
-        description: "Con ambas fundadoras involucradas en cada etapa, eliminó el tiempo de traspaso de información entre roles separados — un costo real en un proceso de dos semanas.",
+        description: "Con ambas fundadoras involucradas en cada etapa, eliminó el tiempo de traspaso de información entre roles separados, un costo real en un proceso de dos semanas.",
       },
       {
         title: "El proceso se comprime, no se elimina",
@@ -129,7 +129,7 @@ export const simer: Localized<CaseStudyData> = {
     ],
 
     info: [
-      { label: "Client", value: "SIMER — Icesi University" },
+      { label: "Client", value: "SIMER, Icesi University" },
       { label: "Year", value: "2025" },
       { label: "Duration", value: "2 weeks" },
       { label: "Team", value: "Natalia García, Emy Dorado" },
@@ -154,7 +154,7 @@ export const simer: Localized<CaseStudyData> = {
     process: [
       { icon: "Search", title: "Discovery & immersion", description: "Worked together, in short, successive sessions, rather than as phases separated by days." },
       { icon: "Lightbulb", title: "Exploration & concept", description: "Both founders proposing and debating directions in real time, instead of splitting the work by specialty." },
-      { icon: "Palette", title: "Visual system", description: "A language deliberately distanced from traditional medical iconography — clinical whites, crosses, hospital signage." },
+      { icon: "Palette", title: "Visual system", description: "A language deliberately distanced from traditional medical iconography: clinical whites, crosses, hospital signage." },
       { icon: "Layers", title: "Templates & delivery", description: "Full adaptation to Canva so SIMER's team could keep using the system without depending on Tangerine." },
     ],
 
@@ -162,12 +162,12 @@ export const simer: Localized<CaseStudyData> = {
       intro: "The most important finding of the immersion stage was that SIMER's problem wasn't only visual consistency, but perception of the specialty itself.",
       insights: [
         { title: "Perception before aesthetics", description: "Many students associate emergency medicine with intense emotional weight before discovering its educational and community side." },
-        { title: "The cost of inconsistency", description: "Every post without a system didn't just take longer — it lost the chance to correct that perception." },
+        { title: "The cost of inconsistency", description: "Every post without a system didn't just take longer, it lost the chance to correct that perception." },
       ],
     },
 
     visualIdentity: {
-      intro: "A language deliberately distanced from traditional medical iconography — clinical whites, crosses, hospital signage.",
+      intro: "A language deliberately distanced from traditional medical iconography: clinical whites, crosses, hospital signage.",
       colors: [
         { name: "Electric blue", hex: "#3B5BFF", role: "Primary color" },
         { name: "Grayish white", hex: "#F4F6FA", role: "Secondary color" },
@@ -190,7 +190,7 @@ export const simer: Localized<CaseStudyData> = {
     learnings: [
       {
         title: "Working without fixed roles",
-        description: "With both founders involved at every stage, handoff time between separate roles disappeared — a real cost in a two-week process.",
+        description: "With both founders involved at every stage, handoff time between separate roles disappeared, a real cost in a two-week process.",
       },
       {
         title: "The process compresses, it doesn't disappear",

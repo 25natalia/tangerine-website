@@ -21,7 +21,7 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
 
     summary: [
       "Margarita Burgos llegó a Tangerine con la necesidad de construir una marca personal sólida que representara su experiencia como asesora de seguros y la diferenciara en un sector caracterizado por una comunicación altamente estandarizada.",
-      "La investigación de mercado confirmó el reto: la mayoría de marcas del sector recurre a los mismos recursos visuales —paletas azules, iconografía de escudos, casas, manos— que comunican seguridad pero generan poca recordación y proyectan una imagen genérica e intercambiable.",
+      "La investigación de mercado confirmó el reto: la mayoría de marcas del sector recurre a los mismos recursos visuales (paletas azules, iconografía de escudos, casas, manos) que comunican seguridad pero generan poca recordación y proyectan una imagen genérica e intercambiable.",
     ],
 
     info: [
@@ -49,16 +49,16 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     ],
 
     process: [
-      { icon: "Search", title: "Sprint 01 — Hallazgos y marca personal", description: "Informe de investigación, briefing y selección de moodboard." },
-      { icon: "Lightbulb", title: "Sprint 02 — Estrategia y marca", description: "Flujo de automatización, manual de marca, brandboard y piezas gráficas." },
-      { icon: "Layers", title: "Sprint 03 — Marketing y contenido", description: "Plan de contenido para redes y guía de la primera versión de la automatización." },
-      { icon: "Rocket", title: "Sprint 04 — Entrega y puesta en marcha", description: "Entrega final de marca, capacitación y lanzamiento de las primeras publicaciones." },
+      { icon: "Search", title: "Sprint 01: Hallazgos y marca personal", description: "Informe de investigación, briefing y selección de moodboard." },
+      { icon: "Lightbulb", title: "Sprint 02: Estrategia y marca", description: "Flujo de automatización, manual de marca, brandboard y piezas gráficas." },
+      { icon: "Layers", title: "Sprint 03: Marketing y contenido", description: "Plan de contenido para redes y guía de la primera versión de la automatización." },
+      { icon: "Rocket", title: "Sprint 04: Entrega y puesta en marcha", description: "Entrega final de marca, capacitación y lanzamiento de las primeras publicaciones." },
     ],
 
     research: {
       intro: "El mercado colombiano de seguros generales es atendido por cerca de 40 compañías; las 10 mayores concentran el 75% de las primas emitidas.",
       insights: [
-        { title: "Un sector que compite por precio, no por claridad", description: "Los clientes de productos personales y voluntarios buscan claridad y confianza más que precio — una oportunidad frente a competidores que solo compiten en tarifa." },
+        { title: "Un sector que compite por precio, no por claridad", description: "Los clientes de productos personales y voluntarios buscan claridad y confianza más que precio, una oportunidad frente a competidores que solo compiten en tarifa." },
         { title: "Asesores percibidos como transaccionales", description: "Los asesores independientes actuales son vistos como poco educativos, con plantillas genéricas y gestión manual que pierde ventas por falta de seguimiento." },
       ],
     },
@@ -73,8 +73,8 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
         { name: "Verde lima", hex: "#C7FF4E", role: "Color complemento" },
       ],
       typography: [
-        { role: "Título", family: "Champagne & Limousines — Bold", sample: "Mg" },
-        { role: "Cuerpo", family: "Champagne & Limousines — Regular", sample: "Mg" },
+        { role: "Título", family: "Champagne & Limousines, Bold", sample: "Mg" },
+        { role: "Cuerpo", family: "Champagne & Limousines, Regular", sample: "Mg" },
       ],
       video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
     },
@@ -112,7 +112,7 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
 
     summary: [
       "Margarita Burgos came to Tangerine needing to build a solid personal brand that represented her experience as an insurance advisor and set her apart in a sector marked by highly standardized communication.",
-      "Market research confirmed the challenge: most brands in the sector rely on the same visual resources —blue palettes, shield iconography, houses, hands— that communicate safety but generate little recall and project a generic, interchangeable image.",
+      "Market research confirmed the challenge: most brands in the sector rely on the same visual resources (blue palettes, shield iconography, houses, hands) that communicate safety but generate little recall and project a generic, interchangeable image.",
     ],
 
     info: [
@@ -140,16 +140,16 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
     ],
 
     process: [
-      { icon: "Search", title: "Sprint 01 — Findings & personal brand", description: "Research report, briefing and moodboard selection." },
-      { icon: "Lightbulb", title: "Sprint 02 — Strategy & brand", description: "Automation flow, brand manual, brandboard and graphic pieces." },
-      { icon: "Layers", title: "Sprint 03 — Marketing & content", description: "Social content plan and a guide for the automation's first version." },
-      { icon: "Rocket", title: "Sprint 04 — Delivery & launch", description: "Final brand delivery, training, and launch of the first posts." },
+      { icon: "Search", title: "Sprint 01: Findings & personal brand", description: "Research report, briefing and moodboard selection." },
+      { icon: "Lightbulb", title: "Sprint 02: Strategy & brand", description: "Automation flow, brand manual, brandboard and graphic pieces." },
+      { icon: "Layers", title: "Sprint 03: Marketing & content", description: "Social content plan and a guide for the automation's first version." },
+      { icon: "Rocket", title: "Sprint 04: Delivery & launch", description: "Final brand delivery, training, and launch of the first posts." },
     ],
 
     research: {
       intro: "The Colombian general insurance market is served by around 40 companies; the top 10 concentrate 75% of premiums issued.",
       insights: [
-        { title: "A sector that competes on price, not clarity", description: "Clients of personal and voluntary products look for clarity and trust more than price — an opportunity against competitors who only compete on rate." },
+        { title: "A sector that competes on price, not clarity", description: "Clients of personal and voluntary products look for clarity and trust more than price, an opportunity against competitors who only compete on rate." },
         { title: "Advisors perceived as transactional", description: "Current independent advisors are seen as not very educational, with generic templates and manual management that loses sales from a lack of follow-up." },
       ],
     },
@@ -164,8 +164,8 @@ export const margaritaBurgos: Localized<CaseStudyData> = {
         { name: "Lime green", hex: "#C7FF4E", role: "Complementary color" },
       ],
       typography: [
-        { role: "Heading", family: "Champagne & Limousines — Bold", sample: "Mg" },
-        { role: "Body", family: "Champagne & Limousines — Regular", sample: "Mg" },
+        { role: "Heading", family: "Champagne & Limousines, Bold", sample: "Mg" },
+        { role: "Body", family: "Champagne & Limousines, Regular", sample: "Mg" },
       ],
       video: { src: "/animations/paleta-MB.mp4", poster: "/animations/paleta-MB-poster.jpg" },
     },

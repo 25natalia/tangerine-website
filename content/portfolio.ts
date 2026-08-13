@@ -20,7 +20,7 @@ import { caseStudies } from "./case-studies";
 // texto — título, categorías, servicios, descripción, estado.
 export const portfolio: Localized<PortfolioData> = {
   es: {
-    eyebrow: "Work",
+    eyebrow: "Nuestro trabajo",
     title: "Cinco proyectos, una misma manera de pensar.",
     subtitle:
       "Cada caso documenta el proceso completo detrás de una decisión de diseño: el contexto, las restricciones, las conversaciones, las exploraciones y el resultado final.",
@@ -53,7 +53,7 @@ export const portfolio: Localized<PortfolioData> = {
       },
       {
         slug: "simer",
-        client: "SIMER — Universidad Icesi",
+        client: "SIMER, Universidad Icesi",
         title: "Una identidad que no se sintiera clínica",
         categories: ["Branding"],
         year: "2025",
@@ -114,7 +114,7 @@ export const portfolio: Localized<PortfolioData> = {
     ],
   },
   en: {
-    eyebrow: "Work",
+    eyebrow: "Our work",
     title: "Five projects, one way of thinking.",
     subtitle:
       "Each case documents the full process behind a design decision: the context, the constraints, the conversations, the explorations and the final result.",
@@ -147,7 +147,7 @@ export const portfolio: Localized<PortfolioData> = {
       },
       {
         slug: "simer",
-        client: "SIMER — Icesi University",
+        client: "SIMER, Icesi University",
         title: "An identity that didn't feel clinical",
         categories: ["Branding"],
         year: "2025",

@@ -17,6 +17,8 @@ export interface FloatingElementProps {
   floatRotate?: number;
   /** How far it displaces from the cursor while hovered, relative to the default. @default 1 */
   repelStrength?: number;
+  /** Scale target while hovered, layered on top of the cursor-repel drift. `1` (default) leaves it off — every existing call site keeps its exact current behavior unless it opts in. @default 1 */
+  hoverScale?: number;
 }
 
 /**
@@ -33,6 +35,11 @@ export interface FloatingElementProps {
  * (`animate` with repeating keyframes), the inner one holds the
  * spring-driven hover repel (`style` bound to motion values) — composing
  * them on separate elements means neither has to know the other exists.
+ * `hoverScale` (opt-in, off by default) layers a `whileHover` scale onto
+ * that same inner layer — Framer merges a `style`-bound transform with a
+ * `whileHover` animated one on the same element without conflict since they
+ * don't share a property (x/y/rotate vs scale), so the repel drift and the
+ * hover bump compose instead of fighting.
  *
  * Fully static under prefers-reduced-motion: no ambient loop, no repel,
  * the illustration just sits in its resting position.
@@ -44,6 +51,7 @@ export function FloatingElement({
   floatDuration = 5,
   floatRotate = 4,
   repelStrength = 1,
+  hoverScale = 1,
 }: FloatingElementProps) {
   const reduceMotion = usePrefersReducedMotion();
   const pointerX = useMotionValue(0);
@@ -74,7 +82,11 @@ export function FloatingElement({
       animate={reduceMotion ? undefined : { y: [0, -floatY, 0], rotate: [0, floatRotate, 0, -floatRotate, 0] }}
       transition={reduceMotion ? undefined : { duration: floatDuration, repeat: Infinity, ease: "easeInOut" }}
     >
-      <motion.div style={reduceMotion ? undefined : { x: repelX, y: repelY, rotate: repelRotate }}>
+      <motion.div
+        style={reduceMotion ? undefined : { x: repelX, y: repelY, rotate: repelRotate }}
+        whileHover={reduceMotion || hoverScale === 1 ? undefined : { scale: hoverScale }}
+        transition={{ type: "spring", stiffness: 320, damping: 22 }}
+      >
         {children}
       </motion.div>
     </motion.div>

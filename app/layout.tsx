@@ -51,7 +51,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${plusJakartaSans.variable} ${roboto.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${roboto.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* Google Tag Manager */}

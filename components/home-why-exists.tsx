@@ -12,11 +12,11 @@ import { useLanguage } from "@/lib/i18n/language-context";
 // Filosofía, que también arranca con su propio padding superior) — el
 // superior queda igual, relativo al Ticker de arriba.
 //
-// `size="wide"` para el padding lateral del sitio, pero el contenido en sí
-// vive en un bloque angosto centrado (`mx-auto max-w-3xl`) — mismo ancho y
-// mismo criterio que StudioOrigin/StudioManifesto: el bloque flota en el
-// medio de la pantalla, el texto adentro arranca left-aligned sobre el
-// propio borde izquierdo del bloque, no sobre el de la página completa.
+// Mismo patrón que `HomePhilosophy`/`HomeWhatWeCreate` — el `Reveal` va
+// flush contra el borde izquierdo del Container "wide" (capado a
+// `max-w-2xl`, no un wrapper extra `mx-auto max-w-3xl` autocentrado), para
+// que las tres lean con el mismo ancho y el mismo borde izquierdo en vez de
+// que esta quede más angosta que el resto de los bloques de texto del Home.
 export function HomeWhyExists() {
   const { t } = useLanguage();
   const copy = t.home.whyExists;
@@ -24,14 +24,14 @@ export function HomeWhyExists() {
   return (
     <section>
       <Container size="wide" className="pt-24 pb-16 sm:pt-32 sm:pb-20">
-        <Reveal className="mx-auto max-w-3xl">
+        <Reveal className="max-w-2xl">
           <p className="font-display text-sm font-semibold tracking-wide text-(--text-brand) uppercase">
             {copy.eyebrow}
           </p>
           <p className="mt-6 font-display text-2xl leading-snug font-semibold text-balance sm:text-3xl">
             {copy.title}
           </p>
-          <p className="font-reading mt-6 max-w-2xl text-pretty text-(--text-secondary)">{copy.body}</p>
+          <p className="font-reading mt-6 text-pretty text-(--text-secondary)">{copy.body}</p>
         </Reveal>
       </Container>
     </section>

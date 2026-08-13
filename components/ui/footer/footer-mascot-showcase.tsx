@@ -73,7 +73,7 @@ function FooterMascotShowcase({
     <motion.div
       role="button"
       tabIndex={0}
-      aria-label="Mascota de Tangerine Studio — un pequeño saludo"
+      aria-label="Mascota de Tangerine Studio, un pequeño saludo"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}

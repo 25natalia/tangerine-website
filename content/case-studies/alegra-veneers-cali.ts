@@ -20,7 +20,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     bannerVideo: { src: "/animations/banner-ALEGRA.mp4", poster: "/animations/banner-ALEGRA-poster.jpg" },
 
     summary: [
-      "El proyecto consistió en el rediseño, estructuración y desarrollo completo de una nueva página web para la clínica odontológica Alegra, con un enfoque orientado a la captación de pacientes internacionales —principalmente de Estados Unidos— sin dejar de atender el mercado colombiano.",
+      "El proyecto consistió en el rediseño, estructuración y desarrollo completo de una nueva página web para la clínica odontológica Alegra, con un enfoque orientado a la captación de pacientes internacionales, principalmente de Estados Unidos, sin dejar de atender el mercado colombiano.",
       "Más que una página corporativa, el encargo fue construir una plataforma comercial que funcionara como herramienta de ventas, posicionamiento y generación de confianza para convertir visitantes en pacientes.",
     ],
 
@@ -30,14 +30,14 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
       { label: "Duración", value: "4 semanas" },
       { label: "Equipo", value: "Natalia García, Emy Dorado" },
       { label: "Herramientas", value: "Framer → Google Sheets" },
-      { label: "Estado", value: "Entregado — sitio en producción" },
+      { label: "Estado", value: "Entregado, sitio en producción" },
     ],
 
     challenge: {
       title: "Vender una transformación, no un tratamiento",
       body: [
         "La página anterior de la clínica presentaba información básica pensada para un público local y no reflejaba la propuesta de valor real de Alegra frente al mercado internacional.",
-        "El reto consistía en transformar por completo esa presencia digital para atraer pacientes extranjeros, generar confianza desde el primer contacto, mostrar resultados reales y comunicar la experiencia humana del servicio — sin vender únicamente tratamientos odontológicos, sino una transformación de vida a través de una experiencia integral.",
+        "El reto consistía en transformar por completo esa presencia digital para atraer pacientes extranjeros, generar confianza desde el primer contacto, mostrar resultados reales y comunicar la experiencia humana del servicio, sin vender únicamente tratamientos odontológicos, sino una transformación de vida a través de una experiencia integral.",
       ],
     },
 
@@ -51,7 +51,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     process: [
       { icon: "Search", title: "Investigación y estrategia", description: "Público objetivo, priorización de servicios y propuesta de valor definidos antes de tocar el diseño." },
       { icon: "Layers", title: "Arquitectura del sitio", description: "Wireframes organizados alrededor del recorrido real del paciente, no de un listado genérico de servicios." },
-      { icon: "Palette", title: "Diseño visual", description: "Dirección oscura con acentos en celeste brillante — estética premium y aspiracional." },
+      { icon: "Palette", title: "Diseño visual", description: "Dirección oscura con acentos en celeste brillante: estética premium y aspiracional." },
       { icon: "Code2", title: "Desarrollo y optimización", description: "Funcionalidades, integración de reseñas de Google, y optimización para campañas pagas." },
     ],
 
@@ -118,7 +118,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     bannerVideo: { src: "/animations/banner-ALEGRA.mp4", poster: "/animations/banner-ALEGRA-poster.jpg" },
 
     summary: [
-      "The project consisted of the redesign, restructuring and complete development of a new website for Alegra dental clinic, focused on attracting international patients —mainly from the United States— while still serving the Colombian market.",
+      "The project consisted of the redesign, restructuring and complete development of a new website for Alegra dental clinic, focused on attracting international patients, mainly from the United States, while still serving the Colombian market.",
       "More than a corporate page, the brief was to build a commercial platform that worked as a sales, positioning and trust-building tool to convert visitors into patients.",
     ],
 
@@ -128,14 +128,14 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
       { label: "Duration", value: "4 weeks" },
       { label: "Team", value: "Natalia García, Emy Dorado" },
       { label: "Tools", value: "Framer → Google Sheets" },
-      { label: "Status", value: "Delivered — live production site" },
+      { label: "Status", value: "Delivered, live production site" },
     ],
 
     challenge: {
       title: "Sell a transformation, not a treatment",
       body: [
         "The clinic's previous page presented basic information aimed at a local audience and didn't reflect Alegra's real value proposition for the international market.",
-        "The challenge was to completely transform that digital presence to attract foreign patients, build trust from the first contact, show real results, and communicate the human side of the service — not selling dental treatments alone, but a life transformation through a complete experience.",
+        "The challenge was to completely transform that digital presence to attract foreign patients, build trust from the first contact, show real results, and communicate the human side of the service, not selling dental treatments alone, but a life transformation through a complete experience.",
       ],
     },
 
@@ -149,7 +149,7 @@ export const alegraVeneersCali: Localized<CaseStudyData> = {
     process: [
       { icon: "Search", title: "Research & strategy", description: "Target audience, service prioritization and value proposition defined before touching the design." },
       { icon: "Layers", title: "Site architecture", description: "Wireframes organized around the patient's actual journey, not a generic list of services." },
-      { icon: "Palette", title: "Visual design", description: "Dark direction with bright sky-blue accents — a premium, aspirational aesthetic." },
+      { icon: "Palette", title: "Visual design", description: "Dark direction with bright sky-blue accents: a premium, aspirational aesthetic." },
       { icon: "Code2", title: "Development & optimization", description: "Functionality, Google reviews integration, and optimization for paid campaigns." },
     ],
 

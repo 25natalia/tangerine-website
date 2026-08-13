@@ -11,7 +11,7 @@ export const quickbite: Localized<CaseStudyData> = {
     slug: "quickbite",
     client: "QuickBite (proyecto conceptual)",
     title: "Comprar saludable no debería tomar más tiempo",
-    category: "Concept Proposal — Identidad + E-commerce",
+    category: "Concept Proposal: Identidad + E-commerce",
     year: "2026",
     services: ["Brand Identity", "UX/UI", "E-commerce"],
     duration: "8 sprints",
@@ -22,7 +22,7 @@ export const quickbite: Localized<CaseStudyData> = {
 
     summary: [
       "QuickBite nace como un proyecto conceptual desarrollado por Tangerine Studio para explorar cómo una experiencia de compra digital puede simplificar el acceso a alimentos saludables sin sacrificar comodidad, velocidad ni calidad.",
-      "El proyecto comprende la creación integral de la identidad de marca, el diseño UX/UI del ecommerce y un sistema visual preparado para ser desarrollado sobre Shopify — pensado desde el inicio para responder a condiciones reales de desarrollo, no solo como ejercicio visual.",
+      "El proyecto comprende la creación integral de la identidad de marca, el diseño UX/UI del ecommerce y un sistema visual preparado para ser desarrollado sobre Shopify, pensado desde el inicio para responder a condiciones reales de desarrollo, no solo como ejercicio visual.",
     ],
 
     info: [
@@ -85,14 +85,14 @@ export const quickbite: Localized<CaseStudyData> = {
     learnings: [
       {
         title: "La marca vive en la experiencia completa",
-        description: "En un ecommerce, la marca no se comunica únicamente mediante el logotipo o la paleta cromática — la organización de la información también construye percepción de marca.",
+        description: "En un ecommerce, la marca no se comunica únicamente mediante el logotipo o la paleta cromática. La organización de la información también construye percepción de marca.",
       },
     ],
 
     liveSite: {
       title: "Visita la experiencia",
       description:
-        "El prototipo de e-commerce está desplegado y navegable — visítalo para ver el sistema completo en contexto real, no solo en capturas.",
+        "El prototipo de e-commerce está desplegado y navegable, visítalo para ver el sistema completo en contexto real, no solo en capturas.",
     },
 
     nextProject: {
@@ -109,7 +109,7 @@ export const quickbite: Localized<CaseStudyData> = {
     slug: "quickbite",
     client: "QuickBite (concept project)",
     title: "Buying healthy shouldn't take more time",
-    category: "Concept Proposal — Identity + E-commerce",
+    category: "Concept Proposal: Identity + E-commerce",
     year: "2026",
     services: ["Brand Identity", "UX/UI", "E-commerce"],
     duration: "8 sprints",
@@ -120,7 +120,7 @@ export const quickbite: Localized<CaseStudyData> = {
 
     summary: [
       "QuickBite began as a concept project developed by Tangerine Studio to explore how a digital shopping experience can simplify access to healthy food without sacrificing convenience, speed or quality.",
-      "The project spans the full creation of the brand identity, the ecommerce's UX/UI design, and a visual system built to be developed on Shopify — designed from the start to respond to real development conditions, not just as a visual exercise.",
+      "The project spans the full creation of the brand identity, the ecommerce's UX/UI design, and a visual system built to be developed on Shopify, designed from the start to respond to real development conditions, not just as a visual exercise.",
     ],
 
     info: [
@@ -183,14 +183,14 @@ export const quickbite: Localized<CaseStudyData> = {
     learnings: [
       {
         title: "The brand lives in the full experience",
-        description: "In an ecommerce, the brand isn't communicated only through the logo or color palette — information organization also builds brand perception.",
+        description: "In an ecommerce, the brand isn't communicated only through the logo or color palette. Information organization also builds brand perception.",
       },
     ],
 
     liveSite: {
       title: "Visit the experience",
       description:
-        "The ecommerce prototype is deployed and navigable — visit it to see the full system in real context, not just in screenshots.",
+        "The ecommerce prototype is deployed and navigable, visit it to see the full system in real context, not just in screenshots.",
     },
 
     nextProject: {
