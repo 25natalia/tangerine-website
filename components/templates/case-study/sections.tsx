@@ -96,10 +96,10 @@ export function CaseStudyHero({ data }: { data: CaseStudyData }) {
           </h1>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-(--text-tertiary)">
             <span className="text-body-sm">
-              <strong className="text-(--text-primary)">{copy.servicesLabel}</strong> — {data.services.join(", ")}
+              <strong className="text-(--text-primary)">{copy.servicesLabel}</strong>: {data.services.join(", ")}
             </span>
             <span className="text-body-sm">
-              <strong className="text-(--text-primary)">{copy.durationLabel}</strong> — {data.duration}
+              <strong className="text-(--text-primary)">{copy.durationLabel}</strong>: {data.duration}
             </span>
           </div>
           {data.liveUrl ? (

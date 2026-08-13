@@ -8,6 +8,7 @@ export const es = {
 		breadcrumbHome: 'Home',
 		ctaBuildTogether: 'Construyamos algo juntos',
 		close: 'Cerrar',
+		scroll: 'Scroll',
 	},
 
 	nav: {
@@ -30,17 +31,57 @@ export const es = {
 
 	home: {
 		hero: {
-			eyebrow: 'Tangerine Studio',
-			title: 'Construimos marcas que no podrían pertenecerle a nadie más.',
-			subtitle: 'Cada marca cuenta una historia. Nuestro trabajo es hacer que alguien quiera escucharla.',
-			primaryCta: 'Ver nuestro trabajo',
-			secondaryCta: 'Construyamos algo juntos',
+			eyebrow: 'Ey, somos Tangerine',
+			title: 'Hacemos que las buenas ideas cobren vida.',
+			subtitle:
+				'Somos un estudio creativo que transforma ideas en marcas, productos y experiencias que conectan con las personas.',
+			body: 'Nos gusta trabajar de cerca, explorar posibilidades y cuidar cada detalle para crear cosas que realmente nos den ganas de compartir con el mundo.',
+			primaryCta: 'Conoce lo que hacemos',
+			secondaryCta: 'Cuéntanos tu idea',
+		},
+		ticker: {
+			items: ['Pensar', 'Crear', 'Probar', 'Explorar', 'Imaginar', 'Conectar', 'Experimentar', 'Descubrir'],
+		},
+		whatWeCreate: {
+			eyebrow: 'Qué hacemos',
+			title: '¿Qué podemos crear juntas?',
+			body: 'Hoy trabajamos en estos tipos de proyectos, sin encerrarnos en ellos para siempre.',
+			categories: [
+				{
+					slug: 'brands',
+					title: 'Marcas',
+					description: 'Identidad, estrategia y comunicación.',
+				},
+				{
+					slug: 'digital-products',
+					title: 'Productos digitales',
+					description: 'UX/UI, webs y experiencias digitales.',
+				},
+				{
+					slug: 'content',
+					title: 'Contenido',
+					description: 'Ideas, campañas y contenido para conectar.',
+				},
+				{
+					slug: 'strategy',
+					title: 'Estrategia',
+					description: 'Encontramos oportunidades y les damos forma.',
+				},
+				{
+					slug: 'experiences',
+					title: 'Experiencias',
+					description: 'Creamos momentos que las personas recuerdan.',
+				},
+			],
+			unknown: {
+				title: 'Cosas que todavía no sabemos nombrar.',
+				description: 'Porque algunas de las mejores ideas empiezan así.',
+			},
 		},
 		whyExists: {
-			eyebrow: 'Por qué existe',
-			title:
-				'Porque el mundo tiene, cada vez más, marcas y personas que funcionan perfecto y dicen cada vez menos. Esa es la respuesta completa.',
-			body: 'No existe Tangerine para hacer branding, ni diseño, ni contenido. Esos son, hoy, los oficios a través de los cuales se ejerce algo más antiguo: la convicción de que cualquier persona o cualquier marca, si se le da el espacio y el criterio necesarios, puede recuperar una identidad que le pertenezca de un modo que ninguna otra pueda reclamar.',
+			eyebrow: 'Por qué lo hacemos',
+			title: 'Todos tenemos algo creativo adentro. Pocas veces le damos el espacio que necesita.',
+			body: 'Para nosotras, eso empieza con curiosidad: probar, conversar, equivocarnos y volver a intentarlo. La tecnología puede ayudarnos a crear más rápido, pero la sensibilidad y el criterio siguen siendo profundamente humanos. Así trabajamos en cada proyecto, y así queremos seguir construyendo lo que venga después.',
 		},
 		philosophy: {
 			eyebrow: 'Filosofía',
@@ -69,31 +110,31 @@ export const es = {
 					id: 'project-types',
 					question: '¿Qué tipo de proyectos desarrollan?',
 					answer:
-						'Desde sistemas de marca completos hasta productos y experiencias digitales — Brand Systems, Digital Experiences, Product Design, Creative Direction, Content Systems, Growth y Automation son las siete formas en las que aplicamos la misma manera de pensar a un problema distinto.',
+						'Desde sistemas de marca completos hasta productos y experiencias digitales: Brand Systems, Digital Experiences, Product Design, Creative Direction, Content Systems, Growth y Automation son las siete formas en las que aplicamos la misma manera de pensar a un problema distinto.',
 				},
 				{
 					id: 'company-size',
 					question: '¿Trabajan con startups o con empresas grandes?',
 					answer:
-						'Con ambas. No buscamos un tamaño de empresa específico, sino que haya una identidad real detrás para trabajar — el tamaño cambia el alcance del proyecto, no el criterio con el que lo encaramos.',
+						'Con ambas. No buscamos un tamaño de empresa específico, sino que haya una identidad real detrás para trabajar: el tamaño cambia el alcance del proyecto, no el criterio con el que lo encaramos.',
 				},
 				{
 					id: 'tools',
 					question: '¿Qué herramientas utilizan?',
 					answer:
-						'Las que mejor se adapten a cada proyecto — priorizamos el resultado sobre el apego a una herramienta en particular. Lo que sí se mantiene siempre igual es el criterio: investigar antes de proponer, documentar las decisiones, y dejarte un sistema que tu equipo pueda sostener sin depender de nosotros.',
+						'Las que mejor se adapten a cada proyecto: priorizamos el resultado sobre el apego a una herramienta en particular. Lo que sí se mantiene siempre igual es el criterio: investigar antes de proponer, documentar las decisiones, y dejarte un sistema que tu equipo pueda sostener sin depender de nosotros.',
 				},
 				{
 					id: 'duration',
 					question: '¿Cuánto dura un proyecto?',
 					answer:
-						'Depende directamente del alcance — un sistema de marca completo no dura lo mismo que una pieza puntual. Antes de arrancar definimos un cronograma real para ese proyecto específico, no una estimación genérica.',
+						'Depende directamente del alcance: un sistema de marca completo no dura lo mismo que una pieza puntual. Antes de arrancar definimos un cronograma real para ese proyecto específico, no una estimación genérica.',
 				},
 				{
 					id: 'pricing',
 					question: '¿Cómo funcionan los precios y las cotizaciones?',
 					answer:
-						'Cada cotización se arma después de entender tu proyecto, no antes — por eso no tenemos una tarifa fija publicada. Nos escribís por el formulario de contacto con el contexto de lo que necesitás, y desde ahí coordinamos la conversación que define el alcance y la propuesta.',
+						'Cada cotización se arma después de entender tu proyecto, no antes. Por eso no tenemos una tarifa fija publicada. Nos escribís por el formulario de contacto con el contexto de lo que necesitás, y desde ahí coordinamos la conversación que define el alcance y la propuesta.',
 				},
 			],
 		},
@@ -106,24 +147,37 @@ export const es = {
 
 	studio: {
 		intro: {
-			kicker: 'Studio',
+			kicker: 'Sobre nosotras',
 			title: 'Dos personas que notaron algo que a nadie más parecía molestarle.',
 			imageAlt: 'Natalia García y Emy Dorado, fundadoras de Tangerine Studio',
 		},
 		origin: {
 			kicker: 'Origen',
-			body1:
-				'Natalia García y Emy Dorado notaron esto: que el mundo se había llenado de cosas bien hechas y vacías. Interfaces perfectas sin ningún error, y sin ninguna huella. Identidades correctas, entregadas a tiempo, olvidadas apenas una semana después. Un oficio entero —el suyo— empezando a medirse por lo rápido que podía producir en vez de por lo verdadero que podía ser.',
-			body2:
-				'No fundaron un estudio para corregir eso. Fundaron un estudio porque no encontraron ningún lugar donde esa incomodidad tuviera espacio para convertirse en trabajo. Empezaron con lo que cualquiera empieza cuando no tiene nada más que una intuición: pocos recursos, ningún nombre conocido, y la certeza incómoda de que hacer las cosas del modo en que las venían viendo hacer no era una opción.',
+			imageAlt: 'Natalia García y Emy Dorado, fundadoras de Tangerine Studio',
+			intro:
+				'Natalia García y Emy Dorado se conocieron en la universidad, estudiando Diseño de Medios Interactivos. Entre proyectos, entregas y muchas conversaciones sobre diseño, empezaron a darse cuenta de algo que compartían: les interesaba mucho más que las cosas simplemente se vieran bien. Querían entender por qué existían, para quién estaban hechas y qué podían provocar en las personas.',
+			emphasis: 'De ahí nació Tangerine.',
+			paragraphs: [
+				'Empezamos con una intuición bastante sencilla: creemos que la creatividad es una capacidad que se puede desarrollar y que, en un mundo donde cada vez es más fácil producir cosas con inteligencia artificial, herramientas y plantillas, lo humano se vuelve todavía más importante. La curiosidad, la sensibilidad, las ideas, las conversaciones y el tiempo que dedicamos a construir algo siguen teniendo un valor enorme.',
+				'Por eso queremos construir Tangerine alrededor de la creatividad y de las personas. Hoy trabajamos junto a marcas y organizaciones para convertir ideas en experiencias, identidades y soluciones que tengan sentido para quienes las viven. También estamos construyendo una comunidad alrededor de la creatividad, compartiendo lo que aprendemos, nuestros procesos, nuestras preguntas y el día a día detrás de lo que hacemos.',
+				'No sabemos exactamente hasta dónde va a llegar Tangerine, y nos gusta que sea así. Queremos seguir explorando nuevas formas de crear, aprender y compartir, desde proyectos para otras personas hasta productos, contenido, educación y cualquier idea que nos permita acercar la creatividad a más personas.',
+				'Porque para nosotras la creatividad no es solamente una herramienta para hacer mejores cosas. Es una forma de mirar el mundo, hacerse preguntas y encontrar nuevas posibilidades.',
+			],
 		},
 		manifesto: {
 			kicker: 'Manifiesto',
-			lead: 'Hubo un tiempo, para cada persona que existe, en el que crear no pedía permiso.',
-			body1:
-				'Tangerine no cree que la creatividad sea un talento reservado para pocos. Cree que es una memoria compartida por todos, y que el trabajo de un lugar como este consiste, antes que nada, en ayudar a recordarla.',
-			emphasis: 'Construyamos algo que solo pueda existir contigo.',
-			body2: 'Este es el punto exacto donde termina la reflexión y empieza el trabajo.',
+			lead: 'Crear sigue siendo una de las cosas más humanas que tenemos.',
+			body: [
+				'Vivimos rodeados de herramientas capaces de hacer más, más rápido y cada vez mejor. Pero crear nunca ha sido solamente producir algo que funciona. También es observar, hacerse preguntas, probar, equivocarse, conectar ideas y encontrar algo que antes no existía.',
+				'En Tangerine creemos que la creatividad no es un talento con el que algunas personas nacen. Es una capacidad que todos podemos desarrollar cuando tenemos el espacio para explorar, la curiosidad para cuestionar y el tiempo para hacer las cosas con intención.',
+				'Por eso nos gusta trabajar cerca de las personas. Escuchar sus ideas, entender lo que quieren construir y descubrir juntos posibilidades que quizás todavía no habían imaginado.',
+			],
+			emphasis: [
+				'Porque hacer algo bien importa.',
+				'Pero hacer algo que tenga sentido, que conecte y que solo pudiera haber nacido de ese proceso, importa mucho más.',
+			],
+			closing:
+				'Tangerine existe para seguir creando con curiosidad, con humanidad y con ganas de hacer cosas que valga la pena compartir.',
 		},
 		values: {
 			kicker: 'Valores',
@@ -203,7 +257,7 @@ export const es = {
 
 	contact: {
 		hero: {
-			kicker: 'Contact',
+			kicker: 'Contáctanos',
 			breadcrumbCurrent: 'Contacto',
 			title: 'Construyamos algo con criterio.',
 			body: 'Antes de proponer una solución, queremos entender tu proyecto. Contanos qué estás construyendo y te respondemos con los próximos pasos, no con un formulario genérico.',
@@ -260,14 +314,14 @@ export const es = {
 			sectionMore: 'Contanos más',
 			messageLabel: 'Contanos sobre tu proyecto',
 			messagePlaceholder: '¿Qué problema estás tratando de resolver? ¿Qué existe hoy, si es que existe algo?',
-			messageError: 'Contanos aunque sea un poco — con eso alcanza para empezar.',
+			messageError: 'Contanos aunque sea un poco, con eso alcanza para empezar.',
 			referralLabel: '¿Cómo nos conociste?',
 			referralPlaceholder: 'Elegí una opción',
 			acceptLabel: 'Acepto ser contactado por Tangerine Studio para conversar sobre este proyecto.',
 			acceptError: 'Necesitamos tu autorización antes de escribirte.',
 			submitCta: 'Demos el primer paso',
 			submitError: 'No pudimos enviar tu mensaje. Probá de nuevo en un momento.',
-			disclaimerNoCommitment: 'Sin compromiso — la primera conversación es siempre gratuita.',
+			disclaimerNoCommitment: 'Sin compromiso: la primera conversación es siempre gratuita.',
 			successThanksNamed: (name: string) => `Gracias, ${name}.`,
 			successThanksGeneric: 'Gracias por escribirnos.',
 			successBody:
@@ -319,7 +373,7 @@ export const es = {
 				{
 					question: '¿Cuánto tarda un proyecto?',
 					answer:
-						'Depende del alcance — una landing page puede tomar 2–3 semanas; un design system completo, varios meses. En la propuesta inicial definimos un cronograma real, no una estimación genérica.',
+						'Depende del alcance: una landing page puede tomar 2–3 semanas; un design system completo, varios meses. En la propuesta inicial definimos un cronograma real, no una estimación genérica.',
 				},
 				{
 					question: '¿Cómo trabajan?',
@@ -329,12 +383,12 @@ export const es = {
 				{
 					question: '¿Cómo son los pagos?',
 					answer:
-						'Un anticipo para arrancar y el resto dividido en hitos asociados a entregables concretos — nunca 100% por adelantado, nunca 100% al final.',
+						'Un anticipo para arrancar y el resto dividido en hitos asociados a entregables concretos: nunca 100% por adelantado, nunca 100% al final.',
 				},
 				{
 					question: '¿Trabajan internacionalmente?',
 					answer:
-						'Sí — trabajamos de forma remota con clientes en distintas zonas horarias, coordinando horarios de sincronización que funcionen para ambos equipos.',
+						'Sí, trabajamos de forma remota con clientes en distintas zonas horarias, coordinando horarios de sincronización que funcionen para ambos equipos.',
 				},
 			],
 		},
@@ -395,7 +449,7 @@ export const es = {
 	notFound: {
 		title: 'Esta página se perdió. Nosotros ya encontramos el camino.',
 		body: 'Puede que el link esté roto, o quizás buscabas algo que todavía no existe. Mientras tanto, hay bastante para explorar por acá.',
-		mascotAriaLabel: 'Mascota de Tangerine Studio — hacé clic para un pequeño saludo',
+		mascotAriaLabel: 'Mascota de Tangerine Studio, hacé clic para un pequeño saludo',
 		mascotAlt: 'Mascota de Tangerine Studio',
 		ctas: {
 			home: 'Volver al inicio',

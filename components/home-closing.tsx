@@ -27,19 +27,22 @@ import { cn } from "@/lib/utils";
  * Six small decorative pieces around the text wrapper (NE/N/E/S/SW/W) —
  * never two sharing the same corner. The two `deco/window-*` "ancla grande"
  * pieces (NW/SE) that used to sit here are gone: with the real
- * `banner-capabilities.svg` illustration now sized up in the middle of this
- * same block, two more big illustrations competed with it instead of
- * framing it — only the small geometry/deco accents stay.
+ * banner-capabilities illustration now sized up in the middle of this same
+ * block, two more big illustrations competed with it instead of framing
+ * it — only the small geometry/deco accents stay.
  *
  * Below the phrase (and above the CTAs) sits the illustration that used to
- * open the now-retired Capabilities page (`/illustrations/banner/
- * banner-capabilities.svg`) — Capabilities stopped being its own section, so
- * its illustration moved here instead of being deleted along with the page.
- * Same `FloatingElement` ambient float as every other banner illustration
- * on the site (slow loop + subtle cursor repel, both off under
- * prefers-reduced-motion), centered like everything else in this block and
- * sized up for real visual weight — the second thing on screen after the
- * phrase, not a footnote to it.
+ * open the now-retired Capabilities page — Capabilities stopped being its
+ * own section, so its illustration moved here instead of being deleted
+ * along with the page. Theme-aware like `Mascot`: both the light
+ * (`banner-capabilities-light.svg`) and dark (`banner-capabilities-dark.svg`)
+ * variants render into the DOM, and Tailwind's `dark:` variant (driven by
+ * the class next-themes sets on `<html>` before hydration) shows the right
+ * one — no client-only `resolvedTheme` flash. Same `FloatingElement`
+ * ambient float as every other banner illustration on the site (slow loop +
+ * subtle cursor repel, both off under prefers-reduced-motion), centered
+ * like everything else in this block and sized up for real visual weight —
+ * the second thing on screen after the phrase, not a footnote to it.
  */
 export function HomeClosing() {
   const { t } = useLanguage();
@@ -179,12 +182,20 @@ export function HomeClosing() {
                   repelStrength={0.5}
                 >
                   <Image
-                    src="/illustrations/banner/banner-capabilities.svg"
+                    src="/illustrations/banner/banner-capabilities-light.svg"
                     alt=""
                     aria-hidden="true"
                     width={1706}
                     height={1471}
-                    className="h-auto w-full"
+                    className="h-auto w-full dark:hidden"
+                  />
+                  <Image
+                    src="/illustrations/banner/banner-capabilities-dark.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width={1706}
+                    height={1471}
+                    className="hidden h-auto w-full dark:block"
                   />
                 </FloatingElement>
               </div>

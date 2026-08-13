@@ -22,7 +22,7 @@ export async function generateMetadata({
   // LanguageProvider). El toggle ES/EN solo cambia el contenido ya
   // hidratado en el navegador, nunca esta metadata estática.
   return buildMetadata({
-    title: `${data.es.title} — ${data.es.client}`,
+    title: `${data.es.title}: ${data.es.client}`,
     description: data.es.summary[0],
     path: `/work/${slug}`,
   });

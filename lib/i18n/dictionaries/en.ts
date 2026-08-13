@@ -12,6 +12,7 @@ export const en: Dictionary = {
     breadcrumbHome: "Home",
     ctaBuildTogether: "Let's build something together",
     close: "Close",
+    scroll: "Scroll",
   },
 
   nav: {
@@ -34,17 +35,57 @@ export const en: Dictionary = {
 
   home: {
     hero: {
-      eyebrow: "Tangerine Studio",
-      title: "We build brands that couldn't belong to anyone else.",
-      subtitle: "Every brand tells a story. Our job is to make someone want to listen to it.",
-      primaryCta: "See our work",
-      secondaryCta: "Let's build something together",
+      eyebrow: "Hey, we're Tangerine",
+      title: "We make good ideas come to life.",
+      subtitle:
+        "We're a creative studio that turns ideas into brands, products, and experiences that connect with people.",
+      body: "We like working up close, exploring possibilities, and caring about every detail, to make things we actually want to share with the world.",
+      primaryCta: "See what we do",
+      secondaryCta: "Tell us your idea",
+    },
+    ticker: {
+      items: ["Think", "Create", "Test", "Explore", "Imagine", "Connect", "Experiment", "Discover"],
+    },
+    whatWeCreate: {
+      eyebrow: "What we do",
+      title: "What can we create together?",
+      body: "Right now, we work across these kinds of projects, without boxing ourselves into them forever.",
+      categories: [
+        {
+          slug: "brands",
+          title: "Brands",
+          description: "Identity, strategy, and communication.",
+        },
+        {
+          slug: "digital-products",
+          title: "Digital products",
+          description: "UX/UI, websites, and digital experiences.",
+        },
+        {
+          slug: "content",
+          title: "Content",
+          description: "Ideas, campaigns, and content that connect.",
+        },
+        {
+          slug: "strategy",
+          title: "Strategy",
+          description: "We find opportunities and give them shape.",
+        },
+        {
+          slug: "experiences",
+          title: "Experiences",
+          description: "We create moments people remember.",
+        },
+      ],
+      unknown: {
+        title: "Things we don't have a name for yet.",
+        description: "Because some of the best ideas start exactly like that.",
+      },
     },
     whyExists: {
-      eyebrow: "Why we exist",
-      title:
-        "Because the world has, more and more, brands and people that function perfectly and say less and less. That's the whole answer.",
-      body: "Tangerine doesn't exist to do branding, or design, or content. Those are, today, the crafts through which something older gets practiced: the conviction that any person or any brand, given the right space and criteria, can recover an identity that belongs to them in a way no other identity could claim.",
+      eyebrow: "Why we do this",
+      title: "We believe everyone has something creative inside. It rarely gets the space it needs.",
+      body: "For us, that starts with curiosity: trying things, talking them through, getting them wrong, and trying again. Technology can help us create faster, but the sensitivity and judgment behind it are still deeply human. That's how we work on every project, and how we want to keep building whatever comes next.",
     },
     philosophy: {
       eyebrow: "Philosophy",
@@ -73,31 +114,31 @@ export const en: Dictionary = {
           id: "project-types",
           question: "What kind of projects do you take on?",
           answer:
-            "From complete brand systems to digital products and experiences — Brand Systems, Digital Experiences, Product Design, Creative Direction, Content Systems, Growth and Automation are the seven ways we apply the same way of thinking to a different problem.",
+            "From complete brand systems to digital products and experiences: Brand Systems, Digital Experiences, Product Design, Creative Direction, Content Systems, Growth and Automation are the seven ways we apply the same way of thinking to a different problem.",
         },
         {
           id: "company-size",
           question: "Do you work with startups or with large companies?",
           answer:
-            "Both. We're not looking for a specific company size, but for a real identity behind it to work with — size changes the scope of the project, not the criteria we bring to it.",
+            "Both. We're not looking for a specific company size, but for a real identity behind it to work with: size changes the scope of the project, not the criteria we bring to it.",
         },
         {
           id: "tools",
           question: "What tools do you use?",
           answer:
-            "Whichever fit each project best — we prioritize the outcome over attachment to any one tool. What stays constant is the criteria: research before proposing, document every decision, and leave you with a system your team can sustain without depending on us.",
+            "Whichever fit each project best: we prioritize the outcome over attachment to any one tool. What stays constant is the criteria: research before proposing, document every decision, and leave you with a system your team can sustain without depending on us.",
         },
         {
           id: "duration",
           question: "How long does a project take?",
           answer:
-            "It depends directly on scope — a complete brand system doesn't take as long as a one-off piece. Before we start, we define a real timeline for that specific project, not a generic estimate.",
+            "It depends directly on scope: a complete brand system doesn't take as long as a one-off piece. Before we start, we define a real timeline for that specific project, not a generic estimate.",
         },
         {
           id: "pricing",
           question: "How does pricing and quoting work?",
           answer:
-            "Every quote is built after understanding your project, not before — that's why we don't have a fixed published rate. Write to us through the contact form with context on what you need, and from there we coordinate the conversation that defines scope and proposal.",
+            "Every quote is built after understanding your project, not before. That's why we don't have a fixed published rate. Write to us through the contact form with context on what you need, and from there we coordinate the conversation that defines scope and proposal.",
         },
       ],
     },
@@ -110,24 +151,37 @@ export const en: Dictionary = {
 
   studio: {
     intro: {
-      kicker: "Studio",
+      kicker: "About us",
       title: "Two people who noticed something no one else seemed bothered by.",
       imageAlt: "Natalia García and Emy Dorado, founders of Tangerine Studio",
     },
     origin: {
       kicker: "Origin",
-      body1:
-        "Natalia García and Emy Dorado noticed this: that the world had filled up with things that were well made and empty. Perfect interfaces with no errors, and no fingerprint. Correct identities, delivered on time, forgotten within a week. An entire craft — their own — starting to be measured by how fast it could produce instead of how true it could be.",
-      body2:
-        "They didn't found a studio to fix that. They founded a studio because they couldn't find a single place where that discomfort had room to become work. They started with what anyone starts with when they have nothing but an intuition: few resources, no name anyone knew, and the uncomfortable certainty that doing things the way they'd seen them done wasn't an option.",
+      imageAlt: "Natalia García and Emy Dorado, founders of Tangerine Studio",
+      intro:
+        "Natalia García and Emy Dorado met in college, studying Interactive Media Design. Between projects, deadlines, and countless conversations about design, they started noticing something they both shared: they cared about much more than things simply looking good. They wanted to understand why things existed, who they were made for, and what they could spark in people.",
+      emphasis: "That's where Tangerine came from.",
+      paragraphs: [
+        "We started with a fairly simple intuition: we believe creativity is a capacity that can be developed, and that in a world where it's increasingly easy to produce things with artificial intelligence, tools, and templates, the human side of things matters even more. Curiosity, sensitivity, ideas, conversations, and the time we put into building something still carry enormous value.",
+        "That's why we want to build Tangerine around creativity and around people. Today we work alongside brands and organizations to turn ideas into experiences, identities, and solutions that make sense for the people who live with them. We're also building a community around creativity, sharing what we learn, our processes, our questions, and the everyday work behind what we do.",
+        "We don't know exactly how far Tangerine will go, and we like it that way. We want to keep exploring new ways to create, learn, and share, from projects for other people to products, content, education, and any idea that lets us bring creativity closer to more people.",
+        "Because for us, creativity isn't just a tool for making better things. It's a way of looking at the world, asking questions, and finding new possibilities.",
+      ],
     },
     manifesto: {
       kicker: "Manifesto",
-      lead: "There was a time, for every person who exists, when creating didn't ask permission.",
-      body1:
-        "Tangerine doesn't believe creativity is a talent reserved for a few. It believes it's a memory shared by everyone, and that the work of a place like this is, above all, helping people remember it.",
-      emphasis: "Let's build something that could only exist with you.",
-      body2: "This is the exact point where reflection ends and the work begins.",
+      lead: "Creating is still one of the most human things we do.",
+      body: [
+        "We're surrounded by tools that can do more, faster, and better every day. But creating has never been just about producing something that works. It's also about observing, asking questions, trying things, getting them wrong, connecting ideas, and finding something that didn't exist before.",
+        "At Tangerine we believe creativity isn't a talent some people are simply born with. It's a capacity all of us can develop when we have the space to explore, the curiosity to question, and the time to do things with intention.",
+        "That's why we like working close to people. Listening to their ideas, understanding what they want to build, and discovering possibilities together that they might not have imagined yet.",
+      ],
+      emphasis: [
+        "Because doing something well matters.",
+        "But doing something that makes sense, that connects, and that could only have come from that process, matters a lot more.",
+      ],
+      closing:
+        "Tangerine exists to keep creating with curiosity, with humanity, and with the drive to make things worth sharing.",
     },
     values: {
       kicker: "Values",
@@ -181,7 +235,7 @@ export const en: Dictionary = {
 
   contact: {
     hero: {
-      kicker: "Contact",
+      kicker: "Get in touch",
       breadcrumbCurrent: "Contact",
       title: "Let's build something with judgment.",
       body: "Before proposing a solution, we want to understand your project. Tell us what you're building and we'll get back to you with next steps, not a generic form response.",
@@ -245,7 +299,7 @@ export const en: Dictionary = {
       acceptError: "We need your consent before we can write to you.",
       submitCta: "Let's take the first step",
       submitError: "We couldn't send your message. Try again in a moment.",
-      disclaimerNoCommitment: "No commitment — the first conversation is always free.",
+      disclaimerNoCommitment: "No commitment: the first conversation is always free.",
       successThanksNamed: (name: string) => `Thanks, ${name}.`,
       successThanksGeneric: "Thanks for writing to us.",
       successBody: "We've received your message. We'll read it carefully and get back to you within 24 business hours with next steps.",
@@ -288,7 +342,7 @@ export const en: Dictionary = {
         {
           question: "How long does a project take?",
           answer:
-            "It depends on scope — a landing page can take 2–3 weeks; a complete design system, several months. In the initial proposal we define a real timeline, not a generic estimate.",
+            "It depends on scope: a landing page can take 2–3 weeks; a complete design system, several months. In the initial proposal we define a real timeline, not a generic estimate.",
         },
         {
           question: "How do you work?",
@@ -298,12 +352,12 @@ export const en: Dictionary = {
         {
           question: "How does payment work?",
           answer:
-            "A deposit to get started and the rest split into milestones tied to concrete deliverables — never 100% upfront, never 100% at the end.",
+            "A deposit to get started and the rest split into milestones tied to concrete deliverables: never 100% upfront, never 100% at the end.",
         },
         {
           question: "Do you work internationally?",
           answer:
-            "Yes — we work remotely with clients across different time zones, coordinating sync hours that work for both teams.",
+            "Yes, we work remotely with clients across different time zones, coordinating sync hours that work for both teams.",
         },
       ],
     },
@@ -357,7 +411,7 @@ export const en: Dictionary = {
   notFound: {
     title: "This page got lost. We've already found the way.",
     body: "The link might be broken, or maybe you were looking for something that doesn't exist yet. In the meantime, there's plenty to explore around here.",
-    mascotAriaLabel: "Tangerine Studio's mascot — click for a little hello",
+    mascotAriaLabel: "Tangerine Studio's mascot, click for a little hello",
     mascotAlt: "Tangerine Studio's mascot",
     ctas: {
       home: "Back to home",
