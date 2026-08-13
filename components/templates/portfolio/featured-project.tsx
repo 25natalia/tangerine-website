@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
@@ -37,7 +38,7 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7, ease: EASE }}
       >
-        <a
+        <Link
           href={project.href ?? "#"}
           className="group/featured relative block overflow-hidden rounded-(--radius-overlay) border border-(--border-subtle) shadow-(--shadow-elevation-2)"
         >
@@ -90,7 +91,7 @@ export function FeaturedProject({ project }: { project: PortfolioProject }) {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </motion.div>
     </Container>
   );

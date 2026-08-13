@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowRight, Check, Quote } from "lucide-react";
 
@@ -158,7 +159,7 @@ export function CaseStudyHero({ data }: { data: CaseStudyData }) {
           className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)"
         >
           {data.heroImage ? (
-            <VisualBlock image={data.heroImage} className="aspect-[16/9] w-full" />
+            <VisualBlock image={data.heroImage} priority className="aspect-[16/9] w-full" />
           ) : data.bannerVideo ? (
             <VisualBlock video={data.bannerVideo} className="aspect-[16/9] w-full" />
           ) : (
@@ -370,7 +371,13 @@ export function CaseStudyVisualIdentity({
         <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4" delay={0.1}>
           {data.marks.map((mark) => (
             <div key={mark.src} className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle) bg-white">
-              <img src={mark.src} alt="" className={cn("aspect-square w-full", mark.fit === "contain" ? "object-contain p-6" : "object-cover")} />
+              <img
+                src={mark.src}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className={cn("aspect-square w-full", mark.fit === "contain" ? "object-contain p-6" : "object-cover")}
+              />
               <p className="border-t border-(--border-subtle) p-3 text-caption text-(--text-tertiary)">{mark.label}</p>
             </div>
           ))}
@@ -385,7 +392,7 @@ export function CaseStudyVisualIdentity({
               // de `marks`, necesita una superficie clara constante para leerse en dark mode.
               <div key={type.role} className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle) bg-white">
                 <div className="p-8">
-                  <img src={type.image} alt="" className="h-28 w-auto" />
+                  <img src={type.image} alt="" loading="lazy" decoding="async" className="h-28 w-auto" />
                 </div>
                 <div className="border-t border-(--border-subtle) p-4">
                   {/* --neutral-1000, no --text-primary: esta tarjeta fuerza fondo blanco fijo, así
@@ -409,7 +416,7 @@ export function CaseStudyVisualIdentity({
         <Reveal className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2" delay={0.2}>
           {data.patterns.map((p) => (
             <figure key={p.src} className="overflow-hidden rounded-(--radius-container) border border-(--border-subtle)">
-              <img src={p.src} alt="" className="aspect-video w-full object-cover" />
+              <img src={p.src} alt="" loading="lazy" decoding="async" className="aspect-video w-full object-cover" />
               <figcaption className="p-3 text-caption text-(--text-tertiary)">{p.label}</figcaption>
             </figure>
           ))}
@@ -422,6 +429,8 @@ export function CaseStudyVisualIdentity({
               <img
                 src={mockup.src}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className={cn("aspect-square w-full", mockup.fit === "contain" ? "object-contain" : "object-cover")}
               />
               <figcaption className="p-3 text-caption text-(--text-tertiary)">{mockup.label}</figcaption>
@@ -760,25 +769,32 @@ export function CaseStudyNextProject({ nextProject }: { nextProject: NonNullable
   const { t } = useLanguage();
   return (
     <Container size="wide" className="pb-20 sm:pb-28">
+      {/* `interaction="interactive"` (no `href`) en vez de `clickable`+`href`: la Card ported
+          renderiza un `<a>` plano en modo `href` — envolviéndola en `next/link` acá afuera se gana
+          navegación cliente + prefetch real entre case studies (el recorrido "siguiente proyecto"
+          que más se encadena), sin tocar el componente ported. Mismas clases de hover, ya que
+          "interactive" cae en los mismos `compoundVariants` que "clickable". */}
       <Reveal>
-        <Card variant="outlined" interaction="clickable" href={nextProject.href} className="group/next overflow-hidden">
-          <div className="grid sm:grid-cols-2">
-            {nextProject.coverVideo ? (
-              <VisualBlock video={nextProject.coverVideo} className="aspect-video sm:aspect-auto" />
-            ) : (
-              <VisualBlock pattern={nextProject.pattern} className="aspect-video sm:aspect-auto" />
-            )}
-            <CardBody className="flex flex-col justify-center gap-2 p-8">
-              <p className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">{nextProject.eyebrow}</p>
-              <CardTitle className="text-2xl">{nextProject.title}</CardTitle>
-              <CardDescription>{nextProject.category}</CardDescription>
-              <span className="mt-2 inline-flex items-center gap-1.5 text-body-sm font-medium text-(--text-brand)">
-                {t.caseStudy.nextProjectCta}
-                <ArrowRight className="size-4 transition-transform duration-(--duration-fast) ease-(--ease-standard) group-hover/next:translate-x-1" aria-hidden="true" />
-              </span>
-            </CardBody>
-          </div>
-        </Card>
+        <Link href={nextProject.href} className="block">
+          <Card variant="outlined" interaction="interactive" className="group/next overflow-hidden">
+            <div className="grid sm:grid-cols-2">
+              {nextProject.coverVideo ? (
+                <VisualBlock video={nextProject.coverVideo} className="aspect-video sm:aspect-auto" />
+              ) : (
+                <VisualBlock pattern={nextProject.pattern} className="aspect-video sm:aspect-auto" />
+              )}
+              <CardBody className="flex flex-col justify-center gap-2 p-8">
+                <p className="text-caption font-semibold tracking-wide text-(--text-tertiary) uppercase">{nextProject.eyebrow}</p>
+                <CardTitle className="text-2xl">{nextProject.title}</CardTitle>
+                <CardDescription>{nextProject.category}</CardDescription>
+                <span className="mt-2 inline-flex items-center gap-1.5 text-body-sm font-medium text-(--text-brand)">
+                  {t.caseStudy.nextProjectCta}
+                  <ArrowRight className="size-4 transition-transform duration-(--duration-fast) ease-(--ease-standard) group-hover/next:translate-x-1" aria-hidden="true" />
+                </span>
+              </CardBody>
+            </div>
+          </Card>
+        </Link>
       </Reveal>
     </Container>
   );

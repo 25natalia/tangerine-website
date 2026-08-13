@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Chip } from "@/components/ui/chip";
@@ -36,7 +37,10 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
   const { t } = useLanguage();
 
   return (
-    <a
+    // `next/link`, no `<a>`: esta card es el punto de entrada más común a un case study (desde
+    // /work y desde el home), así que vale la pena la navegación cliente + prefetch de Next en vez
+    // de forzar un reload completo del sitio en cada click.
+    <Link
       href={project.href ?? "#"}
       className="group/card relative flex h-full flex-col overflow-hidden rounded-(--radius-container) border border-(--border-subtle) bg-(--surface-default) transition-[border-color,box-shadow] duration-(--duration-base) ease-(--ease-standard) hover:border-(--border-brand) hover:shadow-(--shadow-elevation-3)"
     >
@@ -57,9 +61,12 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-(--duration-base) ease-(--ease-standard) group-hover/card:opacity-100"
         />
+        {/* `pointer-events-none`: sin esto, este badge invisible en reposo (opacity-0) igual
+            capturaba clicks en su hit-box (esquina inferior derecha de la imagen), interceptando
+            el click en el `Link` que envuelve toda la card justo en esa zona. */}
         <span
           aria-hidden="true"
-          className="absolute right-3 bottom-3 inline-flex translate-y-1 items-center gap-1 rounded-(--radius-pill) bg-white px-3 py-1.5 text-caption font-semibold text-(--purple-700) opacity-0 shadow-(--shadow-elevation-2) transition-[opacity,transform] duration-(--duration-base) ease-(--ease-standard) group-hover/card:translate-y-0 group-hover/card:opacity-100"
+          className="pointer-events-none absolute right-3 bottom-3 inline-flex translate-y-1 items-center gap-1 rounded-(--radius-pill) bg-white px-3 py-1.5 text-caption font-semibold text-(--purple-700) opacity-0 shadow-(--shadow-elevation-2) transition-[opacity,transform] duration-(--duration-base) ease-(--ease-standard) group-hover/card:translate-y-0 group-hover/card:opacity-100"
         >
           {t.portfolio.gallery.viewCaseStudyLabel}
           <ArrowUpRight className="size-3.5" />
@@ -88,6 +95,6 @@ export function ProjectCard({ project }: { project: PortfolioProject }) {
           </div>
         ) : null}
       </div>
-    </a>
+    </Link>
   );
 }

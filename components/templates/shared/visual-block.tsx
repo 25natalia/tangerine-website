@@ -22,7 +22,17 @@ const accentBg: Record<TemplateAccent, string> = {
 type VisualBlockProps =
   | { pattern: PatternId; accent?: TemplateAccent; animate?: boolean; video?: undefined; image?: undefined; className?: string }
   | { video: VisualBlockVideo; pattern?: undefined; accent?: undefined; animate?: undefined; image?: undefined; className?: string }
-  | { image: string; fit?: "cover" | "contain"; pattern?: undefined; accent?: undefined; animate?: undefined; video?: undefined; className?: string };
+  | {
+      image: string;
+      fit?: "cover" | "contain";
+      /** True only for the one `image` that's visible without scrolling (the Hero) — everything else defaults to lazy/async so a heavy real asset (some of these mockup SVGs run several MB) never competes with above-the-fold content for bandwidth. */
+      priority?: boolean;
+      pattern?: undefined;
+      accent?: undefined;
+      animate?: undefined;
+      video?: undefined;
+      className?: string;
+    };
 
 /**
  * Shared across every content template (Case Study, Portfolio, ...) as the
@@ -50,7 +60,14 @@ export function VisualBlock(props: VisualBlockProps) {
   if (props.image) {
     return (
       <div className={cn("relative overflow-hidden", props.className)}>
-        <img src={props.image} alt="" className={cn("size-full", props.fit === "contain" ? "object-contain" : "object-cover")} />
+        <img
+          src={props.image}
+          alt=""
+          loading={props.priority ? "eager" : "lazy"}
+          decoding={props.priority ? "sync" : "async"}
+          fetchPriority={props.priority ? "high" : "low"}
+          className={cn("size-full", props.fit === "contain" ? "object-contain" : "object-cover")}
+        />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { useLanguage } from "@/lib/i18n/language-context";
 import type { PortfolioProject } from "@/lib/templates/portfolio";
@@ -29,9 +30,9 @@ export function PortfolioTimeline({ projects }: { projects: PortfolioProject[] }
               <ul className="flex flex-col gap-3">
                 {yearProjects.map((p) => (
                   <li key={p.slug} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <a href={p.href ?? "#"} className="text-body font-semibold text-(--text-primary) hover:text-(--text-brand)">
+                    <Link href={p.href ?? "#"} className="text-body font-semibold text-(--text-primary) hover:text-(--text-brand)">
                       {p.title}
-                    </a>
+                    </Link>
                     <span className="text-caption text-(--text-tertiary)">{p.client} · {p.categories.join(", ")}</span>
                   </li>
                 ))}
