@@ -8,6 +8,9 @@ const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   { path: "/work", changeFrequency: "monthly", priority: 0.9 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
   { path: "/links", changeFrequency: "monthly", priority: 0.4 },
+  { path: "/diagnostico", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/rediseno", changeFrequency: "weekly", priority: 0.5 },
+  { path: "/privacidad", changeFrequency: "yearly", priority: 0.2 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

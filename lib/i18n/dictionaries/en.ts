@@ -31,6 +31,7 @@ export const en: Dictionary = {
       work: "Work",
     },
     legal: "We don't sell design, we build identity.",
+    privacy: "Data policy",
   },
 
   home: {

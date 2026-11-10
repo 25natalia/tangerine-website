@@ -70,8 +70,8 @@ export function LinkButton({
   const safeHref = href.startsWith("[") ? "#" : href;
 
   function handlePointerDown(event: React.PointerEvent<HTMLElement>) {
-    // Ripple solo al tocar (touch/lápiz): en escritorio el feedback es el hover.
-    if (event.pointerType === "mouse" || reduceMotion) return;
+    // Ripple en cualquier clic o toque: confirma que se registró la acción.
+    if (reduceMotion || event.button > 0) return;
     const rect = event.currentTarget.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height) * 2;
     const ripple = {
@@ -94,7 +94,9 @@ export function LinkButton({
           // elevation-4, y `translate` va en la transición — Card solo anima
           // `transform`, pero Tailwind v4 mueve con la propiedad `translate`, así
           // que sin esto la tarjeta saltaba en vez de deslizarse.
-          "isolate h-full min-h-26 w-full justify-center transition-[translate,box-shadow,border-color,background-color] duration-(--duration-base) hover:-translate-y-1 hover:shadow-(--shadow-elevation-4) motion-reduce:hover:translate-y-0 [-webkit-tap-highlight-color:transparent]",
+          // Al presionar (mouse o dedo) se hunde: baja, se encoge un poco y pierde
+          // sombra — la respuesta física del clic, también en el celular.
+          "isolate h-full min-h-26 w-full justify-center transition-[translate,scale,box-shadow,border-color,background-color] duration-(--duration-base) hover:-translate-y-1 hover:shadow-(--shadow-elevation-4) active:translate-y-0 active:scale-[0.98] active:shadow-(--shadow-elevation-1) active:duration-(--duration-instant) motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 [-webkit-tap-highlight-color:transparent]",
           featured
             ? "bg-(color:--interactive-default) text-primary-foreground shadow-(--shadow-elevation-2)"
             : "border-(--border-subtle) hover:border-(--border-brand)",
@@ -104,7 +106,7 @@ export function LinkButton({
         <span
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-(--duration-slower) ease-(--ease-standard) group-hover/card:scale-x-100 motion-reduce:transition-none",
+            "absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-(--duration-slow) ease-(--ease-standard) group-hover/card:scale-x-100 motion-reduce:transition-none",
             featured
               ? "bg-(--interactive-hover)"
               : "bg-(--background-brand-subtle)",
@@ -137,7 +139,7 @@ export function LinkButton({
                 "pointer-events-none absolute -z-10 rounded-full",
                 featured
                   ? "bg-primary-foreground/25"
-                  : "bg-(--interactive-default)/15",
+                  : "bg-(--interactive-default)/20",
               )}
               style={{
                 left: ripple.x,
@@ -161,10 +163,11 @@ export function LinkButton({
           <span
             aria-hidden="true"
             className={cn(
-              "flex size-11 shrink-0 items-center justify-center rounded-(--radius-full)",
+              // El ícono "salta" un poco en hover: escala y se inclina con el spring del sistema.
+              "flex size-11 shrink-0 items-center justify-center rounded-(--radius-full) transition-[scale,rotate,background-color,color] duration-(--duration-slow) ease-(--ease-spring) group-hover/card:scale-110 group-hover/card:-rotate-6 group-active/card:scale-95 motion-reduce:transition-none",
               featured
                 ? "bg-primary-foreground/15 text-primary-foreground"
-                : "bg-(--background-brand-subtle) text-(--text-brand) transition-colors duration-(--duration-base) ease-(--ease-standard) group-hover/card:bg-(--interactive-default) group-hover/card:text-primary-foreground",
+                : "bg-(--background-brand-subtle) text-(--text-brand) group-hover/card:bg-(--interactive-default) group-hover/card:text-primary-foreground",
             )}
           >
             <Icon className="size-5" />
@@ -174,7 +177,7 @@ export function LinkButton({
             {/* Tamaño y color sin cn(): tailwind-merge no conoce text-subtitle /
               text-body-sm y los borra al verlos junto a una clase de color. */}
             <span
-              className={`text-subtitle font-semibold ${featured ? "text-primary-foreground" : "text-(--text-primary)"}`}
+              className={`text-subtitle font-semibold transition-colors duration-(--duration-base) ${featured ? "text-primary-foreground" : "text-(--text-primary) group-hover/card:text-(--text-brand)"}`}
             >
               {title}
             </span>
@@ -197,7 +200,7 @@ export function LinkButton({
           <span
             aria-hidden="true"
             className={cn(
-              "flex size-8 shrink-0 items-center justify-center rounded-(--radius-full) transition-transform duration-(--duration-slow) ease-(--ease-spring) group-hover/card:translate-x-0.5 group-hover/card:rotate-45 motion-reduce:transition-none",
+              "flex size-8 shrink-0 items-center justify-center rounded-(--radius-full) transition-transform duration-(--duration-slow) ease-(--ease-spring) group-hover/card:translate-x-0.5 group-hover/card:rotate-45 group-active/card:translate-x-1 motion-reduce:transition-none",
               featured ? "text-primary-foreground" : "text-(--text-brand)",
             )}
           >

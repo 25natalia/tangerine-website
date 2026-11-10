@@ -5,13 +5,10 @@
 // tipografía. Todo el contenido sale de content/links.ts.
 
 import * as React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { LanguageToggle } from "@/components/language-toggle";
+import { MinimalHeader } from "@/components/minimal-header";
 import { LinkButton } from "@/components/links/link-button";
 import { LinksMascot } from "@/components/links/links-mascot";
 import { GlobeIcon, InstagramIcon, ThreadsIcon } from "@/components/links/social-icons";
@@ -93,24 +90,7 @@ export function LinksPage({ links }: { links: LinkItem[] }) {
   return (
     <main className="flex flex-1 flex-col">
       <div className="mx-auto flex min-h-dvh w-full max-w-[440px] flex-col px-4 pt-5 pb-8 lg:max-w-5xl lg:px-8 lg:py-8">
-        <header className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="rounded-(--radius-sm) outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)"
-          >
-            <Image src="/brand/logo.svg" alt="Tangerine Studio" width={96} height={24} className="h-6 w-auto" priority />
-          </Link>
-          <div className="flex items-center gap-4">
-            <LanguageToggle />
-            <Link
-              href="/"
-              className="text-body-sm inline-flex items-center gap-0.5 rounded-(--radius-sm) font-medium text-(--text-secondary) outline-none transition-colors duration-(--duration-fast) ease-(--ease-standard) hover:text-(--text-brand) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)"
-            >
-              {copy.backToSite}
-              <ArrowUpRight aria-hidden="true" className="size-3.5" />
-            </Link>
-          </div>
-        </header>
+        <MinimalHeader backLabel={copy.backToSite} />
 
         {/* Mobile: una columna (perfil, enlaces, redes). Escritorio: perfil + redes a la
             izquierda, enlaces a la derecha, todo dentro del alto de la pantalla. */}
@@ -190,7 +170,7 @@ export function LinksPage({ links }: { links: LinkItem[] }) {
                 <a
                   href={href}
                   aria-label={label}
-                  className="inline-flex size-10 items-center justify-center rounded-(--radius-full) border border-(--border-default) text-(--text-secondary) transition-colors duration-(--duration-fast) ease-(--ease-standard) hover:border-(--border-brand) hover:bg-(--background-brand-subtle) hover:text-(--text-brand) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)"
+                  className="inline-flex size-10 items-center justify-center rounded-(--radius-full) border border-(--border-default) text-(--text-secondary) transition-[translate,scale,color,background-color,border-color] duration-(--duration-fast) ease-(--ease-standard) hover:-translate-y-0.5 hover:border-(--border-brand) active:translate-y-0 active:scale-90 motion-reduce:hover:translate-y-0 hover:bg-(--background-brand-subtle) hover:text-(--text-brand) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--border-focus)"
                 >
                   <Icon className="size-5" />
                 </a>

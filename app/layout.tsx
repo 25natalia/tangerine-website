@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/lib/i18n/language-context";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { OrganizationJsonLd } from "@/components/json-ld";
+import { CookieConsent } from "@/components/cookie-consent";
+import { CONSENT_KEY } from "@/lib/consent";
 import "./globals.css";
 
 // Google Tag Manager container ID.
@@ -54,9 +56,14 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${roboto.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        {/* Google Tag Manager */}
+        {/* Google Tag Manager — con Consent Mode v2: antes de cargar GTM se fija
+            analytics_storage según lo que la persona eligió en el aviso de
+            cookies (components/cookie-consent.tsx); sin elección, "denied". */}
         <Script id="gtm-script" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+var c=null;try{c=localStorage.getItem('${CONSENT_KEY}');}catch(e){}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:c==='granted'?'granted':'denied',wait_for_update:500});
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -80,7 +87,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           enableSystem
           disableTransitionOnChange
         >
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {children}
+            <CookieConsent />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

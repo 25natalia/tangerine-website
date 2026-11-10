@@ -9,6 +9,8 @@
 //   no hace falta volver a desplegar para que desaparezca.
 
 import type { Localized } from "@/lib/i18n/types";
+import { CUPOS_DISPONIBLES, CUPOS_RESTANTES } from "@/content/diagnostico";
+import { REDISENO_ACTIVO, REDISENO_CIERRE } from "@/content/rediseno";
 
 export type LinkIcon = "sparkles" | "whatsapp" | "projects" | "redesign";
 
@@ -50,15 +52,15 @@ export const links: LinkItem[] = [
   {
     id: "diagnostico",
     featured: true,
-    // TODO: reemplazar por la URL real del formulario de diagnóstico.
-    href: "[URL_FORMULARIO_DIAGNOSTICO]",
+    href: "/diagnostico?from=links",
     icon: "sparkles",
     title: { es: "Te decimos qué mejorar, gratis", en: "We'll tell you what to improve, free" },
     subtitle: {
       es: "3 observaciones sobre tu marca, web o producto en 48 h",
       en: "3 notes on your brand, website or product in 48 h",
     },
-    spotsLeft: 3,
+    // Se configura en content/diagnostico.ts (CUPOS_DISPONIBLES / CUPOS_RESTANTES).
+    spotsLeft: CUPOS_DISPONIBLES ? CUPOS_RESTANTES : 0,
   },
   {
     id: "whatsapp",
@@ -82,8 +84,7 @@ export const links: LinkItem[] = [
   },
   {
     id: "rediseno-express",
-    // TODO: reemplazar por la URL real del formulario de rediseño.
-    href: "[URL_FORMULARIO_REDISENO]",
+    href: "/rediseno?from=links",
     icon: "redesign",
     title: { es: "Rediseño express", en: "Express redesign" },
     subtitle: {
@@ -91,8 +92,9 @@ export const links: LinkItem[] = [
       en: "Sign up your brand and we might redesign it in a reel",
     },
     showDeadline: true,
-    active: true,
-    expiresAt: "2026-11-26",
+    // Se configuran en content/rediseno.ts (REDISENO_ACTIVO / REDISENO_CIERRE).
+    active: REDISENO_ACTIVO,
+    expiresAt: REDISENO_CIERRE,
   },
 ];
 

@@ -27,6 +27,7 @@ export const es = {
 			work: 'Trabajo',
 		},
 		legal: 'No vendemos diseño, construimos identidad.',
+		privacy: 'Política de datos',
 	},
 
 	home: {

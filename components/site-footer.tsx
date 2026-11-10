@@ -11,6 +11,7 @@ import {
 	FooterTicker,
 	FooterLegal,
 } from '@/components/ui/footer';
+import Link from 'next/link';
 import { useLanguage } from '@/lib/i18n/language-context';
 
 // Las 7 capacidades reales del estudio (Brand OS, Volumen IV) — no una lista
@@ -67,7 +68,12 @@ export function SiteFooter() {
 
 			<FooterLegal className='mt-10'>
 				<span>© {new Date().getFullYear()} Tangerine Studio.</span>
-				<span>{t.footer.legal}</span>
+				<span className='flex flex-wrap items-center gap-x-4 gap-y-1'>
+					<span>{t.footer.legal}</span>
+					<Link href='/privacidad' className='underline underline-offset-2 hover:text-(--text-brand)'>
+						{t.footer.privacy}
+					</Link>
+				</span>
 			</FooterLegal>
 		</Footer>
 	);
